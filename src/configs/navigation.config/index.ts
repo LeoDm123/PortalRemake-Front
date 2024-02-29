@@ -9,7 +9,7 @@ const navigationConfig: NavigationTree[] = [
     {
         key: 'home',
         path: '/home',
-        title: 'Home',
+        title: 'Inicio',
         translateKey: 'nav.home',
         icon: 'home',
         type: NAV_ITEM_TYPE_ITEM,
