@@ -8,8 +8,11 @@ export const fetchCustomersData = async (queryParams: string): Promise<any> => {
     return response.json()
 }
 
-export const fetchPayments = async (userId: string): Promise<any> => {
-    const PAYMENTS_ENDPOINT: string = '/payments'
+export const fetchPayments = async (
+    userId: string,
+    page: number,
+): Promise<any> => {
+    const PAYMENTS_ENDPOINT: string = `/payments/paginate/50?page=${page}`
 
     try {
         const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
@@ -19,12 +22,13 @@ export const fetchPayments = async (userId: string): Promise<any> => {
             },
         })
 
+        console.log(response)
         if (!response.ok) {
             throw new Error(`Error al obtener los pagos: ${response.status}`)
         }
 
         const data = await response.json()
-        return data.payments
+        return data
     } catch (error) {
         console.error('Error al obtener los pagos:', error)
         throw error

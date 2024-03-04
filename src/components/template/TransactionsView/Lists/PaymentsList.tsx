@@ -14,10 +14,11 @@ interface Payment {
     id: number
     terminal_id: string
     medio: string
-    comis: string
+    arancel: string
     iibb: string
     iva: string
     neto: string
+    final_amount: string
     status: string
     fecha: string
     acreditacion: string
@@ -32,7 +33,8 @@ const PaymentsList = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState<number>(1)
-    const [itemsPerPage] = useState<number>(11)
+    const [totalPages, setTotalPages] = useState<number>(0)
+    const [perPage, setPerPage] = useState<number>(0)
     const formatCurrency = FormatCurrency('es-AR')
 
     useEffect(() => {
@@ -40,9 +42,11 @@ const PaymentsList = () => {
             setLoading(true)
             setError(null)
             try {
-                const paymentsData = await fetchPayments(storedUser.id)
-                setPayments(paymentsData)
-                console.log(paymentsData)
+                const response = await fetchPayments(storedUser.id, currentPage)
+                console.log(response.payments.data)
+                setPayments(response.payments.data)
+                setTotalPages(response.payments.last_page)
+                setPerPage(parseInt(response.payments.per_page))
             } catch (error) {
                 console.error('Error fetching payments:', error)
                 setError('Error fetching payments. Please try again.')
@@ -50,19 +54,19 @@ const PaymentsList = () => {
                 setLoading(false)
             }
         }
-
         if (storedUser && storedUser.id) {
             fetchData()
         }
-    }, [storedUser.id])
+    }, [storedUser.id, currentPage])
 
     const handlePageChange = (pageNumber: number) => {
+        console.log('page', pageNumber)
         setCurrentPage(pageNumber)
     }
 
-    const indexOfLastItem = currentPage * itemsPerPage
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage
-    const currentItems = payments.slice(indexOfFirstItem, indexOfLastItem)
+    if (!payments || !Array.isArray(payments)) {
+        return <div>No hay pagos disponibles.</div>
+    }
 
     if (loading) {
         return (
@@ -82,43 +86,71 @@ const PaymentsList = () => {
 
     return (
         <div>
-            <Table>
-                <THead>
-                    <Tr>
-                        <Th style={{ textAlign: 'center' }}>Terminal ID</Th>
-                        <Th style={{ textAlign: 'center' }}>Medio</Th>
-                        <Th className="text-header">Comis.</Th>
-                        <Th className="text-header">IVA</Th>
-                        <Th className="text-header">IIBB</Th>
-                        <Th className="text-header">Neto</Th>
-                        <Th className="text-header">Estado</Th>
-                        <Th className="text-header">Fecha</Th>
-                        <Th className="text-header">Acreditación</Th>
-                    </Tr>
-                </THead>
-                <TBody>
-                    {currentItems.map((payment) => (
-                        <Tr key={payment.id}>
-                            <Td>{payment.terminal_id}</Td>
-                            <Td>{payment.medio}</Td>
-                            <Td>{formatCurrency(parseFloat(payment.comis))}</Td>
-                            <Td>{formatCurrency(parseFloat(payment.iva))}</Td>
-                            <Td>{formatCurrency(parseFloat(payment.iibb))}</Td>
-                            <Td>{formatCurrency(parseFloat(payment.neto))}</Td>
-                            <Td className={getStatusClass(payment.status)}>
-                                {payment.status}
-                            </Td>
-                            <Td>{payment.fecha}</Td>
-                            <Td>{payment.acreditacion}</Td>
+            <div className="payments-list-container">
+                <Table className="payments-table">
+                    <THead className="payments-table-head">
+                        <Tr>
+                            <Th style={{ textAlign: 'center' }}>Terminal ID</Th>
+                            <Th style={{ textAlign: 'center' }}>Medio</Th>
+                            <Th style={{ textAlign: 'center' }}>Neto</Th>
+                            <Th style={{ textAlign: 'center' }}>Arancel</Th>
+                            <Th style={{ textAlign: 'center' }}>IVA</Th>
+                            <Th style={{ textAlign: 'center' }}>IIBB</Th>
+                            <Th style={{ textAlign: 'center' }}>Total</Th>
+                            <Th style={{ textAlign: 'center' }}>Estado</Th>
+                            <Th style={{ textAlign: 'center' }}>Fecha</Th>
+                            <Th style={{ textAlign: 'center' }}>
+                                Acreditación
+                            </Th>
                         </Tr>
-                    ))}
-                </TBody>
-            </Table>
+                    </THead>
+                    <TBody className="payments-table-body">
+                        {payments.map((payment) => (
+                            <Tr key={payment.id}>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {payment.terminal_id}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {payment.medio}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {formatCurrency(parseFloat(payment.neto))}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {formatCurrency(
+                                        parseFloat(payment.arancel),
+                                    )}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {formatCurrency(parseFloat(payment.iva))}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {formatCurrency(parseFloat(payment.iibb))}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {formatCurrency(
+                                        parseFloat(payment.final_amount),
+                                    )}
+                                </Td>
+                                <Td className={getStatusClass(payment.status)}>
+                                    {payment.status}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {payment.fecha}
+                                </Td>
+                                <Td style={{ textAlign: 'center' }}>
+                                    {payment.acreditacion}
+                                </Td>
+                            </Tr>
+                        ))}
+                    </TBody>
+                </Table>
+            </div>
             <div className="pagination-container">
                 <Pagination
                     currentPage={currentPage}
-                    total={payments.length}
-                    pageSize={itemsPerPage}
+                    total={totalPages}
+                    pageSize={perPage}
                     onChange={handlePageChange}
                 />
             </div>

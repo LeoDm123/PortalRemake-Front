@@ -1,8 +1,8 @@
 import PaymentsList from '@/components/template/TransactionsView/Lists/PaymentsList'
 import PaymentsListSettings from '@/components/template/TransactionsView/Settings/PaymentsListSettings'
 import { Card } from '@/components/ui'
+import '../../components/template/TransactionsView/Transactions.css'
 
-/** Example purpose only */
 const TransactionsView = () => {
     return (
         <div>
@@ -11,7 +11,7 @@ const TransactionsView = () => {
                 <PaymentsListSettings />
             </div>
             <div style={{ marginTop: '5px' }}>
-                <Card>
+                <Card className="card-container">
                     <PaymentsList />
                 </Card>
             </div>
