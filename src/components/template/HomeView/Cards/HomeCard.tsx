@@ -1,8 +1,11 @@
+import React, { useState } from 'react'
 import { forwardRef } from 'react'
 import classNames from 'classnames'
-import { useConfig } from '../../ui/ConfigProvider'
-import type { CommonProps } from '../../ui/@types/common'
+import { useConfig } from '../../../ui/ConfigProvider'
+import type { CommonProps } from '../../../ui/@types/common'
 import type { ReactNode, ComponentPropsWithRef, MouseEvent } from 'react'
+import '../HomeView.css'
+import CardChart from '../Charts/CardChart'
 
 export interface CardProps
     extends CommonProps,
@@ -18,6 +21,8 @@ export interface CardProps
     footerClass?: string
     footerBorder?: boolean
     onClick?: (e: MouseEvent<HTMLDivElement>) => void
+    colorLevel?: string
+    onSelectedValueChange: string
 }
 
 const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
@@ -37,6 +42,8 @@ const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
         footerClass,
         footerBorder = true,
         onClick,
+        colorLevel,
+        onSelectedValueChange,
         ...rest
     } = props
 
@@ -50,7 +57,6 @@ const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     const cardBodyClasss = classNames('card-body', bodyClass)
     const cardHeaderClass = classNames(
         'card-header',
-        headerBorder && 'card-header-border',
         headerExtra && 'card-header-extra',
         headerClass,
     )
@@ -82,31 +88,28 @@ const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     return (
         <div
             ref={ref}
-            className={cardClass}
+            className={`hv-card-${colorLevel}`}
             role="presentation"
             onClick={handleClick}
             {...rest}
-            style={{
-                borderColor: ' #12263f',
-                width: '100%',
-            }}
         >
             {header && (
-                <div
-                    className={cardHeaderClass}
-                    style={{
-                        backgroundColor: ' #12263f',
-                        borderTopLeftRadius: '4px',
-                        borderTopRightRadius: '4px',
-                        color: ' #fff',
-                    }}
-                >
+                <div className={cardHeaderClass}>
                     {renderHeader()}
                     {headerExtra && <span>{headerExtra}</span>}
                 </div>
             )}
-            <div className={cardBodyClasss} style={{ fontSize: 'medium' }}>
-                {children}
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <div className={cardBodyClasss} style={{ fontSize: 'large' }}>
+                    {children}
+                </div>
+                <CardChart onSelectedValue={onSelectedValueChange} />
             </div>
             {footer && <div className={cardFooterClass}>{footer}</div>}
         </div>

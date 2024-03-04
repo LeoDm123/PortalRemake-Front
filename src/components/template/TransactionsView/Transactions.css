@@ -1,0 +1,38 @@
+.tittle-settings-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.setting-item {
+    margin-left: 5px;
+}
+
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Table .THead .text-header {
+    text-align: center !important;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.approved {
+    color: green;
+}
+
+.disapproved {
+    color: red;
+}

@@ -13,7 +13,13 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const dropdownItemList: DropdownList[] = []
+const dropdownItemList: DropdownList[] = [
+    {
+        label: 'Ver Perfil',
+        path: '/userProfile-view',
+        icon: <HiOutlineUser />,
+    },
+]
 
 const _UserDropdown = ({ className }: CommonProps) => {
     const { signOut } = useAuth()
@@ -58,7 +64,7 @@ const _UserDropdown = ({ className }: CommonProps) => {
                         </div>
                     </div>
                 </Dropdown.Item>
-                <Dropdown.Item variant="divider" />
+                {/* <Dropdown.Item variant="divider" /> */}
                 {dropdownItemList.map((item) => (
                     <Dropdown.Item
                         key={item.label}
@@ -78,7 +84,7 @@ const _UserDropdown = ({ className }: CommonProps) => {
                         </Link>
                     </Dropdown.Item>
                 ))}
-                {/* <Dropdown.Item variant="divider" /> */}
+                <Dropdown.Item variant="divider" />
                 <Dropdown.Item
                     eventKey="Sign Out"
                     className="gap-2"

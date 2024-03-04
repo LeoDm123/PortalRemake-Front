@@ -16,7 +16,6 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [],
     },
-    /** Example purpose only, please remove */
     {
         key: 'transactions',
         path: '/transactions-view',
@@ -27,6 +26,16 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [],
     },
+    // {
+    //     key: 'userSettings',
+    //     path: '/userSettings-view',
+    //     title: 'Configuración',
+    //     translateKey: 'nav.userSettings',
+    //     icon: 'settings',
+    //     type: NAV_ITEM_TYPE_ITEM,
+    //     authority: [],
+    //     subMenu: [],
+    // },
     // {
     //     key: 'singleMenuItem',
     //     path: '/single-menu-view',

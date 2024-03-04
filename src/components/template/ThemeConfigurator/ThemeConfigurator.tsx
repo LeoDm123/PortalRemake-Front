@@ -4,6 +4,7 @@ import ThemeSwitcher from './ThemeSwitcher'
 import DirectionSwitcher from './DirectionSwitcher'
 import NavModeSwitcher from './NavModeSwitcher'
 import CopyButton from './CopyButton'
+import LanguageSelector from '../LanguageSelector'
 
 export type ThemeConfiguratorProps = {
     callBackClose?: () => void
@@ -22,10 +23,10 @@ const ThemeConfigurator = ({ callBackClose }: ThemeConfiguratorProps) => {
                 </div>
                 <div className="flex items-center justify-between">
                     <div>
-                        <h6>Direction</h6>
-                        <span>Select a direction</span>
+                        <h6>Lenguage</h6>
+                        <span>Select your language</span>
                     </div>
-                    <DirectionSwitcher callBackClose={callBackClose} />
+                    <LanguageSelector />
                 </div>
                 <div>
                     <h6 className="mb-3">Nav Mode</h6>
