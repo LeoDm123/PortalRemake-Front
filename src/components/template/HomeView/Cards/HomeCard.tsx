@@ -109,7 +109,7 @@ const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                 <div className={cardBodyClasss} style={{ fontSize: 'large' }}>
                     {children}
                 </div>
-                <CardChart onSelectedValue={onSelectedValueChange} />
+                {/* <CardChart onSelectedValue={onSelectedValueChange} /> */}
             </div>
             {footer && <div className={cardFooterClass}>{footer}</div>}
         </div>

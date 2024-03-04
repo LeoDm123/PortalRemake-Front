@@ -11,7 +11,8 @@ const CardChart: React.FC<{
     const storedUserJson = localStorage.getItem(LOCAL_STORAGE_USER_KEY)
     const storedUser = storedUserJson ? JSON.parse(storedUserJson) : {}
 
-    const payments = usePaymentsData(storedUser.id)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const payments = usePaymentsData(storedUser.id, currentPage)
     const chartData = useChartData(payments, onSelectedValue)
 
     const renderTitle = () => (

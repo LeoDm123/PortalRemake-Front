@@ -63,7 +63,7 @@ const CardStack: React.FC = () => {
         renderSalesData()
 
     return (
-        <div style={{ flexWrap: 'wrap' }}>
+        <div className="hv-container">
             <div>
                 <DateDropdown
                     onSelectedValueChange={handleSelectedValueChange}
