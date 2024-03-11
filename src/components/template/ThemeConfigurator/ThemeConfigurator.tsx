@@ -36,12 +36,12 @@ const ThemeConfigurator = ({ callBackClose }: ThemeConfiguratorProps) => {
                     <h6 className="mb-3">Theme</h6>
                     <ThemeSwitcher />
                 </div>
-                <div>
+                {/* <div>
                     <h6 className="mb-3">Layout</h6>
                     <LayoutSwitcher />
-                </div>
+                </div> */}
             </div>
-            <CopyButton />
+            {/* <CopyButton /> */}
         </div>
     )
 }
