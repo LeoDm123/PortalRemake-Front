@@ -23,7 +23,7 @@ const Side = ({ children, content, ...rest }: SideProps) => {
                         <Avatar
                             className="border-2 border-white"
                             shape="circle"
-                            src="/img/avatars/alex-torriglia.jpg"
+                            src="/img/avatars/ceo-1.jpg"
                         />
                         <div className="text-dark">
                             <div className="font-semibold text-base">
