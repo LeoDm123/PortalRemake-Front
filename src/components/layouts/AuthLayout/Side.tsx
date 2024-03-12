@@ -27,7 +27,7 @@ const Side = ({ children, content, ...rest }: SideProps) => {
                         />
                         <div className="text-dark">
                             <div className="font-semibold text-base">
-                                Alex Torriglia
+                                Company CEO
                             </div>
                             <span className="opacity-100">
                                 Co-Founder & CEO
