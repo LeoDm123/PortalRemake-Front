@@ -6,10 +6,9 @@ import dynamicImport from 'vite-plugin-dynamic-import';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const processEnv = {};
   return {
       define: {
-        'process.env': processEnv
+        'process.env.API_BASE_URL': JSON.stringify(env.REACT_APP_API_BASE_URL)
       },
       plugins: [react({
       babel: {
