@@ -1,5 +1,5 @@
 const API_BASE_URL: string = process.env.REACT_APP_API_BASE_URL as string
-// const API_BASE_URL: string = 'https://cardpay-dev.xcp.xrob.com.ar/api'
+//const API_BASE_URL: string = 'https://cardpay-dev.xcp.xrob.com.ar/api'
 
 export const fetchCustomersData = async (queryParams: string): Promise<any> => {
     const response = await fetch(
