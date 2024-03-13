@@ -1,21 +1,34 @@
 import { useState, useEffect } from 'react'
-import { fetchPayments } from '@/api/api'
+import { fetchPaymentsGrap } from '@/api/api'
 
-interface Payment {
-    process_date: string
-    id: string
-    neto: string
-    fecha: string
+interface PaymentData {
+    dias: {
+        labels: string[]
+        values: number[]
+        quantity: number[]
+    }
+    mes: {
+        labels: string[]
+        values: number[]
+        quantity: number[]
+    }
 }
 
-export const usePaymentsData = (userId: string, Page: number): Payment[] => {
-    const [payments, setPayments] = useState<Payment[]>([])
+export const usePaymentsGrapData = (
+    userId: string,
+    selectedValue: string,
+): PaymentData | null => {
+    const [payments, setPayments] = useState<PaymentData | null>(null)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const paymentsData = await fetchPayments(userId, Page)
-                setPayments(paymentsData)
+                const paymentsData = await fetchPaymentsGrap(userId)
+                const filteredPayments = filterPayments(
+                    paymentsData.data,
+                    selectedValue,
+                )
+                setPayments(filteredPayments)
             } catch (error) {
                 console.error('Error al obtener los pagos:', error)
             }
@@ -24,7 +37,108 @@ export const usePaymentsData = (userId: string, Page: number): Payment[] => {
         if (userId) {
             fetchData()
         }
-    }, [userId])
+    }, [userId, selectedValue])
+
+    const filterPayments = (
+        data: PaymentData,
+        selectedValue: string,
+    ): PaymentData => {
+        if (!data || !data.dias || !data.mes) {
+            return {
+                dias: { labels: [], values: [], quantity: [] },
+                mes: { labels: [], values: [], quantity: [] },
+            }
+        }
+
+        const currentDate = new Date()
+        const filteredData: PaymentData = {
+            dias: { labels: [], values: [], quantity: [] },
+            mes: { labels: [], values: [], quantity: [] },
+        }
+
+        const isSameDay = (date1: Date, date2: Date) => {
+            return (
+                date1.getFullYear() === date2.getFullYear() &&
+                date1.getMonth() === date2.getMonth() &&
+                date1.getDate() === date2.getDate()
+            )
+        }
+
+        if (selectedValue === 'day') {
+            const today = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate(),
+            ).toLocaleDateString()
+            data.dias.labels.forEach((label, index) => {
+                if (new Date(label).toLocaleDateString() === today) {
+                    filteredData.dias.labels.push(label)
+                    filteredData.dias.values.push(data.dias.values[index])
+                    filteredData.dias.quantity.push(data.dias.quantity[index])
+                }
+            })
+        } else if (selectedValue === 'yesterday') {
+            const yesterday = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate() - 1,
+            )
+
+            const yesterdayDateString = yesterday.toISOString().split('T')[0]
+            data.dias.labels.forEach((label, index) => {
+                const labelDate = new Date(label)
+                const labelDateString = labelDate.toISOString().split('T')[0]
+                if (labelDateString === yesterdayDateString) {
+                    filteredData.dias.labels.push(label)
+                    filteredData.dias.values.push(data.dias.values[index])
+                    filteredData.dias.quantity.push(data.dias.quantity[index])
+                }
+            })
+        } else if (selectedValue === 'week') {
+            const startOfWeek = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate() - currentDate.getDay(),
+            )
+            const endOfWeek = new Date(
+                startOfWeek.getFullYear(),
+                startOfWeek.getMonth(),
+                startOfWeek.getDate() + 6,
+            )
+
+            data.dias.labels.forEach((label, index) => {
+                const labelDate = new Date(label)
+                if (labelDate >= startOfWeek && labelDate <= endOfWeek) {
+                    filteredData.dias.labels.push(label)
+                    filteredData.dias.values.push(data.dias.values[index])
+                    filteredData.dias.quantity.push(data.dias.quantity[index])
+                }
+            })
+        } else if (selectedValue === 'month') {
+            const startOfMonth = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                1,
+            )
+            const endOfMonth = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1,
+                0,
+            )
+
+            data.dias.labels.forEach((label, index) => {
+                const labelDate = new Date(label)
+
+                if (labelDate >= startOfMonth && labelDate <= endOfMonth) {
+                    filteredData.dias.labels.push(label)
+                    filteredData.dias.values.push(data.dias.values[index])
+                    filteredData.dias.quantity.push(data.dias.quantity[index])
+                }
+            })
+        }
+
+        return filteredData
+    }
 
     return payments
 }

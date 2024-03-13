@@ -28,11 +28,7 @@ const _UserDropdown = ({ className }: CommonProps) => {
 
     const authInfo = storedAuthInfo ? JSON.parse(storedAuthInfo) : null
 
-    console.log(authInfo)
-
     const user = authInfo
-
-    console.log(user)
 
     const UserAvatar = (
         <div className={classNames(className, 'flex items-center gap-2')}>
