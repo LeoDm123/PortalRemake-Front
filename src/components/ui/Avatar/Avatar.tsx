@@ -8,7 +8,7 @@ export interface AvatarProps extends CommonProps {
     alt?: string
     icon?: ReactNode
     onClick?: () => void
-    size?: 'lg' | 'md' | 'sm' | number
+    size?: 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | number
     shape?: Exclude<TypeAttributes.Shape, 'none'> | 'square'
     src?: string
     srcSet?: string
@@ -46,7 +46,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
         setScale(
             avatarNodeWidth - 8 < avatarChildrenWidth
                 ? (avatarNodeWidth - 8) / avatarChildrenWidth
-                : 1
+                : 1,
         )
     }
 
@@ -69,7 +69,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
         'avatar',
         `avatar-${shape}`,
         typeof size === 'string' ? `avatar-${size}` : '',
-        className
+        className,
     )
 
     if (src) {

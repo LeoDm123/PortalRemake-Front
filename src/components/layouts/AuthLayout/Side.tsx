@@ -14,7 +14,7 @@ const Side = ({ children, content, ...rest }: SideProps) => {
             <div
                 className="bg-no-repeat bg-cover py-6 px-16 flex-col justify-between hidden lg:flex"
                 style={{
-                    backgroundImage: `url('/img/others/auth-side-bg.jpg')`,
+                    backgroundImage: `url('/img/others/auth-cover-bg.jpeg')`,
                 }}
             >
                 <Logo mode="dark" />
@@ -23,22 +23,27 @@ const Side = ({ children, content, ...rest }: SideProps) => {
                         <Avatar
                             className="border-2 border-white"
                             shape="circle"
-                            src="/img/avatars/thumb-10.jpg"
+                            src="/img/avatars/alex-torriglia.jpg"
                         />
-                        <div className="text-white">
+                        <div className="text-dark">
                             <div className="font-semibold text-base">
-                                Brittany Hale
+                                Company CEO
                             </div>
-                            <span className="opacity-80">CTO, Onward</span>
+                            <span className="opacity-100">
+                                Co-Founder & CEO
+                            </span>
                         </div>
                     </div>
-                    <p className="text-lg text-white opacity-80">
-                        Elstar comes with a complete set of UI components
-                        crafted with Tailwind CSS, it fulfilled most of the use
-                        case to create modern and beautiful UI and application
+                    <p
+                        className="text-lg text-dark opacity-100"
+                        style={{ marginBottom: '80px' }}
+                    >
+                        Somos un joint venture internacional cuyo fin es crear e
+                        impulsar servicios financieros innovadores y
+                        disruptivos.
                     </p>
                 </div>
-                <span className="text-white">
+                <span className="text-dark">
                     Copyright &copy; {`${new Date().getFullYear()}`}{' '}
                     <span className="font-semibold">{`${APP_NAME}`}</span>{' '}
                 </span>
