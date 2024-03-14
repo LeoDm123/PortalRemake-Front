@@ -64,36 +64,63 @@ export const usePaymentsGrapData = (
             )
         }
 
-        if (selectedValue === 'day') {
+        if (selectedValue === 'day' || selectedValue === 'yesterday') {
             const today = new Date(
-                currentDate.getFullYear(),
-                currentDate.getMonth(),
-                currentDate.getDate(),
-            ).toLocaleDateString()
-            data.dias.labels.forEach((label, index) => {
-                if (new Date(label).toLocaleDateString() === today) {
-                    filteredData.dias.labels.push(label)
-                    filteredData.dias.values.push(data.dias.values[index])
-                    filteredData.dias.quantity.push(data.dias.quantity[index])
-                }
-            })
-        } else if (selectedValue === 'yesterday') {
-            const yesterday = new Date(
                 currentDate.getFullYear(),
                 currentDate.getMonth(),
                 currentDate.getDate() - 1,
             )
+            const yesterday = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate() - 2,
+            )
 
-            const yesterdayDateString = yesterday.toISOString().split('T')[0]
-            data.dias.labels.forEach((label, index) => {
-                const labelDate = new Date(label)
-                const labelDateString = labelDate.toISOString().split('T')[0]
-                if (labelDateString === yesterdayDateString) {
-                    filteredData.dias.labels.push(label)
-                    filteredData.dias.values.push(data.dias.values[index])
-                    filteredData.dias.quantity.push(data.dias.quantity[index])
+            const startOfWeek = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate() - currentDate.getDay(),
+            )
+            const endOfWeek = new Date(
+                startOfWeek.getFullYear(),
+                startOfWeek.getMonth(),
+                startOfWeek.getDate() + 6,
+            )
+
+            const weekLabels: string[] = []
+            const weekValues: number[] = []
+            const weekQuantities: number[] = []
+
+            const LastDayOfWeek = new Date(startOfWeek)
+            while (LastDayOfWeek <= endOfWeek) {
+                const label = LastDayOfWeek.toISOString().split('T')[0]
+                weekLabels.push(label)
+
+                const dataIndex = data.dias.labels.indexOf(label)
+                if (
+                    (selectedValue === 'day' &&
+                        isSameDay(today, new Date(label))) ||
+                    (selectedValue === 'yesterday' &&
+                        isSameDay(yesterday, new Date(label)))
+                ) {
+                    if (dataIndex !== -1) {
+                        weekValues.push(data.dias.values[dataIndex])
+                        weekQuantities.push(data.dias.quantity[dataIndex])
+                    } else {
+                        weekValues.push(0)
+                        weekQuantities.push(0)
+                    }
+                } else {
+                    weekValues.push(0)
+                    weekQuantities.push(0)
                 }
-            })
+
+                LastDayOfWeek.setDate(LastDayOfWeek.getDate() + 1)
+            }
+
+            filteredData.dias.labels = weekLabels
+            filteredData.dias.values = weekValues
+            filteredData.dias.quantity = weekQuantities
         } else if (selectedValue === 'week') {
             const startOfWeek = new Date(
                 currentDate.getFullYear(),
@@ -106,14 +133,33 @@ export const usePaymentsGrapData = (
                 startOfWeek.getDate() + 6,
             )
 
-            data.dias.labels.forEach((label, index) => {
-                const labelDate = new Date(label)
-                if (labelDate >= startOfWeek && labelDate <= endOfWeek) {
-                    filteredData.dias.labels.push(label)
-                    filteredData.dias.values.push(data.dias.values[index])
-                    filteredData.dias.quantity.push(data.dias.quantity[index])
+            const weekLabels: string[] = []
+            const weekValues: number[] = []
+            const weekQuantities: number[] = []
+
+            let currentDateOfWeek = new Date(startOfWeek)
+            while (currentDateOfWeek <= endOfWeek) {
+                const formattedDate = currentDateOfWeek
+                    .toISOString()
+                    .split('T')[0]
+                const dataIndex = data.dias.labels.indexOf(formattedDate)
+
+                if (dataIndex !== -1) {
+                    weekLabels.push(formattedDate)
+                    weekValues.push(data.dias.values[dataIndex])
+                    weekQuantities.push(data.dias.quantity[dataIndex])
+                } else {
+                    weekLabels.push(formattedDate)
+                    weekValues.push(0)
+                    weekQuantities.push(0)
                 }
-            })
+
+                currentDateOfWeek.setDate(currentDateOfWeek.getDate() + 1)
+            }
+
+            filteredData.dias.labels = weekLabels
+            filteredData.dias.values = weekValues
+            filteredData.dias.quantity = weekQuantities
         } else if (selectedValue === 'month') {
             const startOfMonth = new Date(
                 currentDate.getFullYear(),
