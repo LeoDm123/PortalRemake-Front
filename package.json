@@ -2,6 +2,9 @@
   "name": "elstar",
   "private": true,
   "version": "2.1.1",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
