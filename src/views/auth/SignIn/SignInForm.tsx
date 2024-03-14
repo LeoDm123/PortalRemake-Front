@@ -44,7 +44,7 @@ const SignInForm = (props: SignInFormProps) => {
 
     const [message, setMessage] = useTimeOutMessage()
 
-    const { login } = useAuth()
+    const { signIn } = useAuth()
 
     const onSignIn = async (
         values: SignInFormSchema,
@@ -53,10 +53,10 @@ const SignInForm = (props: SignInFormProps) => {
         const { email, password } = values
         setSubmitting(true)
 
-        const result = await login(email, password)
+        const result = await signIn({ email, password })
 
-        if (result === 'err') {
-            setMessage('Credenciales incorrectas')
+        if (result?.status === 'failed') {
+            setMessage(result.message)
         }
 
         setSubmitting(false)

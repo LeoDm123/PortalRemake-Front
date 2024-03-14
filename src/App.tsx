@@ -4,6 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from './store'
 import Theme from '@/components/template/Theme'
 import Layout from '@/components/layouts'
+import './locales'
 
 function App() {
     return (
