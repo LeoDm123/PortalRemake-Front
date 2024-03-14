@@ -4,7 +4,7 @@ on:
     branches: [ develop ]
 jobs:
 
-  test-php-deploy_master:
+  deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
