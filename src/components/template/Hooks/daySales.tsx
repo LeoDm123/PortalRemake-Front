@@ -22,7 +22,7 @@ const daySales = (userId: string): SalesStats => {
 
         fetchSalesStats(userId)
             .then((data) => {
-                const formatCurrency = FormatCurrency()
+                const formatCurrency = FormatCurrency('es-AR')
                 const { formatNumber } = FormatNumber()
 
                 const formattedCantidad =

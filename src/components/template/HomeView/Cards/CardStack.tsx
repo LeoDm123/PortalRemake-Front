@@ -77,7 +77,7 @@ const CardStack: React.FC = () => {
                         colorLevel="primary"
                         onSelectedValueChange={selectedValue}
                     >
-                        <p>Cantidad Total: {salesQty}</p>
+                        <p>Cantidad Total: {transactionsQty}</p>
                         <p>Monto Total: {netSales}</p>
                     </HomeCard>
                     <div style={{ paddingRight: '10px, ', marginTop: '50px' }}>
