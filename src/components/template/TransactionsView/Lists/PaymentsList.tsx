@@ -22,9 +22,14 @@ interface Payment {
     status: string
     fecha: string
     acreditacion: string
+    searchTerm: string
 }
 
-const PaymentsList = () => {
+interface PaymentsListProps {
+    searchTerm: string
+}
+
+const PaymentsList: React.FC<PaymentsListProps> = ({ searchTerm }) => {
     const LOCAL_STORAGE_USER_KEY = 'user'
     const storedUserJson = localStorage.getItem(LOCAL_STORAGE_USER_KEY)
     const storedUser = storedUserJson ? JSON.parse(storedUserJson) : {}
@@ -36,6 +41,7 @@ const PaymentsList = () => {
     const [totalPages, setTotalPages] = useState<number>(0)
     const [perPage, setPerPage] = useState<number>(0)
     const formatCurrency = FormatCurrency('es-AR')
+    const [filteredPayments, setFilteredPayments] = useState<Payment[]>([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,8 +65,22 @@ const PaymentsList = () => {
         }
     }, [storedUser.id, currentPage])
 
+    useEffect(() => {
+        const filterPayments = (term: string) => {
+            const filtered = payments.filter((payment) =>
+                Object.values(payment).some(
+                    (value) =>
+                        typeof value === 'string' &&
+                        value.toLowerCase().includes(term.toLowerCase()),
+                ),
+            )
+            setFilteredPayments(filtered)
+        }
+
+        filterPayments(searchTerm)
+    }, [payments, searchTerm])
+
     const handlePageChange = (pageNumber: number) => {
-        console.log('page', pageNumber)
         setCurrentPage(pageNumber)
     }
 
@@ -105,7 +125,7 @@ const PaymentsList = () => {
                         </Tr>
                     </THead>
                     <TBody className="payments-table-body">
-                        {payments.map((payment) => (
+                        {filteredPayments.map((payment) => (
                             <Tr key={payment.id}>
                                 <Td style={{ textAlign: 'center' }}>
                                     {payment.terminal_id}
