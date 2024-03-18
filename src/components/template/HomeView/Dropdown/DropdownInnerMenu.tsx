@@ -1,10 +1,10 @@
 import { forwardRef } from 'react'
-import { MenuContextProvider } from './context/menuContext'
+import { MenuContextProvider } from './context/MenuContext'
 import useUncertainRef from '../../../ui/hooks/useUncertainRef'
 import {
     useDropdownMenuContext,
     DropdownMenuContextProvider,
-} from './context/dropdownMenuContext'
+} from './context/DropdownMenuContext'
 import useUniqueId from '../../../ui/hooks/useUniqueId'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { CommonProps } from '../../../ui/@types/common'

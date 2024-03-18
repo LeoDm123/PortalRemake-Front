@@ -66,6 +66,7 @@
     "react-simple-maps": "^3.0.0",
     "react-syntax-highlighter": "^15.5.0",
     "react-tooltip": "^5.11.1",
+    "recharts": "^2.12.2",
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.8",
     "twin.macro": "^3.4.0",

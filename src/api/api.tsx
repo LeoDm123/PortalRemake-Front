@@ -1,5 +1,4 @@
 const API_BASE_URL: string = process.env.API_BASE_URL as string
-// const API_BASE_URL: string = 'https://cardpay-dev.xcp.xrob.com.ar/api'
 
 export const fetchCustomersData = async (queryParams: string): Promise<any> => {
     const response = await fetch(
@@ -22,7 +21,29 @@ export const fetchPayments = async (
             },
         })
 
-        console.log(response)
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pagos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pagos:', error)
+        throw error
+    }
+}
+
+export const fetchPaymentsGrap = async (userId: string): Promise<any> => {
+    const PAYMENTS_ENDPOINT: string = `/paymentsGrap`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'X-User-ID': userId,
+            },
+        })
+
         if (!response.ok) {
             throw new Error(`Error al obtener los pagos: ${response.status}`)
         }

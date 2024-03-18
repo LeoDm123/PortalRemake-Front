@@ -6,6 +6,7 @@ import yesterdaySales from '../../Hooks/yesterdaySales'
 import weekSales from '../../Hooks/weekSales'
 import monthSales from '../../Hooks/monthSales'
 import PaymentsChart from '../Charts/PaymentsChart'
+import QuantityChart from '../Charts/QuantityChart'
 
 const CardStack: React.FC = () => {
     const LOCAL_STORAGE_USER_KEY: string = 'user'
@@ -76,9 +77,12 @@ const CardStack: React.FC = () => {
                         colorLevel="primary"
                         onSelectedValueChange={selectedValue}
                     >
-                        <p>Cantidad Total: {salesQty}</p>
+                        <p>Cantidad Total: {transactionsQty}</p>
                         <p>Monto Total: {netSales}</p>
                     </HomeCard>
+                    <div style={{ paddingRight: '10px, ', marginTop: '50px' }}>
+                        <PaymentsChart onSelectedValue={selectedValue} />
+                    </div>
                 </div>
                 <div style={{ width: '50%', padding: '5px' }}>
                     <HomeCard
@@ -89,6 +93,9 @@ const CardStack: React.FC = () => {
                         <p>Cantidad Total: {transactionsQty}</p>
                         <p>Monto Total: {netTransactions}</p>
                     </HomeCard>
+                    <div style={{ paddingLeft: '10px', marginTop: '50px' }}>
+                        <QuantityChart onSelectedValue={selectedValue} />
+                    </div>
                 </div>
             </div>
         </div>

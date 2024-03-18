@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { fetchSalesStats } from '../../../api/api'
 import FormatCurrency from '../../../utils/hooks/formatCurrency'
-import { FormatNumber } from '../../../utils/hooks/formatNumber'
+import { FormatNumber } from '@/utils/hooks/formatNumber'
 
 interface SalesData {
     cantidad: number
@@ -22,7 +22,7 @@ const yesterdaySales = (userId: string): SalesStats => {
 
         fetchSalesStats(userId)
             .then((data) => {
-                const formatCurrency = FormatCurrency()
+                const formatCurrency = FormatCurrency('es-AR')
                 const { formatNumber } = FormatNumber()
 
                 const formattedCantidad =

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Chart from 'chart.js/auto'
 import { usePaymentsGrapData } from '../../Hooks/usePaymentData'
 
-const PaymentsChart: React.FC<{ onSelectedValue: string }> = ({
+const QuantityChart: React.FC<{ onSelectedValue: string }> = ({
     onSelectedValue,
 }) => {
     const LOCAL_STORAGE_USER_KEY = 'user'
@@ -12,26 +12,26 @@ const PaymentsChart: React.FC<{ onSelectedValue: string }> = ({
     const payments = usePaymentsGrapData(storedUser.id, onSelectedValue)
     const chartRef = useRef<Chart>()
 
+    console.log('data', payments)
+
     useEffect(() => {
         const ctx = document.getElementById(
-            'paymentsChart',
+            'QuantityChart',
         ) as HTMLCanvasElement
 
         if (ctx) {
             if (!chartRef.current) {
                 chartRef.current = new Chart(ctx, {
-                    type: 'line',
+                    type: 'bar',
                     data: {
                         labels: [],
                         datasets: [
                             {
-                                label: 'Ventas totales',
+                                label: 'Transacciones totales',
                                 data: [],
-                                backgroundColor: 'rgba(21,46,77,0.8)',
-                                borderColor: 'rgba(18,38,63,0.8)',
+                                backgroundColor: 'rgba(44, 97, 162,0.8)',
+                                borderColor: 'rgba(44, 97, 162,0.8)',
                                 borderWidth: 2,
-                                tension: 0.45,
-                                fill: true,
                             },
                         ],
                     },
@@ -46,9 +46,9 @@ const PaymentsChart: React.FC<{ onSelectedValue: string }> = ({
             }
 
             if (payments && payments.dias && payments.dias.labels.length > 0) {
-                const { labels, values } = payments.dias
+                const { labels, quantity } = payments.dias
                 chartRef.current.data.labels = labels
-                chartRef.current.data.datasets[0].data = values
+                chartRef.current.data.datasets[0].data = quantity
                 chartRef.current.update()
             }
         }
@@ -56,7 +56,7 @@ const PaymentsChart: React.FC<{ onSelectedValue: string }> = ({
 
     return (
         <div>
-            <canvas id="paymentsChart" width="100%" height="50%"></canvas>
+            <canvas id="QuantityChart" width="100%" height="50%"></canvas>
             {!payments ||
                 !payments.dias ||
                 (payments.dias.labels.length === 0 && (
@@ -66,4 +66,4 @@ const PaymentsChart: React.FC<{ onSelectedValue: string }> = ({
     )
 }
 
-export default PaymentsChart
+export default QuantityChart
