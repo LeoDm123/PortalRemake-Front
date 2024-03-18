@@ -1,6 +1,6 @@
 import { forwardRef, useContext } from 'react'
 import Menu from './DropdownInnerMenu'
-import MenuContext from './context/MenuContext'
+import MenuContext from './context/menuContext'
 import DropdownItem from './DropdownItem'
 import classNames from 'classnames'
 import type { DropdownInnerMenuProps } from './DropdownInnerMenu'
