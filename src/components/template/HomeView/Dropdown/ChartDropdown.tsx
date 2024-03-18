@@ -3,10 +3,10 @@ import { forwardRef, useRef, useCallback } from 'react'
 import DropdownMenu from './DropdownMenu'
 import DropdownToggle from './DropdownToggle'
 import useUniqueId from '../../../ui/hooks/useUniqueId'
-import DropdownContext from './context/DropdownContext'
+import DropdownContext from './context/dropdownContext'
 import DropdownMenuContext, {
     useDropdownMenuContext,
-} from './context/DropdownMenuContext'
+} from './context/dropdownMenuContext'
 import chainedFunction from '../../../ui/utils/chainedFunction'
 import useRootClose from '../../../ui/hooks/useRootClose'
 import arrayIndexOf from '../../../ui/utils/arrayIndexOf'
