@@ -9,15 +9,15 @@ import {
 } from 'react'
 import isNil from 'lodash/isNil'
 import chainedFunction from '../../../ui/utils/chainedFunction'
-import DropdownContext from './context/dropdownContext'
-import MenuContext from './context/menuContext'
+import DropdownContext from './context/DropdownContext'
+import MenuContext from './context/MenuContext'
 import useUncertainRef from '../../../ui/hooks/useUncertainRef'
 import useUniqueId from '../../../ui/hooks/useUniqueId'
 import { useConfig } from '../../../ui/ConfigProvider'
 import DropdownMenuContext, {
     useDropdownMenuContext,
     DropdownMenuContextProvider,
-} from './context/dropdownMenuContext'
+} from './context/DropdownMenuContext'
 import classNames from 'classnames'
 import { HiChevronRight, HiChevronLeft } from 'react-icons/hi'
 import MenuItem from '../../../ui/MenuItem'

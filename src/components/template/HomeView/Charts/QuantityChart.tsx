@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import Chart from 'chart.js/auto'
-import { usePaymentsGrapData } from '../../Hooks/usePaymentData'
+import { useChartData } from '../../Hooks/useChartData'
 
 const QuantityChart: React.FC<{ onSelectedValue: string }> = ({
     onSelectedValue,
@@ -9,7 +9,7 @@ const QuantityChart: React.FC<{ onSelectedValue: string }> = ({
     const storedUserJson = localStorage.getItem(LOCAL_STORAGE_USER_KEY)
     const storedUser = storedUserJson ? JSON.parse(storedUserJson) : {}
 
-    const payments = usePaymentsGrapData(storedUser.id, onSelectedValue)
+    const payments = useChartData(storedUser.id, onSelectedValue)
     const chartRef = useRef<Chart>()
 
     console.log('data', payments)
