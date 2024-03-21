@@ -12,8 +12,6 @@ const QuantityChart: React.FC<{ onSelectedValue: string }> = ({
     const payments = useChartData(storedUser.id, onSelectedValue)
     const chartRef = useRef<Chart>()
 
-    console.log('data', payments)
-
     useEffect(() => {
         const ctx = document.getElementById(
             'QuantityChart',

@@ -31,7 +31,7 @@ const DateDropdown: React.FC<{
         <div>
             <ChartDropdown
                 title={renderTitle()}
-                selectedValue={selectedValue}
+                selectedvalue={selectedValue}
                 onSelectedValueChange={handleSelectedValueChange}
             >
                 <DropdownItem eventKey="day">Hoy</DropdownItem>

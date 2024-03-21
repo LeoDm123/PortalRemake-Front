@@ -31,7 +31,7 @@ export interface DropdownProps extends CommonProps, DropdownToggleSharedProps {
     onOpen?: () => void
     onClose?: () => void
     onToggle?: (open?: boolean) => void
-    selectedValue?: any
+    selectedvalue?: any
     onSelectedValueChange?: (value: any) => void
 }
 
