@@ -72,11 +72,7 @@ const CardStack: React.FC = () => {
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 <div style={{ width: '50%', padding: '5px' }}>
-                    <HomeCard
-                        header="Ventas"
-                        colorLevel="primary"
-                        onSelectedValueChange={selectedValue}
-                    >
+                    <HomeCard header="Ventas" colorLevel="primary">
                         <p>Cantidad Total: {transactionsQty}</p>
                         <p>Monto Total: {netSales}</p>
                     </HomeCard>
@@ -85,11 +81,7 @@ const CardStack: React.FC = () => {
                     </div>
                 </div>
                 <div style={{ width: '50%', padding: '5px' }}>
-                    <HomeCard
-                        header="Transacciones"
-                        colorLevel="secondary"
-                        onSelectedValueChange={selectedValue}
-                    >
+                    <HomeCard header="Transacciones" colorLevel="secondary">
                         <p>Cantidad Total: {transactionsQty}</p>
                         <p>Monto Total: {netTransactions}</p>
                     </HomeCard>

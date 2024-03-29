@@ -5,7 +5,6 @@ import { useConfig } from '../../../ui/ConfigProvider'
 import type { CommonProps } from '../../../ui/@types/common'
 import type { ReactNode, ComponentPropsWithRef, MouseEvent } from 'react'
 import '../HomeView.css'
-import CardChart from '../Charts/CardChart'
 
 export interface CardProps
     extends CommonProps,
@@ -22,7 +21,6 @@ export interface CardProps
     footerBorder?: boolean
     onClick?: (e: MouseEvent<HTMLDivElement>) => void
     colorLevel?: string
-    onSelectedValueChange: string
 }
 
 const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
@@ -43,7 +41,6 @@ const HomeCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
         footerBorder = true,
         onClick,
         colorLevel,
-        onSelectedValueChange,
         ...rest
     } = props
 

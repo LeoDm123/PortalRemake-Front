@@ -52,6 +52,14 @@ function useAuth() {
 
                 dispatch(setUser(user))
 
+                console.log('USER', user)
+
+                localStorage.setItem(
+                    LOCAL_STORAGE_USER_KEY,
+                    JSON.stringify(user),
+                )
+                localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, resp.token)
+
                 const redirectUrl =
                     query.get(REDIRECT_URL_KEY) ||
                     appConfig.authenticatedEntryPath
@@ -69,33 +77,6 @@ function useAuth() {
             }
         }
     }
-
-    // const login = async (email: string, password: string): Promise<string> => {
-    //     try {
-    //         const data = await fetchLoginUser(email, password)
-
-    //         if (data) {
-    //             setUser(data.user)
-    //             const { token } = data
-    //             dispatch(signInSuccess(token))
-
-    //             localStorage.setItem(
-    //                 LOCAL_STORAGE_USER_KEY,
-    //                 JSON.stringify(data.user),
-    //             )
-    //             localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, data.token)
-
-    //             return 'ok'
-    //         } else {
-    //             alert('Credenciales incorrectas')
-    //             return 'err'
-    //         }
-    //     } catch (error) {
-    //         console.error('Error al iniciar sesión', error)
-    //         alert('Error al iniciar sesión')
-    //         return 'err'
-    //     }
-    // }
 
     const signUp = async (values: SignUpCredential) => {
         try {
