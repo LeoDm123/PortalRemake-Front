@@ -1,9 +1,9 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
-import _Dropdown, { DropdownProps } from './ChartDropdown'
+import _Dropdown, { DropdownProps } from './HomeAddDropdown'
 import DropdownItem from './DropdownItem'
 import DropdownMenu from './DropdownMenu'
 
-export type { DropdownProps } from './ChartDropdown'
+export type { DropdownProps } from './HomeAddDropdown'
 export type { DropdownItemProps } from './DropdownItem'
 export type { DropdownMenuProps } from './DropdownMenu'
 

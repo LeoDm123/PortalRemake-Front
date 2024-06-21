@@ -1,13 +1,13 @@
-import { useState } from 'react'
-
-export function FormatNumber(decimales: number = 0) {
-    const formatNumber = (numero: number): string => {
-        const options = {
-            minimumFractionDigits: decimales,
-            maximumFractionDigits: decimales,
-        }
-        return numero.toLocaleString('es-AR', options)
+const formatNumber = (): ((value: number) => string) => {
+    const formatNumber = (value: number): string => {
+        return new Intl.NumberFormat('es-AR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            useGrouping: true,
+        }).format(value)
     }
 
-    return { formatNumber }
+    return formatNumber
 }
+
+export default formatNumber

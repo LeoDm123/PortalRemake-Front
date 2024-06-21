@@ -1,6 +1,9 @@
 import TextField from '@mui/material/TextField'
 import '../ProfileView.css'
 import { Button } from '@/components/ui'
+import Table from '@/components/ui/Table/Table'
+import { TableHead } from '@mui/material'
+import Th from '@/components/ui/Table/Th'
 
 const UserInfoForm = () => {
     const LOCAL_STORAGE_USER_KEY: string = 'user'
@@ -14,7 +17,7 @@ const UserInfoForm = () => {
             <div className="form-field">
                 <TextField
                     fullWidth
-                    value={storedUser.name || ''}
+                    value={storedUser.userName || ''}
                     id="outlined-multiline-static"
                     label="Nombre y Apellido"
                 />
@@ -25,26 +28,6 @@ const UserInfoForm = () => {
                     value={storedUser.email || ''}
                     id="outlined-multiline-static"
                     label="Correo Electrónico"
-                />
-            </div>
-            <div className="form-field">
-                <TextField
-                    fullWidth
-                    id="outlined-multiline-static"
-                    label="Usuario"
-                />
-            </div>
-            <div className="form-line">
-                <TextField
-                    style={{ marginRight: '10px' }}
-                    fullWidth
-                    id="outlined-multiline-static"
-                    label="Trabajo/Puesto"
-                />
-                <TextField
-                    fullWidth
-                    id="outlined-multiline-static"
-                    label="Compañía"
                 />
             </div>
             <div className="save-button">

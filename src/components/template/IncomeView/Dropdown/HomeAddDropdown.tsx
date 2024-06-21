@@ -41,7 +41,7 @@ const CLICK = 'click'
 const HOVER = 'hover'
 const CONTEXT = 'context'
 
-const ChartDropdown = forwardRef<HTMLDivElement, DropdownProps>(
+const HomeAddDropdown = forwardRef<HTMLDivElement, DropdownProps>(
     (props, ref) => {
         const {
             title,
@@ -210,6 +210,6 @@ const ChartDropdown = forwardRef<HTMLDivElement, DropdownProps>(
     },
 )
 
-ChartDropdown.displayName = 'ChartDropdown'
+HomeAddDropdown.displayName = 'HomeAddDropdown'
 
-export default ChartDropdown
+export default HomeAddDropdown

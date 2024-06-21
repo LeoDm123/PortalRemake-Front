@@ -12,9 +12,15 @@ export const protectedRoutes = [
         authority: [],
     },
     {
-        key: 'transactions',
-        path: '/transactions-view',
-        component: lazy(() => import('@/views/demo/TransactionsView')),
+        key: 'income',
+        path: '/income-view',
+        component: lazy(() => import('@/views/demo/IncomeView')),
+        authority: [],
+    },
+    {
+        key: 'expense',
+        path: '/expenses-view',
+        component: lazy(() => import('@/views/demo/ExpenseView')),
         authority: [],
     },
     {

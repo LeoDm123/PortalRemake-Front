@@ -48,11 +48,10 @@ function useAuth() {
                     userName: 'Anonymous',
                     authority: ['USER'],
                     email: '',
+                    invites: [],
                 }
 
                 dispatch(setUser(user))
-
-                console.log('USER', user)
 
                 localStorage.setItem(
                     LOCAL_STORAGE_USER_KEY,
@@ -92,6 +91,7 @@ function useAuth() {
                                 userName: 'Anonymous',
                                 authority: ['USER'],
                                 email: '',
+                                invites: [],
                             },
                         ),
                     )
@@ -124,6 +124,7 @@ function useAuth() {
                 userName: '',
                 email: '',
                 authority: [],
+                invites: [],
             }),
         )
         navigate(appConfig.unAuthenticatedEntryPath)

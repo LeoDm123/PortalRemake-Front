@@ -3,6 +3,7 @@ import '../ProfileView.css'
 import UserInfoForm from '../Forms/UserInfoForm'
 import ChangePassForm from '../Forms/ChangePassForm'
 import UserAvatar from '../Avatar/UserAvatar'
+import InvitesList from '../Lists/InvitesList'
 
 const UserInfoCard = () => {
     const LOCAL_STORAGE_USER_KEY: string = 'user'
@@ -17,6 +18,7 @@ const UserInfoCard = () => {
             </div>
             <div className="userInfo-container">
                 <UserInfoForm />
+                <InvitesList />
             </div>
             <div className="userPass-container">
                 <ChangePassForm />
