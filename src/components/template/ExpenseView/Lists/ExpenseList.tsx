@@ -61,10 +61,10 @@ const calculateNextPaymentDate = (
     return nextDate
 }
 
-const IncomeList = () => {
+const ExpenseList = () => {
     const [email, setEmail] = useState<string>('')
     const [invData, setInvData] = useState<any[]>([])
-    const [expenses, setExpenses] = useState<any[]>([])
+    const [expenses, setExpenses] = useState<Expense[]>([])
     const format = formatNumber()
     const formatDate = useFormatDate()
 
@@ -100,7 +100,7 @@ const IncomeList = () => {
     }, [email])
 
     return (
-        <div>
+        <div className="h-[65vh]">
             <Table>
                 <THead>
                     <Th style={{ width: '12%' }}>Categoría</Th>
@@ -159,4 +159,4 @@ const IncomeList = () => {
     )
 }
 
-export default IncomeList
+export default ExpenseList

@@ -2,10 +2,13 @@ import { useState } from 'react'
 import AddModal from '@/components/template/IncomeView/Modals/AddModal'
 import AddDropdown from '@/components/template/IncomeView/Dropdown/AddDropdown'
 import AddIncomeForm from '@/components/template/IncomeView/Modals/Forms/AddIncomeForm'
-import AddExpenseForm from '@/components/template/IncomeView/Modals/Forms/AddExpenseForm'
-import IncomeCard from '@/components/template/IncomeView/Cards/IncomeCard'
-import InvIncomeCard from '@/components/template/IncomeView/Cards/InvIncomeCard'
-import ExpensesCard from '@/components/template/IncomeView/Cards/ExpensesCard'
+import AddExpenseForm from '@/components/template/ExpenseView/Modal/Forms/AddExpenseForm'
+import Tabs from '@/components/ui/Tabs/Tabs'
+import TabList from '@/components/ui/Tabs/TabList'
+import TabNav from '@/components/ui/Tabs/TabNav'
+import TabContent from '@/components/ui/Tabs/TabContent'
+import IncomeList from '@/components/template/IncomeView/Lists/IncomeList'
+import InvIncomeList from '@/components/template/IncomeView/Lists/InvIncomeList'
 
 const IncomeView = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -46,17 +49,28 @@ const IncomeView = () => {
 
     return (
         <div>
-            <AddDropdown
-                onSelectedValueChange={handleSelectedValueChange}
-                onOpenModal={handleOpenModal}
-            />
+            <h4>Ingresos</h4>
+            <div style={{ position: 'absolute', right: 25 }}>
+                <AddDropdown
+                    onSelectedValueChange={handleSelectedValueChange}
+                    onOpenModal={handleOpenModal}
+                />
+            </div>
             <AddModal isOpen={isOpen} onClose={handleCloseDialog}>
                 {renderModalContent()}
             </AddModal>
-            <div>
-                <IncomeCard />
-                <InvIncomeCard />
-            </div>
+            <Tabs defaultValue="Propios">
+                <TabList>
+                    <TabNav value="Propios">Propios</TabNav>
+                    <TabNav value="Invitados">Invitados</TabNav>
+                </TabList>
+                <TabContent value="Propios" style={{ marginTop: 10 }}>
+                    <IncomeList />
+                </TabContent>
+                <TabContent value="Invitados" style={{ marginTop: 10 }}>
+                    <InvIncomeList />
+                </TabContent>
+            </Tabs>
         </div>
     )
 }

@@ -22,6 +22,7 @@ const AddDropdown: React.FC<{
             <HomeAddDropdown
                 title={renderTitle()}
                 onSelectedValueChange={handleSelectedValueChange}
+                placement="bottom-end"
             >
                 <DropdownItem eventKey="Income">Ingreso</DropdownItem>
                 <DropdownItem eventKey="Expense">Gasto</DropdownItem>

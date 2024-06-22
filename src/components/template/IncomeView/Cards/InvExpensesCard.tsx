@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui'
-import InvExpenseList from '../Lists/InvExpenseList'
+import InvExpenseList from '../../ExpenseView/Lists/InvExpenseList'
 
 const InvExpensesCard = () => {
     return (

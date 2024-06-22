@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui'
 import React from 'react'
-import ExpenseList from '../Lists/ExpenseList'
+import ExpenseList from '../../ExpenseView/Lists/ExpenseList'
 
 const ExpensesCard = () => {
     return (

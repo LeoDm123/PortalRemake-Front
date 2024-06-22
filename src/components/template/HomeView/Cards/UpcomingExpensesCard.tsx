@@ -5,7 +5,7 @@ import { Card } from '@/components/ui'
 const UpcomingExpensesCard = () => {
     return (
         <div>
-            <Card>
+            <Card className="h-[80vh]">
                 <UpcomingExpensesList />
             </Card>
         </div>

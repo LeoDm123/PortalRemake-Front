@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Table } from '@/components/ui'
+import React, { useEffect, useState, useContext } from 'react'
+import { MenuItem, Table } from '@/components/ui'
 import TBody from '@/components/ui/Table/TBody'
 import THead from '@/components/ui/Table/THead'
 import Td from '@/components/ui/Table/Td'
@@ -15,6 +15,11 @@ import {
 } from 'date-fns'
 import formatNumber from '@/utils/hooks/formatNumber'
 import useFormatDate from '@/utils/hooks/formatDate'
+import MenuCollapse from '@/components/ui/Menu/MenuCollapse'
+import MenuGroup from '@/components/ui/Menu/MenuGroup'
+import Menu from '@/components/ui/Menu/Menu'
+import MenuContext from '@/components/ui/Menu/context/menuContext'
+import DateDropdown from '../Dropdowns/DateDropdown'
 
 interface User {
     email: string
@@ -105,6 +110,7 @@ const calculateInstallmentNumber = (
 const UpcomingExpensesList = () => {
     const [email, setEmail] = useState<string>('')
     const [expenses, setExpenses] = useState<Expense[]>([])
+    const [timeFrame, setTimeFrame] = useState<string>('Mes')
     const format = formatNumber()
     const formatDate = useFormatDate()
 
@@ -152,40 +158,46 @@ const UpcomingExpensesList = () => {
                 }
             }
 
-            console.log('Fetched expenses: ', allExpenses) // Log for debugging
             setExpenses(allExpenses)
         }
 
         fetchExpensesData()
     }, [email])
 
-    const getNextPaymentsWithinCurrentMonth = () => {
+    const getNextPaymentsWithinCurrentTimeFrame = () => {
         const today = new Date()
         const nextPayments = expenses.filter((expense) => {
             const nextPaymentDate = calculateNextPaymentDate(
                 new Date(expense.fechaPago),
                 expense.repetir,
             )
-            console.log(
-                'Next payment date for expense ',
-                expense._id,
-                ' is ',
-                nextPaymentDate,
-            ) // Log for debugging
-            return nextPaymentDate && isSameMonth(nextPaymentDate, today)
+            if (!nextPaymentDate) return false
+
+            switch (timeFrame) {
+                case 'Mes':
+                    return isSameMonth(nextPaymentDate, today)
+                case 'Semana':
+                    return isBefore(nextPaymentDate, addWeeks(today, 1))
+                case 'Año':
+                    return isBefore(nextPaymentDate, addMonths(today, 12))
+                default:
+                    return false
+            }
         })
 
-        console.log('Next payments within current month: ', nextPayments) // Log for debugging
         return nextPayments
     }
 
-    const nextPayments = getNextPaymentsWithinCurrentMonth()
+    const nextPayments = getNextPaymentsWithinCurrentTimeFrame()
+
+    const handleSelectedValueChange = (value: string) => {
+        setTimeFrame(value)
+    }
 
     return (
         <div>
-            <h5 style={{ marginBottom: 5 }}>
-                Próximos Vencimientos Dentro del Mes Corriente
-            </h5>
+            <h5 style={{ marginBottom: 5 }}>Próximos Vencimientos</h5>
+
             <Table>
                 <THead>
                     <Th>Comentarios</Th>

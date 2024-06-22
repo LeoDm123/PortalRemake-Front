@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Chart } from 'react-google-charts'
 import { fetchExpenses, fetchIncomes } from '@/api/api'
 import formatNumber from '@/utils/hooks/formatNumber'
+import useDarkMode from '@/utils/hooks/useDarkmode'
 
 interface User {
     email: string
@@ -39,7 +40,7 @@ interface Income {
 const BalanceChart: React.FC = () => {
     const [incomes, setIncomes] = useState<Income[]>([])
     const [expenses, setExpenses] = useState<Expense[]>([])
-    const format = formatNumber()
+    const [isDark] = useDarkMode()
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -112,8 +113,18 @@ const BalanceChart: React.FC = () => {
 
     const options = {
         title: 'Balance de Ingresos y Gastos',
-        titleTextStyle: { fontSize: 20, bold: true, italic: false },
+        titleTextStyle: isDark
+            ? { fontSize: 20, bold: true, italic: false, color: '#ffffff' }
+            : { fontSize: 20, bold: true, italic: false },
         chartArea: { top: 40, left: 20, width: '100%', height: '100%' },
+        backgroundColor: isDark ? '#1f2937' : '#ffffff',
+        legend: {
+            textStyle: { color: isDark ? '#ffffff' : '#000000' },
+        },
+        slices: {
+            0: { color: isDark ? '#5DADE2' : '#2874A6' },
+            1: { color: isDark ? '#EC7063' : '#E74C3C' },
+        },
     }
 
     return (

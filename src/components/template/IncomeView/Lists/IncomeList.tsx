@@ -60,7 +60,6 @@ const IncomeList: React.FC = () => {
         const user = JSON.parse(localStorage.getItem('user') || '{}')
         setEmail(user.email || '')
         setInvData(user.invites || [])
-        console.log(invData)
     }, [])
 
     useEffect(() => {
@@ -88,7 +87,7 @@ const IncomeList: React.FC = () => {
     }, [email])
 
     return (
-        <div>
+        <div className="h-[65vh]">
             <Table>
                 <THead>
                     <Th style={{ width: '12%' }}>Categoría</Th>
