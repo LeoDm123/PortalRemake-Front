@@ -1,14 +1,14 @@
-# CardPay Xcoop Dashboard
+# LeMi App
 
 ## Instalación
 Para instalar las dependencias del proyecto, ejecuta el siguiente comando:
 
 ```
-yarn install
+npm install
 ```
 
 ## Uso
 Para iniciar el proyecto, utiliza el siguiente comando:
 ```
-yarn start
+npm start
 ```
