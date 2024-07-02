@@ -7,11 +7,13 @@ import Tabs from '@/components/ui/Tabs/Tabs'
 import TabList from '@/components/ui/Tabs/TabList'
 import TabNav from '@/components/ui/Tabs/TabNav'
 import TabContent from '@/components/ui/Tabs/TabContent'
-import IncomeList from '@/components/template/IncomeView/Lists/IncomeList'
-import InvIncomeList from '@/components/template/IncomeView/Lists/InvIncomeList'
+import ExpenseList from '@/components/template/ExpenseView/Lists/ExpenseList'
+import InvExpenseList from '@/components/template/ExpenseView/Lists/InvExpenseList'
 import AddBudgetForm from '@/components/template/BudgetView/Modal/Forms/AddBudgetForm'
+import BudgetList from '@/components/template/BudgetView/Lists/BudgetList'
+import InvBudgetList from '@/components/template/BudgetView/Lists/InvBudgetList'
 
-const IncomeView = () => {
+const BudgetView = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [modalType, setModalType] = useState('')
 
@@ -56,7 +58,7 @@ const IncomeView = () => {
 
     return (
         <div>
-            <h4>Ingresos</h4>
+            <h4>Presupuestos</h4>
             <div style={{ position: 'absolute', right: 25 }}>
                 <AddDropdown
                     onSelectedValueChange={handleSelectedValueChange}
@@ -72,14 +74,14 @@ const IncomeView = () => {
                     <TabNav value="Invitados">Invitados</TabNav>
                 </TabList>
                 <TabContent value="Propios" style={{ marginTop: 10 }}>
-                    <IncomeList />
+                    <BudgetList />
                 </TabContent>
                 <TabContent value="Invitados" style={{ marginTop: 10 }}>
-                    <InvIncomeList />
+                    <InvBudgetList />
                 </TabContent>
             </Tabs>
         </div>
     )
 }
 
-export default IncomeView
+export default BudgetView

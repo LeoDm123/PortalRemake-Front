@@ -11,6 +11,7 @@ import TabNav from '@/components/ui/Tabs/TabNav'
 import TabContent from '@/components/ui/Tabs/TabContent'
 import ExpenseList from '@/components/template/ExpenseView/Lists/ExpenseList'
 import InvExpenseList from '@/components/template/ExpenseView/Lists/InvExpenseList'
+import AddBudgetForm from '@/components/template/BudgetView/Modal/Forms/AddBudgetForm'
 
 const ExpenseView = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -42,6 +43,12 @@ const ExpenseView = () => {
                 return (
                     <div>
                         <AddExpenseForm onClose={handleCloseDialog} />
+                    </div>
+                )
+            case 'Budget':
+                return (
+                    <div>
+                        <AddBudgetForm onClose={handleCloseDialog} />
                     </div>
                 )
             default:

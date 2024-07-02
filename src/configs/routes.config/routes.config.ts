@@ -29,4 +29,16 @@ export const protectedRoutes = [
         component: lazy(() => import('@/views/demo/UserProfileView')),
         authority: [],
     },
+    {
+        key: 'Calendar',
+        path: '/calendar-view',
+        component: lazy(() => import('@/views/demo/CalendarSheet')),
+        authority: [],
+    },
+    {
+        key: 'Budget',
+        path: '/budget-view',
+        component: lazy(() => import('@/views/demo/BudgetView')),
+        authority: [],
+    },
 ]

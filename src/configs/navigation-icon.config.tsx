@@ -9,7 +9,9 @@ import {
     HiOutlineSearch,
     HiCurrencyDollar,
     HiOutlineCreditCard,
+    HiOutlineCalendar,
     HiDocumentAdd,
+    HiOutlineCash,
 } from 'react-icons/hi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -20,6 +22,8 @@ const navigationIcon: NavigationIcons = {
     singleMenu: <HiOutlineViewGridAdd />,
     income: <HiCurrencyDollar />,
     expenses: <HiOutlineCreditCard />,
+    budget: <HiOutlineCash />,
+    calendar: <HiOutlineCalendar />,
     collapseMenu: <HiOutlineTemplate />,
     groupSingleMenu: <HiOutlineDesktopComputer />,
     groupCollapseMenu: <HiOutlineColorSwatch />,

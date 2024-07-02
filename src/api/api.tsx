@@ -199,6 +199,75 @@ export const fetchExpenses = async (email: string): Promise<any> => {
     }
 }
 
+////////////BUDGETS////////////////////
+
+export const createBudget = async (
+    email: string,
+    comentarios: string,
+    categoria: string,
+    subCategoria: string,
+    monto: number,
+    porcentaje: number,
+    divisa: string,
+    fechaPago: Date,
+    repetir: string,
+): Promise<any> => {
+    const LOGIN_ENDPOINT: string = '/budget/createBudget'
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                comentarios,
+                categoria,
+                subCategoria,
+                monto,
+                porcentaje,
+                divisa,
+                fechaPago,
+                repetir,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al registrar ingreso: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar ingreso:', error)
+        throw error
+    }
+}
+
+export const fetchBudgets = async (email: string): Promise<any> => {
+    const PAYMENTS_ENDPOINT: string = `/budget/fetchBudgets?email=${encodeURIComponent(email)}`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los egresos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los egresos:', error)
+        throw error
+    }
+}
+
 ////////////CATEGORIES////////////////////
 
 export const fetchCategorias = async (): Promise<any> => {

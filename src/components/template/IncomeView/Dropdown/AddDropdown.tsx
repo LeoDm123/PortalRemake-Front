@@ -26,6 +26,7 @@ const AddDropdown: React.FC<{
             >
                 <DropdownItem eventKey="Income">Ingreso</DropdownItem>
                 <DropdownItem eventKey="Expense">Gasto</DropdownItem>
+                <DropdownItem eventKey="Budget">Presupuesto</DropdownItem>
             </HomeAddDropdown>
         </div>
     )

@@ -3,6 +3,8 @@ import { Chart } from 'react-google-charts'
 import { fetchExpenses, fetchIncomes } from '@/api/api'
 import formatNumber from '@/utils/hooks/formatNumber'
 import useDarkMode from '@/utils/hooks/useDarkmode'
+import Select from '@/components/ui/Select'
+import type { SingleValue } from 'react-select'
 
 interface User {
     email: string
@@ -40,7 +42,13 @@ interface Income {
 const BalanceChart: React.FC = () => {
     const [incomes, setIncomes] = useState<Income[]>([])
     const [expenses, setExpenses] = useState<Expense[]>([])
+    const [timeFrame, setTimeFrame] = useState<string>('Mes')
     const [isDark] = useDarkMode()
+
+    const timeFrameOptions = [
+        { value: 'Mes', label: 'Mes' },
+        { value: 'Semana', label: 'Semana' },
+    ]
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -99,11 +107,41 @@ const BalanceChart: React.FC = () => {
         fetchUserData()
     }, [])
 
-    const totalIncome = incomes.reduce((sum, income) => sum + income.monto, 0)
-    const totalExpense = expenses.reduce(
-        (sum, expense) => sum + expense.monto / expense.cuotas,
-        0,
-    )
+    const calculateTotal = (
+        items: (Income | Expense)[],
+        type: 'Ingreso' | 'Gasto',
+    ) => {
+        return items.reduce((sum, item) => {
+            let amount = item.monto
+            if (timeFrame === 'Mes') {
+                if (item.repetir === 'Semanalmente') {
+                    amount *= 4
+                }
+            } else if (timeFrame === 'Semana') {
+                if (item.repetir === 'Mensualmente') {
+                    amount /= 4
+                }
+            }
+
+            if (type === 'Gasto' && 'cuotas' in item) {
+                if (item.repetir === 'Semanalmente' && timeFrame === 'Mes') {
+                    amount = (item.monto / item.cuotas) * 4
+                } else if (
+                    item.repetir === 'Mensualmente' &&
+                    timeFrame === 'Semana'
+                ) {
+                    amount = item.monto / item.cuotas / 4
+                } else {
+                    amount = item.monto / item.cuotas
+                }
+            }
+
+            return sum + amount
+        }, 0)
+    }
+
+    const totalIncome = calculateTotal(incomes, 'Ingreso')
+    const totalExpense = calculateTotal(expenses, 'Gasto')
 
     const data = [
         ['Task', 'Amount'],
@@ -112,7 +150,6 @@ const BalanceChart: React.FC = () => {
     ]
 
     const options = {
-        title: 'Balance de Ingresos y Gastos',
         titleTextStyle: isDark
             ? { fontSize: 20, bold: true, italic: false, color: '#ffffff' }
             : { fontSize: 20, bold: true, italic: false },
@@ -127,8 +164,36 @@ const BalanceChart: React.FC = () => {
         },
     }
 
+    const handleTimeFrameChange = (
+        selectedOption: SingleValue<{ value: string; label: string }>,
+    ) => {
+        if (selectedOption) {
+            setTimeFrame(selectedOption.value)
+        }
+    }
+
     return (
         <div>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 5,
+                }}
+            >
+                <h5 style={{ marginBottom: 5 }}>
+                    Balance de Ingresos y Gastos
+                </h5>
+                <Select
+                    options={timeFrameOptions}
+                    onChange={handleTimeFrameChange}
+                    defaultValue={timeFrameOptions.find(
+                        (option) => option.value === 'Mes',
+                    )}
+                    size="sm"
+                />
+            </div>
             <Chart
                 chartType="PieChart"
                 data={data}
