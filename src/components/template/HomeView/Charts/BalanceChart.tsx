@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Chart } from 'react-google-charts'
-import { fetchExpenses, fetchIncomes } from '@/api/api'
-import formatNumber from '@/utils/hooks/formatNumber'
+import { fetchExpenses, fetchIncomes, fetchBudgets } from '@/api/api'
 import useDarkMode from '@/utils/hooks/useDarkmode'
 import Select from '@/components/ui/Select'
 import type { SingleValue } from 'react-select'
@@ -39,9 +38,22 @@ interface Income {
     comentarios: string
 }
 
+interface Budget {
+    _id: string
+    categoria: string
+    subCategoria: string
+    divisa: string
+    monto: number
+    porcentaje: number
+    repetir: string
+    fechaPago: Date
+    comentarios: string
+}
+
 const BalanceChart: React.FC = () => {
     const [incomes, setIncomes] = useState<Income[]>([])
     const [expenses, setExpenses] = useState<Expense[]>([])
+    const [budgets, setBudgets] = useState<Budget[]>([])
     const [timeFrame, setTimeFrame] = useState<string>('Mes')
     const [isDark] = useDarkMode()
 
@@ -57,6 +69,7 @@ const BalanceChart: React.FC = () => {
 
             const allIncomes: Income[] = []
             const allExpenses: Expense[] = []
+            const allBudgets: Budget[] = []
 
             const fetchUserIncomes = async (
                 userEmail: string,
@@ -86,30 +99,75 @@ const BalanceChart: React.FC = () => {
                 }
             }
 
-            for (const invite of invData) {
-                if (invite.email) {
-                    const inviteIncomes = await fetchUserIncomes(invite.email)
-                    const inviteExpenses = await fetchUserExpenses(invite.email)
-                    allIncomes.push(...inviteIncomes)
-                    allExpenses.push(...inviteExpenses)
+            const applyBudgetLogic = (
+                budget: Budget,
+                totalIncomes: number,
+            ): Budget => {
+                if ('monto' in budget && 'porcentaje' in budget) {
+                    if (budget.monto === 0 && budget.porcentaje > 0) {
+                        budget.monto = (totalIncomes * budget.porcentaje) / 100
+                    }
+                }
+                return budget
+            }
+
+            const fetchUserBudgets = async (
+                userEmail: string,
+                totalIncomes: number,
+            ): Promise<Budget[]> => {
+                try {
+                    const budgetData = await fetchBudgets(userEmail)
+                    const budgets = Array.isArray(budgetData)
+                        ? budgetData
+                        : budgetData.presupuestos || []
+
+                    return budgets.map((budget: Budget) =>
+                        applyBudgetLogic(budget, totalIncomes),
+                    )
+                } catch (error) {
+                    console.error('Error fetching budgets:', error)
+                    return []
                 }
             }
 
-            const userIncomes = await fetchUserIncomes(user.email)
-            const userExpenses = await fetchUserExpenses(user.email)
+            const fetchDataForUser = async (email: string) => {
+                const userIncomes = await fetchUserIncomes(email)
+                const userExpenses = await fetchUserExpenses(email)
+                const totalIncomes = userIncomes.reduce(
+                    (total, income) => total + income.monto,
+                    0,
+                )
+                const userBudgets = await fetchUserBudgets(email, totalIncomes)
+                return { userIncomes, userExpenses, userBudgets }
+            }
+
+            for (const invite of invData) {
+                if (invite.email) {
+                    const { userIncomes, userExpenses, userBudgets } =
+                        await fetchDataForUser(invite.email)
+                    allIncomes.push(...userIncomes)
+                    allExpenses.push(...userExpenses)
+                    allBudgets.push(...userBudgets)
+                }
+            }
+
+            const { userIncomes, userExpenses, userBudgets } =
+                await fetchDataForUser(user.email)
             allIncomes.push(...userIncomes)
             allExpenses.push(...userExpenses)
+            allBudgets.push(...userBudgets)
 
             setIncomes(allIncomes)
             setExpenses(allExpenses)
+            setBudgets(allBudgets)
         }
 
         fetchUserData()
     }, [])
 
     const calculateTotal = (
-        items: (Income | Expense)[],
-        type: 'Ingreso' | 'Gasto',
+        items: (Income | Expense | Budget)[],
+        type: 'Ingreso' | 'Gasto' | 'Presupuesto',
     ) => {
         return items.reduce((sum, item) => {
             let amount = item.monto
@@ -136,17 +194,32 @@ const BalanceChart: React.FC = () => {
                 }
             }
 
+            if (type === 'Presupuesto') {
+                if (item.repetir === 'Semanalmente' && timeFrame === 'Mes') {
+                    amount = item.monto * 4
+                } else if (
+                    item.repetir === 'Mensualmente' &&
+                    timeFrame === 'Semana'
+                ) {
+                    amount = item.monto / 4
+                } else {
+                    amount = item.monto
+                }
+            }
+
             return sum + amount
         }, 0)
     }
 
     const totalIncome = calculateTotal(incomes, 'Ingreso')
     const totalExpense = calculateTotal(expenses, 'Gasto')
+    const totalBudget = calculateTotal(budgets, 'Presupuesto')
 
     const data = [
         ['Task', 'Amount'],
         ['Ingresos', totalIncome],
         ['Gastos', totalExpense],
+        ['Presupuestos', totalBudget],
     ]
 
     const options = {
