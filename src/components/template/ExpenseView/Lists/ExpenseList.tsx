@@ -8,6 +8,7 @@ import { fetchExpenses } from '@/api/api'
 import { addDays, addWeeks, addMonths, isBefore } from 'date-fns'
 import formatNumber from '@/utils/hooks/formatNumber'
 import useFormatDate from '@/utils/hooks/formatDate'
+import calculateNextPaymentDate from '@/utils/hooks/calculateNextPaymentDay'
 
 interface User {
     email: string
@@ -29,36 +30,6 @@ interface Expense {
     cuotas: number
     fechaPago: Date
     comentarios: string
-}
-
-const calculateNextPaymentDate = (
-    fechaPago: Date,
-    repetir: string,
-): Date | null => {
-    const fecha = new Date(fechaPago)
-    const today = new Date()
-    let nextDate = fecha
-
-    while (isBefore(nextDate, today)) {
-        switch (repetir) {
-            case 'Diariamente':
-                nextDate = addDays(nextDate, 1)
-                break
-            case 'Semanalmente':
-                nextDate = addWeeks(nextDate, 1)
-                break
-            case 'Mensualmente':
-                nextDate = addMonths(nextDate, 1)
-                break
-            case 'Anualmente':
-                nextDate = addMonths(nextDate, 12)
-                break
-            default:
-                return null
-        }
-    }
-
-    return nextDate
 }
 
 const ExpenseList = () => {
@@ -141,12 +112,19 @@ const ExpenseList = () => {
                                     : ''}
                             </Td>
                             <Td style={{ textAlign: 'center' }}>
-                                {formatDate(
-                                    calculateNextPaymentDate(
-                                        new Date(expense.fechaPago),
-                                        expense.repetir,
-                                    ) as Date,
-                                )}
+                                {calculateNextPaymentDate(
+                                    new Date(expense.fechaPago),
+                                    expense.repetir,
+                                ) === 'Acreditado'
+                                    ? 'Acreditado'
+                                    : formatDate(
+                                          new Date(
+                                              calculateNextPaymentDate(
+                                                  new Date(expense.fechaPago),
+                                                  expense.repetir,
+                                              ),
+                                          ),
+                                      )}
                             </Td>
                             <Td style={{ textAlign: 'center' }}>
                                 {expense.comentarios}

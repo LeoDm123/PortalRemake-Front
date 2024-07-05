@@ -6,8 +6,8 @@ import Td from '@/components/ui/Table/Td'
 import Th from '@/components/ui/Table/Th'
 import { fetchIncomes } from '@/api/api'
 import formatNumber from '@/utils/hooks/formatNumber'
-import { addDays, addWeeks, addMonths, isBefore } from 'date-fns'
 import useFormatDate from '@/utils/hooks/formatDate'
+import calculateNextPaymentDate from '@/utils/hooks/calculateNextPaymentDay'
 
 type Income = {
     _id: string
@@ -20,46 +20,15 @@ type Income = {
     comentarios: string
 }
 
-const calculateNextPaymentDate = (
-    fechaPago: Date,
-    repetir: string,
-): Date | null => {
-    const fecha = new Date(fechaPago)
-    const today = new Date()
-    let nextDate = fecha
-
-    while (isBefore(nextDate, today)) {
-        switch (repetir) {
-            case 'Diariamente':
-                nextDate = addDays(nextDate, 1)
-                break
-            case 'Semanalmente':
-                nextDate = addWeeks(nextDate, 1)
-                break
-            case 'Mensualmente':
-                nextDate = addMonths(nextDate, 1)
-                break
-            case 'Anualmente':
-                nextDate = addMonths(nextDate, 12)
-                break
-            default:
-                return null
-        }
-    }
-
-    return nextDate
-}
-
 const IncomeList: React.FC = () => {
     const [email, setEmail] = useState<string>('')
-    const [invData, setInvData] = useState<any[]>([])
     const [incomes, setIncomes] = useState<Income[]>([])
     const format = formatNumber()
     const formatDate = useFormatDate()
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user') || '{}')
         setEmail(user.email || '')
-        setInvData(user.invites || [])
     }, [])
 
     useEffect(() => {
@@ -121,12 +90,19 @@ const IncomeList: React.FC = () => {
                                 {income.repetir}
                             </Td>
                             <Td style={{ textAlign: 'center' }}>
-                                {formatDate(
-                                    calculateNextPaymentDate(
-                                        new Date(income.fechaPago),
-                                        income.repetir,
-                                    ) as Date,
-                                )}
+                                {calculateNextPaymentDate(
+                                    new Date(income.fechaPago),
+                                    income.repetir,
+                                ) === 'Acreditado'
+                                    ? 'Acreditado'
+                                    : formatDate(
+                                          new Date(
+                                              calculateNextPaymentDate(
+                                                  new Date(income.fechaPago),
+                                                  income.repetir,
+                                              ),
+                                          ),
+                                      )}
                             </Td>
                             <Td style={{ textAlign: 'center' }}>
                                 {income.comentarios}
