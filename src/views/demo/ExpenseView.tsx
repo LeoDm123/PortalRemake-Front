@@ -12,6 +12,7 @@ import TabContent from '@/components/ui/Tabs/TabContent'
 import ExpenseList from '@/components/template/ExpenseView/Lists/ExpenseList'
 import InvExpenseList from '@/components/template/ExpenseView/Lists/InvExpenseList'
 import AddBudgetForm from '@/components/template/BudgetView/Modal/Forms/AddBudgetForm'
+import ExpensePages from '@/components/template/ExpenseView/Pages/ExpensePages'
 
 const ExpenseView = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -74,7 +75,7 @@ const ExpenseView = () => {
                     <TabNav value="Invitados">Invitados</TabNav>
                 </TabList>
                 <TabContent value="Propios" style={{ marginTop: 10 }}>
-                    <ExpenseList />
+                    <ExpensePages />
                 </TabContent>
                 <TabContent value="Invitados" style={{ marginTop: 10 }}>
                     <InvExpenseList />

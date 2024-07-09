@@ -12,6 +12,8 @@ import {
     HiOutlineCalendar,
     HiDocumentAdd,
     HiOutlineCash,
+    HiOutlineTrash,
+    HiOutlinePencil,
 } from 'react-icons/hi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -21,6 +23,8 @@ const navigationIcon: NavigationIcons = {
     home: <HiOutlineHome />,
     singleMenu: <HiOutlineViewGridAdd />,
     income: <HiCurrencyDollar />,
+    edit: <HiOutlinePencil />,
+    delete: <HiOutlineTrash />,
     expenses: <HiOutlineCreditCard />,
     budget: <HiOutlineCash />,
     calendar: <HiOutlineCalendar />,

@@ -142,6 +142,9 @@ export const createExpense = async (
     fechaPago: Date,
     cuotas: number,
     repetir: string,
+    dividir: boolean,
+    condDiv: string,
+    montoDiv: number,
 ): Promise<any> => {
     const LOGIN_ENDPOINT: string = '/expense/createExpense'
 
@@ -161,6 +164,9 @@ export const createExpense = async (
                 fechaPago,
                 cuotas,
                 repetir,
+                dividir,
+                condDiv,
+                montoDiv,
             }),
         })
 
@@ -195,6 +201,122 @@ export const fetchExpenses = async (email: string): Promise<any> => {
         return data
     } catch (error) {
         console.error('Error al obtener los egresos:', error)
+        throw error
+    }
+}
+
+export const fetchExpenseByID = async (
+    email: string,
+    expenseId: string,
+): Promise<any> => {
+    const FETCH_EXPENSE_BY_ID_ENDPOINT: string = `/expense/fetchExpenseByID`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${FETCH_EXPENSE_BY_ID_ENDPOINT}?email=${email}&expenseId=${expenseId}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener el gasto: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener el gasto:', error)
+        throw error
+    }
+}
+
+export const editExpense = async (
+    email: string,
+    expenseId: string,
+    categoria: string,
+    subCategoria: string,
+    comentarios: string,
+    monto: number,
+    divisa: string,
+    fechaPago: Date,
+    cuotas: number,
+    repetir: string,
+    dividir: boolean,
+    condDiv: string,
+    montoDiv: number,
+): Promise<any> => {
+    const EDIT_EXPENSE_ENDPOINT: string = `/expense/editExpense`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${EDIT_EXPENSE_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    expenseId,
+                    updatedExpense: {
+                        comentarios,
+                        categoria,
+                        subCategoria,
+                        monto,
+                        divisa,
+                        fechaPago,
+                        cuotas,
+                        repetir,
+                        dividir,
+                        condDiv,
+                        montoDiv,
+                    },
+                }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al actualizar el gasto: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al actualizar el gasto:', error)
+        throw error
+    }
+}
+
+export const deleteExpense = async (
+    email: string,
+    expenseId: string,
+): Promise<boolean> => {
+    const DELETE_EXPENSE_ENDPOINT: string = `/expense/deleteExpense`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_EXPENSE_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, expenseId }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al borrar el gasto: ${response.status}`)
+        }
+
+        console.log('Gasto borrado correctamente')
+        return true
+    } catch (error) {
+        console.error('Error al borrar el gasto:', error)
         throw error
     }
 }

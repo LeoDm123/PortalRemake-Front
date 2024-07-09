@@ -1,25 +1,54 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react'
-import { createExpense, fetchCategorias } from '@/api/api'
+import { editExpense, fetchCategorias } from '@/api/api'
 import Swal from 'sweetalert2'
 import { Switcher } from '@/components/ui'
 
-interface AddModalProps {
+interface EditModalProps {
+    expense: Expense | null
+    onSave: (expense: Expense) => void
     onClose: () => void
 }
 
-export default function AddExpenseForm({ onClose }: AddModalProps) {
+interface Expense {
+    _id: string
+    categoria: string
+    subCategoria: string
+    divisa: string
+    monto: number
+    repetir: string
+    cuotas: number
+    fechaPago: Date
+    comentarios: string
+    dividir: boolean
+    condDiv: string
+    montoDiv: number
+}
+
+export default function EditExpenseForm({
+    expense,
+    onSave,
+    onClose,
+}: EditModalProps) {
     const [email, setEmail] = useState<string>('')
-    const [categoria, setCategoria] = useState<string>('')
-    const [subCategoria, setSubCategoria] = useState<string>('')
-    const [comentarios, setComentarios] = useState<string>('')
-    const [monto, setMonto] = useState<number>(0)
-    const [repetir, setRepetir] = useState<string>('')
-    const [divisa, setDivisa] = useState<string>('')
-    const [fechaPago, setFechaPago] = useState<string>('')
-    const [cuotas, setCuotas] = useState<number>(0)
-    const [dividir, setDividir] = useState<boolean>(false)
-    const [condDiv, setCondDiv] = useState<string>('')
-    const [montoDiv, setMontoDiv] = useState<number>(0)
+    const [categoria, setCategoria] = useState<string>(expense?.categoria || '')
+    const [subCategoria, setSubCategoria] = useState<string>(
+        expense?.subCategoria || '',
+    )
+    const [comentarios, setComentarios] = useState<string>(
+        expense?.comentarios || '',
+    )
+    const [monto, setMonto] = useState<number>(expense?.monto || 0)
+    const [repetir, setRepetir] = useState<string>(expense?.repetir || '')
+    const [divisa, setDivisa] = useState<string>(expense?.divisa || '')
+    const [fechaPago, setFechaPago] = useState<string>(
+        expense?.fechaPago
+            ? new Date(expense.fechaPago).toISOString().split('T')[0]
+            : '',
+    )
+    const [cuotas, setCuotas] = useState<number>(expense?.cuotas || 0)
+    const [dividir, setDividir] = useState<boolean>(expense?.dividir || false)
+    const [condDiv, setCondDiv] = useState<string>(expense?.condDiv || '')
+    const [montoDiv, setMontoDiv] = useState<number>(expense?.montoDiv || 0)
     const [categorias, setCategorias] = useState<any[]>([])
     const [isHovered, setIsHovered] = useState(false)
 
@@ -92,20 +121,21 @@ export default function AddExpenseForm({ onClose }: AddModalProps) {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        if (!email) {
+        if (!email || !expense) {
             console.error(
-                'No se encontró el correo electrónico en el localStorage',
+                'No se encontró el correo electrónico o el gasto en el localStorage',
             )
             return
         }
         try {
             const parsedFechaPago = new Date(fechaPago)
 
-            await createExpense(
+            await editExpense(
                 email,
-                comentarios,
+                expense._id,
                 categoria,
                 subCategoria,
+                comentarios,
                 monto,
                 divisa,
                 parsedFechaPago,
@@ -116,22 +146,38 @@ export default function AddExpenseForm({ onClose }: AddModalProps) {
                 montoDiv,
             )
 
+            const updatedExpense = {
+                ...expense,
+                categoria,
+                subCategoria,
+                comentarios,
+                monto,
+                divisa,
+                fechaPago: parsedFechaPago,
+                cuotas,
+                repetir,
+                dividir,
+                condDiv,
+                montoDiv,
+            }
+
             Swal.fire({
-                title: 'Ingreso registrado',
-                text: 'El ingreso se ha registrado correctamente.',
+                title: 'Gasto actualizado',
+                text: 'El gasto se ha actualizado correctamente.',
                 icon: 'success',
                 confirmButtonText: 'OK',
             }).then(() => {
+                onSave(updatedExpense)
                 onClose()
             })
         } catch (error) {
             Swal.fire({
                 title: 'Error',
-                text: 'Hubo un problema al registrar el ingreso.',
+                text: 'Hubo un problema al actualizar el gasto.',
                 icon: 'error',
                 confirmButtonText: 'OK',
             })
-            console.error('Error al registrar ingreso:', error)
+            console.error('Error al actualizar gasto:', error)
         }
     }
 
@@ -145,10 +191,10 @@ export default function AddExpenseForm({ onClose }: AddModalProps) {
             <div className="space-y-6">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-base font-semibold leading-7 text-gray-900">
-                        Registrar Ingreso
+                        Editar Gasto
                     </h2>
                     <p className="mt-1 text-sm leading-6 text-gray-600">
-                        Ingrese los detalles de su ingreso
+                        Modifique los detalles de su gasto
                     </p>
 
                     <div className="mt-5 grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-6">
@@ -399,7 +445,10 @@ export default function AddExpenseForm({ onClose }: AddModalProps) {
                                 Dividir
                             </label>
                             <div className="mt-2">
-                                <Switcher onChange={handleDividirChange} />
+                                <Switcher
+                                    onChange={handleDividirChange}
+                                    checked={dividir}
+                                />
                             </div>
                         </div>
 
