@@ -15,6 +15,7 @@ export interface NotificationProps extends CommonProps {
     triggerByToast?: boolean
     type?: TypeAttributes.Status
     width?: number | string
+    centered?: boolean // Nueva prop para centrar la notificación
 }
 
 const Notification = forwardRef<HTMLDivElement, NotificationProps>(
@@ -31,6 +32,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
             triggerByToast,
             type,
             width = 350,
+            centered = false, // Valor predeterminado de la prop centered
             ...rest
         } = props
 
@@ -39,7 +41,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
         const { clear } = useTimeout(
             onClose as () => void,
             duration,
-            duration > 0
+            duration > 0,
         )
 
         const handleClose = useCallback(
@@ -53,7 +55,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                     }, 400)
                 }
             },
-            [onClose, clear, triggerByToast]
+            [onClose, clear, triggerByToast],
         )
 
         const notificationClass = classNames('notification', className)
@@ -67,12 +69,20 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                 ref={ref}
                 {...rest}
                 className={notificationClass}
-                style={{ width: width, ...style }}
+                style={{
+                    position: centered ? 'fixed' : 'relative', // Solo centrado si 'centered' es true
+                    top: centered ? '50%' : 'auto',
+                    left: centered ? '50%' : 'auto',
+                    transform: centered ? 'translate(-50%, -50%)' : 'none',
+                    zIndex: centered ? 9999 : 'auto', // Mayor z-index si está centrado
+                    width: width,
+                    ...style, // Permitir estilos personalizados
+                }}
             >
                 <div
                     className={classNames(
                         'notification-content',
-                        !children && 'no-child'
+                        !children && 'no-child',
                     )}
                 >
                     {type && !customIcon ? (
@@ -86,7 +96,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                             <div
                                 className={classNames(
                                     'notification-title',
-                                    children && 'mb-1'
+                                    children && 'mb-1',
                                 )}
                             >
                                 {title}
@@ -107,7 +117,7 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                 )}
             </div>
         )
-    }
+    },
 )
 
 Notification.displayName = 'Notification'

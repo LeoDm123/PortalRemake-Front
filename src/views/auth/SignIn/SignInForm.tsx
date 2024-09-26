@@ -24,8 +24,8 @@ type SignInFormSchema = {
 }
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().required('Please enter your email'),
-    password: Yup.string().required('Please enter your password'),
+    email: Yup.string().required('Por favor, ingrese su correo electrónico'),
+    password: Yup.string().required('Por favor, ingrese su contraseña'),
     rememberMe: Yup.bool(),
 })
 
@@ -122,7 +122,7 @@ const SignInForm = (props: SignInFormProps) => {
                                     className="mb-0"
                                     name="rememberMe"
                                     component={Checkbox}
-                                    style={{ backgroundColor: '#254861' }}
+                                    style={{ backgroundColor: '#01662b' }}
                                 >
                                     Recordarme
                                 </Field>
@@ -135,18 +135,18 @@ const SignInForm = (props: SignInFormProps) => {
                                 loading={isSubmitting}
                                 variant="solid"
                                 type="submit"
-                                style={{ backgroundColor: '#254861' }}
+                                style={{ backgroundColor: '#01662b' }}
                             >
                                 {isSubmitting
                                     ? 'Iniciando sesión...'
                                     : 'Iniciar sesión'}
                             </Button>
-                            <div className="mt-4 text-center">
+                            {/* <div className="mt-4 text-center">
                                 <span>{`¿Todavía no tienes una cuenta?`} </span>
                                 <ActionLink to={signUpUrl}>
                                     Registrarse
                                 </ActionLink>
-                            </div>
+                            </div> */}
                         </FormContainer>
                     </Form>
                 )}

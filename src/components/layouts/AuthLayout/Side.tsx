@@ -11,7 +11,7 @@ const Side = ({ children, content, ...rest }: SideProps) => {
             <div
                 className="bg-no-repeat bg-cover py-6 px-16 flex-col justify-between hidden lg:flex"
                 style={{
-                    backgroundImage: `url('/img/logo/Logo.webp')`,
+                    backgroundImage: `url('/img/others/Img3.jpg')`,
                 }}
             ></div>
             <div className="col-span-1 flex flex-col justify-center items-center bg-white dark:bg-gray-800">

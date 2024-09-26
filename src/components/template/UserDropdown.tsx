@@ -37,7 +37,9 @@ const _UserDropdown = ({ className }: CommonProps) => {
                 <div className="text-xs capitalize">
                     {user?.authority?.join(', ')}
                 </div>
-                <div className="font-bold">{user?.email}</div>
+                <div className="font-bold">
+                    {user?.userName + ' ' + user?.userApellido}
+                </div>
             </div>
         </div>
     )
@@ -54,9 +56,9 @@ const _UserDropdown = ({ className }: CommonProps) => {
                         <Avatar shape="circle" icon={<HiOutlineUser />} />
                         <div>
                             <div className="font-bold text-gray-900 dark:text-gray-100">
-                                {user?.name}
+                                {user?.userName + ' ' + user?.userApellido}
                             </div>
-                            <div className="text-xs">{user?.authority}</div>
+                            <div className="text-xs">{user?.email}</div>
                         </div>
                     </div>
                 </Dropdown.Item>

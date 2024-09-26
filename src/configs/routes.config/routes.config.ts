@@ -6,39 +6,63 @@ export const publicRoutes: Routes = [...authRoute]
 
 export const protectedRoutes = [
     {
-        key: 'home',
+        key: 'Home',
         path: '/home',
         component: lazy(() => import('@/views/Home')),
         authority: [],
     },
     {
-        key: 'income',
-        path: '/income-view',
-        component: lazy(() => import('@/views/demo/IncomeView')),
+        key: 'Perfiles',
+        path: '/perfiles-view',
+        component: lazy(() => import('@/views/demo/Pedidos/PerfilesView')),
         authority: [],
     },
     {
-        key: 'expense',
-        path: '/expenses-view',
-        component: lazy(() => import('@/views/demo/ExpenseView')),
+        key: 'Herrajes',
+        path: '/herrajes-view',
+        component: lazy(() => import('@/views/demo/Pedidos/HerrajesView')),
         authority: [],
     },
     {
-        key: 'userProfile',
+        key: 'Vidrios',
+        path: '/vidrios-view',
+        component: lazy(() => import('@/views/demo/Pedidos/VidriosView')),
+        authority: [],
+    },
+    {
+        key: 'Madera',
+        path: '/madera-view',
+        component: lazy(() => import('@/views/demo/Pedidos/MaderaView')),
+        authority: [],
+    },
+    {
+        key: 'Varios',
+        path: '/varios-view',
+        component: lazy(() => import('@/views/demo/Pedidos/VariosView')),
+        authority: [],
+    },
+    {
+        key: 'Clients',
+        path: '/clients-view',
+        component: lazy(() => import('@/views/demo/ClientsView')),
+        authority: [],
+    },
+    {
+        key: 'Inventario',
+        path: '/inventario-view',
+        component: lazy(() => import('@/views/demo/InventarioView')),
+        authority: [],
+    },
+    {
+        key: 'Presupuestador',
+        path: '/presupuestador-view',
+        component: lazy(() => import('@/views/demo/PresupuestadorView')),
+        authority: [],
+    },
+    {
+        key: 'UserProfile',
         path: '/userProfile-view',
         component: lazy(() => import('@/views/demo/UserProfileView')),
-        authority: [],
-    },
-    {
-        key: 'Calendar',
-        path: '/calendar-view',
-        component: lazy(() => import('@/views/demo/CalendarSheet')),
-        authority: [],
-    },
-    {
-        key: 'Budget',
-        path: '/budget-view',
-        component: lazy(() => import('@/views/demo/BudgetView')),
         authority: [],
     },
 ]

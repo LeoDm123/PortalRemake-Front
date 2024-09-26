@@ -9,7 +9,7 @@ import {
     SIDE_NAV_CONTENT_GUTTER,
     LOGO_X_GUTTER,
 } from '@/constants/theme.constant'
-import Logo from '@/components/template/Logo'
+import IsoLogo from '@/components/template/IsoLogo'
 import navigationConfig from '@/configs/navigation.config'
 import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import useResponsive from '@/utils/hooks/useResponsive'
@@ -89,11 +89,11 @@ const SideNav = () => {
                     <div
                         className="side-nav-header"
                         style={{
-                            backgroundColor: '#23455e',
-                            paddingBlock: '13px',
+                            backgroundColor: '#e2e4e7',
+                            paddingBlock: '15px',
                         }}
                     >
-                        <Logo
+                        <IsoLogo
                             mode={logoMode()}
                             type={sideNavCollapse ? 'streamline' : 'full'}
                             className={

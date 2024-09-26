@@ -62,8 +62,11 @@ const DefaultItem = ({ nav, onLinkClick, userAuthority }: DefaultItemProps) => {
                                             path: subNav.path,
                                         })
                                     }
-                                    target={subNav.isExternalLink ? '_blank' :  ''}
+                                    target={
+                                        subNav.isExternalLink ? '_blank' : ''
+                                    }
                                 >
+                                    <VerticalMenuIcon icon={subNav.icon} />
                                     <span>
                                         <Trans
                                             i18nKey={subNav.translateKey}
@@ -126,8 +129,11 @@ const CollapsedItem = ({
                                             path: subNav.path,
                                         })
                                     }
-                                    target={subNav.isExternalLink ? '_blank' :  ''}
+                                    target={
+                                        subNav.isExternalLink ? '_blank' : ''
+                                    }
                                 >
+                                    <VerticalMenuIcon icon={subNav.icon} />
                                     <span>
                                         <Trans
                                             i18nKey={subNav.translateKey}

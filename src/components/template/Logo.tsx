@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { APP_NAME } from '@/constants/app.constant'
 import type { CommonProps } from '@/@types/common'
-import LogoImg from '../../../public/img/logo/Logo1.png'
+import LogoImg from '../../../public/img/logo/Logo.png'
 
 interface LogoProps extends CommonProps {
     type?: 'full' | 'streamline'
@@ -42,8 +42,6 @@ const Logo = (props: LogoProps) => {
                 src={LogoImg}
                 alt={`${APP_NAME} logo`}
             />
-            <h2 style={{ marginLeft: 5, color: '#fffeff' }}>LeMi</h2>
-            <h2 style={{ paddingLeft: 5, color: '#c4e8dc' }}>App</h2>
         </div>
     )
 }

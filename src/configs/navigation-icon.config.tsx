@@ -14,6 +14,15 @@ import {
     HiOutlineCash,
     HiOutlineTrash,
     HiOutlinePencil,
+    HiOutlineClipboardList,
+    HiOutlineCog,
+    HiOutlineCubeTransparent,
+    HiOutlineFingerPrint,
+    HiOutlineCollection,
+    HiOutlineArchive,
+    HiOutlineUserGroup,
+    HiOutlineArrowDown,
+    HiOutlineArrowUp,
 } from 'react-icons/hi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -22,7 +31,10 @@ const navigationIcon: NavigationIcons = {
     add: <HiDocumentAdd />,
     home: <HiOutlineHome />,
     singleMenu: <HiOutlineViewGridAdd />,
+    matList: <HiOutlineClipboardList />,
+    swatch: <HiOutlineColorSwatch />,
     income: <HiCurrencyDollar />,
+    accounts: <HiCurrencyDollar />,
     edit: <HiOutlinePencil />,
     delete: <HiOutlineTrash />,
     expenses: <HiOutlineCreditCard />,
@@ -34,6 +46,14 @@ const navigationIcon: NavigationIcons = {
     settings: <HiAdjustments />,
     filter: <HiOutlineFilter />,
     search: <HiOutlineSearch />,
+    cog: <HiOutlineCog />,
+    cubeTrans: <HiOutlineCubeTransparent />,
+    finger: <HiOutlineFingerPrint />,
+    collection: <HiOutlineCollection />,
+    archive: <HiOutlineArchive />,
+    group: <HiOutlineUserGroup />,
+    up: <HiOutlineArrowUp />,
+    down: <HiOutlineArrowDown />,
 }
 
 export default navigationIcon

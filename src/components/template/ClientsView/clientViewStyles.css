@@ -1,0 +1,70 @@
+.clients-container {
+    display: flex;
+    flex-direction: column;
+    height: 470px;
+    margin-left: 1px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
+
+.bg-gray {
+    background-color: #f3f4f6;
+}
+
+.clients-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.clients-container::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 5px;
+}
+
+.content-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease-in-out;
+}
+
+.content-wrapper.expanded {
+    max-height: 550px;
+}
+
+.content-wrapper.collapsed {
+    max-height: 0;
+}
+
+.presupuestos-container {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-left: 1px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
+
+/* Estilos adicionales para asegurar el ajuste adecuado de la tabla */
+
+.table-fixed {
+    table-layout: fixed; /* Hace que las celdas respeten el tamaño definido */
+}
+
+.no-wrap {
+    white-space: nowrap; /* Evita que el texto se envuelva y desborde */
+}
+
+.text-center {
+    text-align: center; /* Asegura que el texto y los números estén centrados */
+}
+
+.text-sm {
+    font-size: 0.875rem; /* Tamaño de letra pequeño para evitar overflow */
+}
+
+.small-width {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}

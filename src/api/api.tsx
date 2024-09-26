@@ -37,10 +37,10 @@ export const fetchUpdatePassword = async (
 }
 
 export const fetchLoginUser = async (
-    email: string,
-    password: string,
+    userEmail: string,
+    userPassword: string,
 ): Promise<any> => {
-    const LOGIN_ENDPOINT: string = '/auth/userLogin'
+    const LOGIN_ENDPOINT: string = '/auth/login'
 
     try {
         const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
@@ -48,7 +48,7 @@ export const fetchLoginUser = async (
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ userEmail, userPassword }),
         })
 
         if (!response.ok) {
@@ -59,6 +59,105 @@ export const fetchLoginUser = async (
         return data
     } catch (error) {
         console.error('Error al iniciar sesion:', error)
+        throw error
+    }
+}
+
+////////////CLIENTS////////////////////
+
+export const fetchClients = async (): Promise<any> => {
+    const INCOME_ENDPOINT: string = `/clients/obtenerClientes`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los ingresos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los ingresos:', error)
+        throw error
+    }
+}
+
+////////////PAYMENTS////////////////////
+
+export const createPayment = async (
+    clientCUIT: string,
+    presupuestoCodigo: string,
+    fechaPago: Date,
+    pagoCondicion: string,
+    pagoConcepto: string,
+    pagoComprobante: string,
+    pagoMonto: number,
+    comentarios: string,
+): Promise<any> => {
+    const PAYMENT_ENDPOINT: string = '/pay/crearPago'
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PAYMENT_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ClientCUIT: clientCUIT,
+                PresupuestoCodigo: presupuestoCodigo,
+                FechaPago: fechaPago,
+                PagoCondicion: pagoCondicion,
+                PagoConcepto: pagoConcepto,
+                PagoComprobante: pagoComprobante,
+                PagoMonto: pagoMonto,
+                Comentarios: comentarios,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al registrar pago: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar pago:', error)
+        throw error
+    }
+}
+
+export const deletePayment = async (
+    clientId: string,
+    presupuestoId: string,
+    pagoId: string,
+): Promise<boolean> => {
+    const DELETE_EXPENSE_ENDPOINT: string = `/pay/deletePago/${clientId}/${presupuestoId}/${pagoId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_EXPENSE_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al borrar el pago: ${response.status}`)
+        }
+
+        console.log('Pago borrado correctamente')
+        return true
+    } catch (error) {
+        console.error('Error al borrar el pago:', error)
         throw error
     }
 }
@@ -75,10 +174,10 @@ export const createIncome = async (
     fechaPago: Date,
     repetir: string,
 ): Promise<any> => {
-    const LOGIN_ENDPOINT: string = '/income/createIncome'
+    const INCOME_ENDPOINT: string = '/income/createIncome'
 
     try {
-        const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,10 +207,10 @@ export const createIncome = async (
 }
 
 export const fetchIncomes = async (email: string): Promise<any> => {
-    const PAYMENTS_ENDPOINT: string = `/income/fetchIncomes?email=${encodeURIComponent(email)}`
+    const INCOME_ENDPOINT: string = `/income/fetchIncomes?email=${encodeURIComponent(email)}`
 
     try {
-        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -145,11 +244,12 @@ export const createExpense = async (
     dividir: boolean,
     condDiv: string,
     montoDiv: number,
+    cuenta: string,
 ): Promise<any> => {
-    const LOGIN_ENDPOINT: string = '/expense/createExpense'
+    const EXPENSE_ENDPOINT: string = '/expense/createExpense'
 
     try {
-        const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${EXPENSE_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -167,6 +267,7 @@ export const createExpense = async (
                 dividir,
                 condDiv,
                 montoDiv,
+                cuenta,
             }),
         })
 
@@ -183,10 +284,10 @@ export const createExpense = async (
 }
 
 export const fetchExpenses = async (email: string): Promise<any> => {
-    const PAYMENTS_ENDPOINT: string = `/expense/fetchExpenses?email=${encodeURIComponent(email)}`
+    const EXPENSES_ENDPOINT: string = `/expense/fetchExpenses?email=${encodeURIComponent(email)}`
 
     try {
-        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${EXPENSES_ENDPOINT}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -248,6 +349,7 @@ export const editExpense = async (
     dividir: boolean,
     condDiv: string,
     montoDiv: number,
+    cuenta: string,
 ): Promise<any> => {
     const EDIT_EXPENSE_ENDPOINT: string = `/expense/editExpense`
 
@@ -274,6 +376,7 @@ export const editExpense = async (
                         dividir,
                         condDiv,
                         montoDiv,
+                        cuenta,
                     },
                 }),
             },
@@ -321,6 +424,35 @@ export const deleteExpense = async (
     }
 }
 
+export const fetchExpensesByAccountId = async (
+    email: string,
+    accountId: string,
+): Promise<any> => {
+    const FETCH_EXPENSE_BY_ACCOUNT_ID_ENDPOINT: string = `/expense/fetchExpensesByAccountId`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${FETCH_EXPENSE_BY_ACCOUNT_ID_ENDPOINT}?email=${email}&accountId=${accountId}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener el gasto: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener el gasto:', error)
+        throw error
+    }
+}
+
 ////////////BUDGETS////////////////////
 
 export const createBudget = async (
@@ -334,10 +466,10 @@ export const createBudget = async (
     fechaPago: Date,
     repetir: string,
 ): Promise<any> => {
-    const LOGIN_ENDPOINT: string = '/budget/createBudget'
+    const BUDGET_ENDPOINT: string = '/budget/createBudget'
 
     try {
-        const response = await fetch(`${API_BASE_URL}${LOGIN_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${BUDGET_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -393,10 +525,10 @@ export const fetchBudgets = async (email: string): Promise<any> => {
 ////////////CATEGORIES////////////////////
 
 export const fetchCategorias = async (): Promise<any> => {
-    const PAYMENTS_ENDPOINT: string = `/categoria/fetchCategorias`
+    const CATEGORY_ENDPOINT: string = `/categoria/fetchCategorias`
 
     try {
-        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${CATEGORY_ENDPOINT}`, {
             method: 'GET',
             headers: {},
         })
@@ -416,10 +548,10 @@ export const fetchCategorias = async (): Promise<any> => {
 }
 
 export const fetchSubCategorias = async (categoriaId: string): Promise<any> => {
-    const PAYMENTS_ENDPOINT: string = `/categoria/fetchSubCategorias`
+    const CATEGORY_ENDPOINT: string = `/categoria/fetchSubCategorias`
 
     try {
-        const response = await fetch(`${API_BASE_URL}${PAYMENTS_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${CATEGORY_ENDPOINT}`, {
             method: 'GET',
             headers: {
                 categoriaId: categoriaId,
@@ -436,6 +568,192 @@ export const fetchSubCategorias = async (categoriaId: string): Promise<any> => {
         return data
     } catch (error) {
         console.error('Error al obtener las subcategorías:', error)
+        throw error
+    }
+}
+
+////////////ACCOUNTS////////////////////
+
+export const createAccount = async (
+    nombre: string,
+    tipo: string,
+    divisa: string,
+    saldoInicial: number,
+): Promise<any> => {
+    const ACCOUNT_ENDPOINT: string = '/account/createAccount'
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${ACCOUNT_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nombre,
+                tipo,
+                divisa,
+                saldoInicial,
+            }),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al registrar ingreso: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar ingreso:', error)
+        throw error
+    }
+}
+
+export const fetchAccounts = async (email: string): Promise<any> => {
+    const ACCOUNT_ENDPOINT: string = `/account/fetchAccounts?email=${encodeURIComponent(email)}`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${ACCOUNT_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener las cuentas: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener las cuentas:', error)
+        throw error
+    }
+}
+
+export const fetchAccountByID = async (
+    email: string,
+    accountId: string,
+): Promise<any> => {
+    const FETCH_ACCOUNT_BY_ID_ENDPOINT: string = `/account/fetchAccountByID`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${FETCH_ACCOUNT_BY_ID_ENDPOINT}?email=${email}&accountId=${accountId}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener la cuenta: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener la cuenta:', error)
+        throw error
+    }
+}
+
+export const editAccount = async (
+    email: string,
+    accountId: string,
+    nombre: string,
+    tipo: string,
+    divisa: string,
+    saldoInicial: number,
+): Promise<any> => {
+    const EDIT_ACCOUNT_ENDPOINT: string = `/account/editAccount`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${EDIT_ACCOUNT_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    accountId,
+                    updatedExpense: {
+                        nombre,
+                        tipo,
+                        divisa,
+                        saldoInicial,
+                    },
+                }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al actualizar el gasto: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al actualizar el gasto:', error)
+        throw error
+    }
+}
+
+export const deleteAccount = async (
+    email: string,
+    accountId: string,
+): Promise<boolean> => {
+    const DELETE_ACCOUNT_ENDPOINT: string = `/account/deleteAccount`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_ACCOUNT_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, accountId }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al borrar el gasto: ${response.status}`)
+        }
+
+        console.log('Gasto borrado correctamente')
+        return true
+    } catch (error) {
+        console.error('Error al borrar el gasto:', error)
+        throw error
+    }
+}
+
+//////////////////// OTHER ///////////////////////////
+
+export const fetchDolarBlue = async (): Promise<any> => {
+    const DOLAR_BLUE_ENDPOINT: string = 'https://dolarapi.com/v1/dolares/blue'
+
+    try {
+        const response = await fetch(DOLAR_BLUE_ENDPOINT, {
+            method: 'GET',
+            headers: { Accept: 'application/json' },
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al obtener la información del dólar blue: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener la información del dólar blue:', error)
         throw error
     }
 }
