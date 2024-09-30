@@ -2,10 +2,14 @@ import React from 'react'
 import ClientCard from '../Cards/ClientCard'
 import '../clientViewStyles.css'
 
-const ClientsCardList = () => {
+type ClientsCardListProps = {
+    sortDirection: 'asc' | 'desc' | undefined
+}
+
+const ClientsCardList: React.FC<ClientsCardListProps> = ({ sortDirection }) => {
     return (
         <div className="clients-container">
-            <ClientCard />
+            <ClientCard sortDirection={sortDirection} />
         </div>
     )
 }
