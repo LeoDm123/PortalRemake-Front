@@ -4,17 +4,19 @@ import { HiOutlineDocumentText, HiOutlineXCircle } from 'react-icons/hi'
 import { Card } from '@/components/ui'
 import PresupuestoInfo from '../Info/PresupuestoInfo'
 import PagosList from '../Lists/PagosList'
-import { Presupuesto, Client } from '@/@types/clientInfo'
+import { Presupuesto } from '@/@types/clientInfo'
 import DividerMain from '../../DividerMain'
 
 type PresupuestoModalProps = {
     presupuesto: Presupuesto
     clientId: string
+    onDelete: () => void
 }
 
 const PresupuestoModal: React.FC<PresupuestoModalProps> = ({
     presupuesto,
     clientId,
+    onDelete,
 }) => {
     const [isOpen, setIsOpen] = useState(false)
 
@@ -33,6 +35,7 @@ const PresupuestoModal: React.FC<PresupuestoModalProps> = ({
                 onClose={toggleModal}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
+                style={{ zIndex: 1000 }}
             >
                 <Card
                     style={{
@@ -66,6 +69,7 @@ const PresupuestoModal: React.FC<PresupuestoModalProps> = ({
                         pagos={presupuesto.Pagos}
                         clientId={clientId}
                         presupuestoId={presupuesto._id}
+                        onDelete={onDelete}
                     />
                 </Card>
             </Modal>

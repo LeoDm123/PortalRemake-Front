@@ -1,12 +1,11 @@
-// ClientCard.tsx
 import React from 'react'
 import { useClients } from '@/utils/hooks/useClients'
 import { calculateTotalDebt } from '@/utils/hooks/calculateDebt'
 import ClientCardItem from './ClientCardItem'
 
 const ClientCard: React.FC = () => {
-    const { clients, loading, expanded, toggleExpand } = useClients()
-
+    const { clients, loading, expanded, toggleExpand, fetchClients } =
+        useClients()
     if (loading) {
         return <div>Loading...</div>
     }
@@ -29,6 +28,7 @@ const ClientCard: React.FC = () => {
                             expanded={expanded[client._id] || false}
                             onToggleExpand={() => toggleExpand(client._id)}
                             totalDebt={totalDebt}
+                            fetchClients={fetchClients}
                         />
                     )
                 })}

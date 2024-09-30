@@ -11,11 +11,13 @@ import { Presupuesto } from '@/@types/clientInfo'
 type PresupuestosCardListProps = {
     presupuestos: Presupuesto[]
     clientId: string
+    onDelete: () => void
 }
 
 const PresupuestosCardList: React.FC<PresupuestosCardListProps> = ({
     presupuestos,
     clientId,
+    onDelete,
 }) => {
     return (
         <div className="presupuestos-container">
@@ -37,6 +39,7 @@ const PresupuestosCardList: React.FC<PresupuestosCardListProps> = ({
                                 key={presupuesto.PresupuestoCodigo}
                                 presupuesto={presupuesto}
                                 clientId={clientId}
+                                onDelete={onDelete}
                             />
                         ))}
                     </TBody>

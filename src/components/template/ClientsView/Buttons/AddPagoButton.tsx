@@ -1,10 +1,14 @@
 import { IconButton } from '@mui/material'
 import { HiOutlineCash } from 'react-icons/hi'
 
-const AddPagoButton = () => {
+type AddPagoButtonProps = {
+    isOpen: () => void
+}
+
+const AddPagoButton: React.FC<AddPagoButtonProps> = ({ isOpen }) => {
     return (
         <div>
-            <IconButton>
+            <IconButton onClick={isOpen}>
                 <HiOutlineCash />
             </IconButton>
         </div>

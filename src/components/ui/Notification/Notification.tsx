@@ -70,13 +70,13 @@ const Notification = forwardRef<HTMLDivElement, NotificationProps>(
                 {...rest}
                 className={notificationClass}
                 style={{
-                    position: centered ? 'fixed' : 'relative', // Solo centrado si 'centered' es true
+                    position: centered ? 'fixed' : 'relative',
                     top: centered ? '50%' : 'auto',
                     left: centered ? '50%' : 'auto',
                     transform: centered ? 'translate(-50%, -50%)' : 'none',
-                    zIndex: centered ? 9999 : 'auto', // Mayor z-index si está centrado
+                    zIndex: centered ? 9999 : 'auto',
                     width: width,
-                    ...style, // Permitir estilos personalizados
+                    ...style,
                 }}
             >
                 <div

@@ -1,7 +1,7 @@
 .clients-container {
     display: flex;
     flex-direction: column;
-    height: 470px;
+    height: 75vh;
     margin-left: 1px;
     overflow: auto;
     scrollbar-width: thin;
@@ -45,22 +45,20 @@
     scrollbar-color: dark lightgray;
 }
 
-/* Estilos adicionales para asegurar el ajuste adecuado de la tabla */
-
 .table-fixed {
-    table-layout: fixed; /* Hace que las celdas respeten el tamaño definido */
+    table-layout: fixed;
 }
 
 .no-wrap {
-    white-space: nowrap; /* Evita que el texto se envuelva y desborde */
+    white-space: nowrap;
 }
 
 .text-center {
-    text-align: center; /* Asegura que el texto y los números estén centrados */
+    text-align: center;
 }
 
 .text-sm {
-    font-size: 0.875rem; /* Tamaño de letra pequeño para evitar overflow */
+    font-size: 0.875rem;
 }
 
 .small-width {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from '@/components/ui'
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi'
 import { IconButton } from '@mui/material'
@@ -8,12 +8,14 @@ import { Client } from '@/@types/clientInfo'
 import ClientDetailsDropdown from '../Dropdown/ClientDropdown'
 import AddPresupuestoButton from '../Buttons/AddPresupuestoButton'
 import AddPagoButton from '../Buttons/AddPagoButton'
+import AddPagoModal from '../Modal/AddPagoModal'
 
 type Props = {
     client: Client
     expanded: boolean
     onToggleExpand: () => void
     totalDebt: number
+    fetchClients: () => void
 }
 
 const ClientCardItem: React.FC<Props> = ({
@@ -21,7 +23,23 @@ const ClientCardItem: React.FC<Props> = ({
     expanded,
     onToggleExpand,
     totalDebt,
+    fetchClients,
 }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
+    const handleDelete = () => {
+        fetchClients()
+    }
+
+    const handleSubmitPay = () => {
+        toggleModal()
+        fetchClients()
+    }
+
     return (
         <Card key={client._id} className="card-shadow mb-2 bg-gray">
             <div>
@@ -35,7 +53,7 @@ const ClientCardItem: React.FC<Props> = ({
 
                         <ClientDetailsDropdown client={client} />
                         <AddPresupuestoButton />
-                        <AddPagoButton />
+                        <AddPagoButton isOpen={toggleModal} />
                     </div>
 
                     <div className="flex items-center">
@@ -65,18 +83,24 @@ const ClientCardItem: React.FC<Props> = ({
                 </div>
 
                 <div
-                    className={`content-wrapper ${
-                        expanded ? 'expanded' : 'collapsed'
-                    }`}
+                    className={`content-wrapper ${expanded ? 'expanded' : 'collapsed'}`}
                 >
                     <div className="mt-3">
                         <PresupuestosCardList
                             presupuestos={client.Presupuestos}
                             clientId={client._id}
+                            onDelete={handleDelete}
                         />
                     </div>
                 </div>
             </div>
+
+            <AddPagoModal
+                isOpen={isModalOpen}
+                toggleModal={toggleModal}
+                selectedClientIndex={client._id}
+                onSubmitPay={handleSubmitPay}
+            />
         </Card>
     )
 }

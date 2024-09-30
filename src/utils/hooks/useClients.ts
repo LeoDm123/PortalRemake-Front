@@ -7,18 +7,19 @@ export const useClients = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({})
 
-    useEffect(() => {
-        const fetchClientData = async () => {
-            try {
-                const clientData: Client[] = await fetchClients()
-                setClients(clientData)
-            } catch (error) {
-                console.error('Error fetching clients:', error)
-            } finally {
-                setLoading(false)
-            }
+    const fetchClientData = async () => {
+        try {
+            console.log('Fetching clients...')
+            const clientData: Client[] = await fetchClients()
+            setClients(clientData)
+        } catch (error) {
+            console.error('Error fetching clients:', error)
+        } finally {
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         fetchClientData()
     }, [])
 
@@ -29,5 +30,11 @@ export const useClients = () => {
         }))
     }
 
-    return { clients, loading, expanded, toggleExpand }
+    return {
+        clients,
+        loading,
+        expanded,
+        toggleExpand,
+        fetchClients: fetchClientData,
+    }
 }

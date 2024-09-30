@@ -14,11 +14,13 @@ import { Presupuesto, Client } from '@/@types/clientInfo'
 type PresupuestoRowProps = {
     presupuesto: Presupuesto
     clientId: string
+    onDelete: () => void
 }
 
 const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
     presupuesto,
     clientId,
+    onDelete,
 }) => {
     return (
         <tr key={presupuesto.PresupuestoCodigo}>
@@ -45,6 +47,7 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
                 <PresupuestoModal
                     presupuesto={presupuesto}
                     clientId={clientId}
+                    onDelete={onDelete}
                 />
             </Td>
         </tr>

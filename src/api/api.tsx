@@ -88,12 +88,38 @@ export const fetchClients = async (): Promise<any> => {
     }
 }
 
+export const fetchClientById = async (clienteId: string): Promise<any> => {
+    const CLIENT_ENDPOINT: string = `/clients/obtenerClientePorId/${clienteId}`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${CLIENT_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error('Cliente no encontrado')
+            }
+            throw new Error(`Error al obtener el cliente: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener el cliente:', error)
+        throw error
+    }
+}
+
 ////////////PAYMENTS////////////////////
 
 export const createPayment = async (
     clientCUIT: string,
     presupuestoCodigo: string,
-    fechaPago: Date,
+    fechaPago: string,
     pagoCondicion: string,
     pagoConcepto: string,
     pagoComprobante: string,

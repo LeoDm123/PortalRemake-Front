@@ -9,56 +9,64 @@ import TBody from '@/components/ui/Table/TBody'
 import Td from '@/components/ui/Table/Td'
 import DeleteButton from '../../DeleteButton'
 import { deletePayment } from '@/api/api'
-import { Notification } from '@/components/ui'
+import Swal from 'sweetalert2'
+import '../clientViewStyles.css'
 
 type PagosListProps = {
     pagos: Pago[]
     clientId: string
     presupuestoId: string
+    onDelete: () => void
 }
 
 const PagosList: React.FC<PagosListProps> = ({
     pagos,
     clientId,
     presupuestoId,
+    onDelete,
 }) => {
-    const [showNotification, setShowNotification] = useState(false)
-    const [showSuccessNotification, setShowSuccessNotification] =
-        useState(false)
     const [selectedPagoId, setSelectedPagoId] = useState<string | null>(null)
 
-    const handleDelete = async () => {
-        if (!selectedPagoId) return
+    const handleDelete = async (pagoId: string) => {
+        if (!pagoId) return
 
         try {
-            const success = await deletePayment(
-                clientId,
-                presupuestoId,
-                selectedPagoId,
-            )
+            const success = await deletePayment(clientId, presupuestoId, pagoId)
             if (success) {
-                console.log('Pago eliminado correctamente')
-                setShowSuccessNotification(true)
+                Swal.fire({
+                    title: 'Eliminado',
+                    text: 'El pago ha sido eliminado correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                })
+                onDelete()
             }
         } catch (error) {
             console.error('Error al eliminar el pago:', error)
-        } finally {
-            setShowNotification(false)
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al eliminar el pago.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+            })
         }
     }
 
     const handleConfirmDelete = (pagoId: string) => {
-        setSelectedPagoId(pagoId)
-        setShowNotification(true)
-    }
-
-    const handleCloseNotification = () => {
-        setShowNotification(false)
-        setSelectedPagoId(null)
-    }
-
-    const handleCloseSuccessNotification = () => {
-        setShowSuccessNotification(false)
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas eliminar este pago?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDelete(pagoId)
+            }
+        })
     }
 
     return (
@@ -107,43 +115,6 @@ const PagosList: React.FC<PagosListProps> = ({
                 </Table>
             ) : (
                 <p>No hay pagos realizados.</p>
-            )}
-
-            {showNotification && (
-                <Notification
-                    type="danger"
-                    title="Confirmar eliminación"
-                    centered={true}
-                    duration={30000}
-                    onClose={handleCloseNotification}
-                >
-                    <p>¿Estás seguro de que deseas eliminar este pago?</p>
-                    <div className="mt-4 flex justify-end">
-                        <button
-                            className="mr-2 px-4 py-2 bg-red-600 text-white rounded"
-                            onClick={handleDelete}
-                        >
-                            Sí, eliminar
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-gray-200 rounded"
-                            onClick={handleCloseNotification}
-                        >
-                            Cancelar
-                        </button>
-                    </div>
-                </Notification>
-            )}
-
-            {showSuccessNotification && (
-                <Notification
-                    type="success"
-                    title="Éxito"
-                    closable
-                    onClose={handleCloseSuccessNotification}
-                >
-                    El pago ha sido eliminado correctamente.
-                </Notification>
             )}
         </>
     )
