@@ -188,69 +188,77 @@ export const deletePayment = async (
     }
 }
 
-////////////INCOMES////////////////////
+////////////PRESUPUESTOS////////////////////
 
-export const createIncome = async (
-    email: string,
-    comentarios: string,
-    categoria: string,
-    subCategoria: string,
-    monto: number,
-    divisa: string,
-    fechaPago: Date,
-    repetir: string,
+export const createPresupuesto = async (
+    presupuestoCodigo: string,
+    condicionFacturacion: string,
+    iva: number,
+    precio: number,
+    total: number,
+    clientCUIT: string,
+    estado: string,
 ): Promise<any> => {
-    const INCOME_ENDPOINT: string = '/income/createIncome'
+    const PRESUPUESTO_ENDPOINT: string = '/pres/crearPresupuesto'
 
     try {
-        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
+        const response = await fetch(`${API_BASE_URL}${PRESUPUESTO_ENDPOINT}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email,
-                comentarios,
-                categoria,
-                subCategoria,
-                monto,
-                divisa,
-                fechaPago,
-                repetir,
+                PresupuestoCodigo: presupuestoCodigo,
+                CondicionFacturacion: condicionFacturacion,
+                IVA: iva,
+                Precio: precio,
+                Total: total,
+                ClientCUIT: clientCUIT,
+                Estado: estado,
             }),
         })
 
         if (!response.ok) {
-            throw new Error(`Error al registrar ingreso: ${response.status}`)
+            throw new Error(
+                `Error al registrar presupuesto: ${response.status}`,
+            )
         }
 
         const data = await response.json()
         return data
     } catch (error) {
-        console.error('Error al registrar ingreso:', error)
+        console.error('Error al registrar presupuesto:', error)
         throw error
     }
 }
 
-export const fetchIncomes = async (email: string): Promise<any> => {
-    const INCOME_ENDPOINT: string = `/income/fetchIncomes?email=${encodeURIComponent(email)}`
+export const deletePres = async (
+    clientId: string,
+    presupuestoId: string,
+): Promise<boolean> => {
+    const DELETE_EXPENSE_ENDPOINT: string = `/pres/deletePres/${clientId}/${presupuestoId}`
 
     try {
-        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_EXPENSE_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             },
-        })
+        )
 
         if (!response.ok) {
-            throw new Error(`Error al obtener los ingresos: ${response.status}`)
+            throw new Error(
+                `Error al borrar el presupuesto: ${response.status}`,
+            )
         }
 
-        const data = await response.json()
-        return data
+        console.log('Presupuesto borrado correctamente')
+        return true
     } catch (error) {
-        console.error('Error al obtener los ingresos:', error)
+        console.error('Error al borrar el presupuesto:', error)
         throw error
     }
 }

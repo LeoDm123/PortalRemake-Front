@@ -5,7 +5,7 @@ export type Presupuesto = {
     PresupuestoCodigo: string
     Total: number
     Pagos: Pago[]
-    Estado: 'Activo' | 'Deudor' | 'Otro'
+    Estado: 'Activo' | 'Cerrado' | 'Otro'
     _id: string
 }
 

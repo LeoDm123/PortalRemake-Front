@@ -25,8 +25,6 @@ const PagosList: React.FC<PagosListProps> = ({
     presupuestoId,
     onDelete,
 }) => {
-    const [selectedPagoId, setSelectedPagoId] = useState<string | null>(null)
-
     const handleDelete = async (pagoId: string) => {
         if (!pagoId) return
 

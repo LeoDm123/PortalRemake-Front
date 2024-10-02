@@ -9,6 +9,7 @@ import ClientDetailsDropdown from '../Dropdown/ClientDropdown'
 import AddPresupuestoButton from '../Buttons/AddPresupuestoButton'
 import AddPagoButton from '../Buttons/AddPagoButton'
 import AddPagoModal from '../Modal/AddPagoModal'
+import AddPresupuestoModal from '../Modal/AddPresupuestoModal'
 
 type Props = {
     client: Client
@@ -25,10 +26,16 @@ const ClientCardItem: React.FC<Props> = ({
     totalDebt,
     fetchClients,
 }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isPagoModalOpen, setIsPagoModalOpen] = useState(false)
+    const [isPresupuestoModalOpen, setIsPresupuestoModalOpen] = useState(false)
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen)
+    const togglePresupuestoModal = () => {
+        setIsPresupuestoModalOpen(!isPresupuestoModalOpen)
+        console.log('togglePresupuestoModal')
+    }
+
+    const togglePagoModal = () => {
+        setIsPagoModalOpen(!isPagoModalOpen)
     }
 
     const handleDelete = () => {
@@ -36,7 +43,12 @@ const ClientCardItem: React.FC<Props> = ({
     }
 
     const handleSubmitPay = () => {
-        toggleModal()
+        togglePagoModal()
+        fetchClients()
+    }
+
+    const handleSubmitPresupuesto = () => {
+        togglePresupuestoModal()
         fetchClients()
     }
 
@@ -52,8 +64,8 @@ const ClientCardItem: React.FC<Props> = ({
                         </h5>
 
                         <ClientDetailsDropdown client={client} />
-                        <AddPresupuestoButton />
-                        <AddPagoButton isOpen={toggleModal} />
+                        <AddPresupuestoButton isOpen={togglePresupuestoModal} />
+                        <AddPagoButton isOpen={togglePagoModal} />
                     </div>
 
                     <div className="flex items-center">
@@ -96,8 +108,15 @@ const ClientCardItem: React.FC<Props> = ({
             </div>
 
             <AddPagoModal
-                isOpen={isModalOpen}
-                toggleModal={toggleModal}
+                isOpen={isPagoModalOpen}
+                toggleModal={togglePagoModal}
+                selectedClientIndex={client._id}
+                onSubmitPay={handleSubmitPay}
+            />
+
+            <AddPresupuestoModal
+                isOpen={isPresupuestoModalOpen}
+                toggleModal={togglePresupuestoModal}
                 selectedClientIndex={client._id}
                 onSubmitPay={handleSubmitPay}
             />
