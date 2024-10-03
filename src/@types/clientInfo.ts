@@ -30,6 +30,6 @@ export type Client = {
     ClientEmail: string
     ClientIVACond: string
     ClientTel: string
-    ClientStatus: string
+    ClientStatus: 'Activo' | 'Deudor'
     Presupuestos: Presupuesto[]
 }

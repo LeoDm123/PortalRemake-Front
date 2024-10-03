@@ -66,3 +66,18 @@
     min-width: 50px;
     max-width: 50px;
 }
+
+.table-container {
+    width: 100%;
+}
+
+.table-body-container {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
+
+.table-body-container table {
+    width: 100%;
+}

@@ -20,6 +20,21 @@ export const calculateTotalPayments = (presupuesto: Presupuesto): number => {
     ])
 }
 
+export const calculateTotalDiscounts = (presupuesto: Presupuesto): number => {
+    return calculatePaymentsByConcept(presupuesto, ['Descuento Extra'])
+}
+
+export const calculateTotalTaxes = (presupuesto: Presupuesto): number => {
+    return calculatePaymentsByConcept(presupuesto, ['Retención de Impuestos'])
+}
+
+export const calculateTotalPaybacks = (presupuesto: Presupuesto): number => {
+    return calculatePaymentsByConcept(presupuesto, [
+        'Devolución Parcial',
+        'Devolución Completa',
+    ])
+}
+
 export const calculateActualizacion = (presupuesto: Presupuesto): number => {
     return calculatePaymentsByConcept(presupuesto, ['Actualización'])
 }
@@ -30,8 +45,19 @@ export const calculateExtra = (presupuesto: Presupuesto): number => {
 
 export const calculateSaldo = (presupuesto: Presupuesto): number => {
     const Pagos = calculateTotalPayments(presupuesto)
+    const Descuentos = calculateTotalDiscounts(presupuesto)
+    const Impuestos = calculateTotalTaxes(presupuesto)
+    const Devoluciones = calculateTotalPaybacks(presupuesto)
     const Extras = calculateExtra(presupuesto)
     const Actualizacion = calculateActualizacion(presupuesto)
 
-    return presupuesto.Total - Pagos + Extras + Actualizacion
+    return (
+        presupuesto.Total -
+        Pagos -
+        Descuentos -
+        Impuestos +
+        Devoluciones +
+        Extras +
+        Actualizacion
+    )
 }

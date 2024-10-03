@@ -7,21 +7,32 @@ export const calculateTotalDebt = (presupuestos: Presupuesto[]): number => {
                 concepts.includes(pago.PagoConcepto),
             ).reduce((acc, pago) => acc + pago.PagoMonto, 0) || 0
 
-        const anticipoSaldoPayments = totalPayments([
+        const Payments = totalPayments([
             'Anticipo Parcial',
             'Anticipo Completo',
             'Saldo Parcial',
             'Saldo Completo',
         ])
-        const actualizacionPayments = totalPayments(['Actualización'])
-        const extraPayments = totalPayments(['Extra'])
+
+        const Discounts = totalPayments(['Descuento Extra'])
+
+        const Paybacks = totalPayments([
+            'Devolución Parcial',
+            'Devolución Completa',
+        ])
+        const Taxes = totalPayments(['Retención de Impuestos'])
+        const Updates = totalPayments(['Actualización'])
+        const Extra = totalPayments(['Extra'])
 
         return (
             sum +
             (presupuesto.Total -
-                anticipoSaldoPayments +
-                actualizacionPayments +
-                extraPayments)
+                Payments -
+                Discounts -
+                Taxes +
+                Paybacks +
+                Updates +
+                Extra)
         )
     }, 0)
 }

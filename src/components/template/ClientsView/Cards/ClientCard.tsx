@@ -16,11 +16,7 @@ const ClientCard: React.FC<ClientCardProps> = ({ sortDirection }) => {
     }
 
     const sortedClients = clients
-        .filter((client) =>
-            client.Presupuestos.some(
-                (p) => p.Estado === 'Activo' || p.Estado === 'Deudor',
-            ),
-        )
+        .filter((client) => client.ClientStatus === 'Activo')
         .sort((a, b) => {
             const lastNameA = a.ClientApellido?.toLowerCase() || ''
             const lastNameB = b.ClientApellido?.toLowerCase() || ''

@@ -13,6 +13,11 @@ type Props = {
     submitRef: React.MutableRefObject<() => void>
 }
 
+interface Option {
+    value: string
+    label: string
+}
+
 const AddPagoForm: React.FC<Props> = ({
     selectedClientIndex,
     onSubmitPay,
@@ -20,6 +25,7 @@ const AddPagoForm: React.FC<Props> = ({
 }) => {
     const [clientByID, setClientByID] = useState<Client | null>(null)
     const [message, setMessage] = useState('')
+    const [conceptOptions, setConceptOptions] = useState<Option[]>([])
 
     useEffect(() => {
         const loadClient = async () => {
@@ -59,6 +65,34 @@ const AddPagoForm: React.FC<Props> = ({
         Comentarios: Yup.string(),
     })
 
+    const handlePagoCondicionChange = (newValue: string) => {
+        const conceptoOptionsMap: { [key: string]: Option[] } = {
+            Pago: [
+                { value: 'Anticipo Parcial', label: 'Anticipo Parcial' },
+                { value: 'Anticipo Completo', label: 'Anticipo Completo' },
+                { value: 'Saldo Parcial', label: 'Saldo Parcial' },
+                { value: 'Saldo Completo', label: 'Saldo Completo' },
+            ],
+            ND: [
+                { value: 'Actualización', label: 'Actualización' },
+                { value: 'Extra', label: 'Extra' },
+                { value: 'Devolución Parcial', label: 'Devolución Parcial' },
+                { value: 'Devolución Completa', label: 'Devolución Completa' },
+            ],
+            NC: [
+                { value: 'Descuento Extra', label: 'Descuento Extra' },
+                {
+                    value: 'Retención de Impuestos',
+                    label: 'Retención de Impuestos',
+                },
+            ],
+        }
+
+        const options = conceptoOptionsMap[newValue] || []
+
+        setConceptOptions(options)
+    }
+
     return (
         <Formik
             initialValues={initialValues}
@@ -95,8 +129,7 @@ const AddPagoForm: React.FC<Props> = ({
                 setSubmitting(false)
             }}
         >
-            {({ submitForm, errors, touched, isSubmitting }) => {
-                // Asigna el submitForm al submitRef
+            {({ submitForm, errors, touched, setFieldValue, values }) => {
                 submitRef.current = submitForm
 
                 return (
@@ -280,6 +313,10 @@ const AddPagoForm: React.FC<Props> = ({
                                                                 ? newValue.value
                                                                 : '',
                                                         )
+                                                        handlePagoCondicionChange(
+                                                            newValue?.value ||
+                                                                '',
+                                                        )
                                                     }}
                                                     isClearable
                                                 />
@@ -301,35 +338,8 @@ const AddPagoForm: React.FC<Props> = ({
                                 >
                                     <Field name="PagoConcepto">
                                         {({ field, form }: FieldProps) => {
-                                            const conceptoOptions = [
-                                                {
-                                                    value: 'Anticipo Parcial',
-                                                    label: 'Anticipo Parcial',
-                                                },
-                                                {
-                                                    value: 'Anticipo Completo',
-                                                    label: 'Anticipo Completo',
-                                                },
-                                                {
-                                                    value: 'Saldo Parcial',
-                                                    label: 'Saldo Parcial',
-                                                },
-                                                {
-                                                    value: 'Saldo Completo',
-                                                    label: 'Saldo Completo',
-                                                },
-                                                {
-                                                    value: 'Actualización',
-                                                    label: 'Actualización',
-                                                },
-                                                {
-                                                    value: 'Extra',
-                                                    label: 'Extra',
-                                                },
-                                            ]
-
                                             const selectedConcepto =
-                                                conceptoOptions.find(
+                                                conceptOptions.find(
                                                     (option) =>
                                                         option.value ===
                                                         field.value,
@@ -341,7 +351,7 @@ const AddPagoForm: React.FC<Props> = ({
                                                     value={
                                                         selectedConcepto || null
                                                     }
-                                                    options={conceptoOptions}
+                                                    options={conceptOptions}
                                                     placeholder="Seleccionar concepto de pago"
                                                     onChange={(
                                                         newValue: {

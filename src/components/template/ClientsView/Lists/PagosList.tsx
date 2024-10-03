@@ -11,6 +11,7 @@ import DeleteButton from '../../DeleteButton'
 import { deletePayment } from '@/api/api'
 import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
+import DividerMain from '../../DividerMain'
 
 type PagosListProps = {
     pagos: Pago[]
@@ -72,45 +73,55 @@ const PagosList: React.FC<PagosListProps> = ({
             <h5 className="mb-1" style={{ color: '#01662b' }}>
                 Pagos Realizados
             </h5>
+            <DividerMain />
             {pagos.length > 0 ? (
-                <Table>
-                    <THead>
-                        <Th>Concepto</Th>
-                        <Th>Monto</Th>
-                        <Th>Fecha</Th>
-                        <Th>Comprobante</Th>
-                        <Th>Comentarios</Th>
-                        <Th className="w-1/12"></Th>
-                    </THead>
-                    <TBody>
-                        {pagos.map((pago, index) => (
-                            <tr key={index}>
-                                <Td className="text-center no-wrap w-2/12">
-                                    {pago.PagoConcepto}
-                                </Td>
-                                <Td className="text-center no-wrap w-2/12">
-                                    {formatCurrency(pago.PagoMonto)}
-                                </Td>
-                                <Td className="text-center no-wrap w-2/12">
-                                    {pago.FechaPago}
-                                </Td>
-                                <Td className="text-center no-wrap w-2/12">
-                                    {pago.PagoComprobante}
-                                </Td>
-                                <Td className="text-center no-wrap w-2/12">
-                                    {pago.Comentarios}
-                                </Td>
-                                <Td className="text-center no-wrap">
-                                    <DeleteButton
-                                        onDelete={() =>
-                                            handleConfirmDelete(pago._id)
-                                        }
-                                    />
-                                </Td>
-                            </tr>
-                        ))}
-                    </TBody>
-                </Table>
+                <div className="table-container">
+                    <Table>
+                        <THead>
+                            <Th>Concepto</Th>
+                            <Th>Monto</Th>
+                            <Th>Fecha</Th>
+                            <Th>Comprobante</Th>
+                            <Th>Comentarios</Th>
+                            <Th className="w-1/12"></Th>
+                        </THead>
+                    </Table>
+
+                    <div className="table-body-container">
+                        <Table>
+                            <TBody>
+                                {pagos.map((pago, index) => (
+                                    <tr key={index}>
+                                        <Td className="text-center no-wrap w-2/12">
+                                            {pago.PagoConcepto}
+                                        </Td>
+                                        <Td className="text-center no-wrap w-2/12">
+                                            {formatCurrency(pago.PagoMonto)}
+                                        </Td>
+                                        <Td className="text-center no-wrap w-2/12">
+                                            {pago.FechaPago}
+                                        </Td>
+                                        <Td className="text-center no-wrap w-2/12">
+                                            {pago.PagoComprobante}
+                                        </Td>
+                                        <Td className="text-center no-wrap w-2/12">
+                                            {pago.Comentarios}
+                                        </Td>
+                                        <Td className="text-center no-wrap">
+                                            <DeleteButton
+                                                onDelete={() =>
+                                                    handleConfirmDelete(
+                                                        pago._id,
+                                                    )
+                                                }
+                                            />
+                                        </Td>
+                                    </tr>
+                                ))}
+                            </TBody>
+                        </Table>
+                    </div>
+                </div>
             ) : (
                 <p>No hay pagos realizados.</p>
             )}

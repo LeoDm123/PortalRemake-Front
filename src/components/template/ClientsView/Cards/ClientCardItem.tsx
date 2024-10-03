@@ -31,7 +31,6 @@ const ClientCardItem: React.FC<Props> = ({
 
     const togglePresupuestoModal = () => {
         setIsPresupuestoModalOpen(!isPresupuestoModalOpen)
-        console.log('togglePresupuestoModal')
     }
 
     const togglePagoModal = () => {
@@ -118,7 +117,7 @@ const ClientCardItem: React.FC<Props> = ({
                 isOpen={isPresupuestoModalOpen}
                 toggleModal={togglePresupuestoModal}
                 selectedClientIndex={client._id}
-                onSubmitPay={handleSubmitPay}
+                onSubmitPay={handleSubmitPresupuesto}
             />
         </Card>
     )

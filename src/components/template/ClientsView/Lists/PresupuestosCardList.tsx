@@ -23,27 +23,31 @@ const PresupuestosCardList: React.FC<PresupuestosCardListProps> = ({
         <div className="presupuestos-container">
             <div className="table-responsive">
                 <DividerMain />
-                <Table className="table-auto w-full">
-                    <THead>
-                        <Th>Codigo</Th>
-                        <Th>Total a Pagar</Th>
-                        <Th>Total Pagado</Th>
-                        <Th>Actualiz.</Th>
-                        <Th>Extras</Th>
-                        <Th>Saldo</Th>
-                        <Th></Th>
-                    </THead>
-                    <TBody>
-                        {presupuestos.map((presupuesto) => (
-                            <PresupuestoRow
-                                key={presupuesto.PresupuestoCodigo}
-                                presupuesto={presupuesto}
-                                clientId={clientId}
-                                onDelete={onDelete}
-                            />
-                        ))}
-                    </TBody>
-                </Table>
+                {presupuestos.length > 0 ? (
+                    <Table className="table-auto w-full">
+                        <THead>
+                            <Th>Codigo</Th>
+                            <Th>Total a Pagar</Th>
+                            <Th>Actualiz.</Th>
+                            <Th>Extras</Th>
+                            <Th>Total Pagado</Th>
+                            <Th>Saldo</Th>
+                            <Th></Th>
+                        </THead>
+                        <TBody>
+                            {presupuestos.map((presupuesto) => (
+                                <PresupuestoRow
+                                    key={presupuesto.PresupuestoCodigo}
+                                    presupuesto={presupuesto}
+                                    clientId={clientId}
+                                    onDelete={onDelete}
+                                />
+                            ))}
+                        </TBody>
+                    </Table>
+                ) : (
+                    <p>El cliente no tiene presupuestos asociados</p>
+                )}
             </div>
         </div>
     )

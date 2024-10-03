@@ -6,6 +6,7 @@ import {
     calculateActualizacion,
     calculateExtra,
     calculateSaldo,
+    calculateTotalPaybacks,
 } from '@/utils/hooks/paymentCalculations'
 import PresupuestoModal from '../Modal/PresupuestoModal'
 import '../clientViewStyles.css'
@@ -67,39 +68,47 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
         })
     }
 
-    return (
-        <tr key={presupuesto.PresupuestoCodigo}>
-            <Td className="text-center no-wrap ">
-                {presupuesto.PresupuestoCodigo}
-            </Td>
+    if (presupuesto) {
+        return (
+            <tr key={presupuesto.PresupuestoCodigo}>
+                <Td className="text-center no-wrap ">
+                    {presupuesto.PresupuestoCodigo}
+                </Td>
 
-            <Td className="text-center no-wrap ">
-                {formatCurrency(presupuesto.Total)}
-            </Td>
-            <Td className="text-center no-wrap ">
-                {formatCurrency(calculateTotalPayments(presupuesto))}
-            </Td>
-            <Td className="text-center no-wrap ">
-                {formatCurrency(calculateActualizacion(presupuesto))}
-            </Td>
-            <Td className="text-center no-wrap ">
-                {formatCurrency(calculateExtra(presupuesto))}
-            </Td>
-            <Td className="text-center no-wrap ">
-                {formatCurrency(calculateSaldo(presupuesto))}
-            </Td>
-            <Td className="text-center flex justify-between items-center">
-                <PresupuestoModal
-                    presupuesto={presupuesto}
-                    clientId={clientId}
-                    onDelete={onDelete}
-                />
-                <DeleteButton
-                    onDelete={() => handleConfirmDelete(presupuesto._id)}
-                />
-            </Td>
-        </tr>
-    )
+                <Td className="text-center no-wrap ">
+                    {formatCurrency(presupuesto.Total)}
+                </Td>
+
+                <Td className="text-center no-wrap ">
+                    {formatCurrency(calculateActualizacion(presupuesto))}
+                </Td>
+                <Td className="text-center no-wrap ">
+                    {formatCurrency(calculateExtra(presupuesto))}
+                </Td>
+                <Td className="text-center no-wrap ">
+                    {formatCurrency(
+                        calculateTotalPayments(presupuesto) +
+                            calculateTotalPaybacks(presupuesto),
+                    )}
+                </Td>
+                <Td className="text-center no-wrap ">
+                    {formatCurrency(calculateSaldo(presupuesto))}
+                </Td>
+                <Td className="text-center flex justify-between items-center">
+                    <PresupuestoModal
+                        presupuesto={presupuesto}
+                        clientId={clientId}
+                        onDelete={onDelete}
+                    />
+                    <DeleteButton
+                        onDelete={() => handleConfirmDelete(presupuesto._id)}
+                    />
+                </Td>
+            </tr>
+        )
+    } else {
+        return <h5>El cliente no tiene presupuestos asociados</h5>
+    }
 }
 
 export default PresupuestoRow
