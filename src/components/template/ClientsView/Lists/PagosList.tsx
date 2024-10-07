@@ -109,6 +109,7 @@ const PagosList: React.FC<PagosListProps> = ({
                                         </Td>
                                         <Td className="text-center no-wrap">
                                             <DeleteButton
+                                                size="small"
                                                 onDelete={() =>
                                                     handleConfirmDelete(
                                                         pago._id,

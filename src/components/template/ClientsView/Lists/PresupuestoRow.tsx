@@ -3,11 +3,11 @@ import Td from '@/components/ui/Table/Td'
 import formatCurrency from '@/utils/hooks/formatCurrency'
 import {
     calculateTotalPayments,
-    calculateActualizacion,
-    calculateExtra,
-    calculateSaldo,
+    calculateTotalUpdate,
+    calculateTotalExtra,
+    calculateDebt,
     calculateTotalPaybacks,
-} from '@/utils/hooks/paymentCalculations'
+} from '@/utils/hooks/calculateDebt'
 import PresupuestoModal from '../Modal/PresupuestoModal'
 import '../clientViewStyles.css'
 import { Presupuesto } from '@/@types/clientInfo'
@@ -80,10 +80,10 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
                 </Td>
 
                 <Td className="text-center no-wrap ">
-                    {formatCurrency(calculateActualizacion(presupuesto))}
+                    {formatCurrency(calculateTotalUpdate(presupuesto))}
                 </Td>
                 <Td className="text-center no-wrap ">
-                    {formatCurrency(calculateExtra(presupuesto))}
+                    {formatCurrency(calculateTotalExtra(presupuesto))}
                 </Td>
                 <Td className="text-center no-wrap ">
                     {formatCurrency(
@@ -92,7 +92,7 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
                     )}
                 </Td>
                 <Td className="text-center no-wrap ">
-                    {formatCurrency(calculateSaldo(presupuesto))}
+                    {formatCurrency(calculateDebt(presupuesto))}
                 </Td>
                 <Td className="text-center flex justify-between items-center">
                     <PresupuestoModal
@@ -101,6 +101,7 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
                         onDelete={onDelete}
                     />
                     <DeleteButton
+                        size="small"
                         onDelete={() => handleConfirmDelete(presupuesto._id)}
                     />
                 </Td>

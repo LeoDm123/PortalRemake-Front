@@ -4,12 +4,19 @@ import '../clientViewStyles.css'
 
 type ClientsCardListProps = {
     sortDirection: 'asc' | 'desc' | undefined
+    onClientSubmit: () => void
 }
 
-const ClientsCardList: React.FC<ClientsCardListProps> = ({ sortDirection }) => {
+const ClientsCardList: React.FC<ClientsCardListProps> = ({
+    sortDirection,
+    onClientSubmit,
+}) => {
     return (
         <div className="clients-container">
-            <ClientCard sortDirection={sortDirection} />
+            <ClientCard
+                sortDirection={sortDirection}
+                onClientSubmit={onClientSubmit}
+            />
         </div>
     )
 }

@@ -10,6 +10,9 @@ import AddPresupuestoButton from '../Buttons/AddPresupuestoButton'
 import AddPagoButton from '../Buttons/AddPagoButton'
 import AddPagoModal from '../Modal/AddPagoModal'
 import AddPresupuestoModal from '../Modal/AddPresupuestoModal'
+import DeleteButton from '../../DeleteButton'
+import { deleteClient } from '@/api/api'
+import Swal from 'sweetalert2'
 
 type Props = {
     client: Client
@@ -51,6 +54,48 @@ const ClientCardItem: React.FC<Props> = ({
         fetchClients()
     }
 
+    const clientDelete = async (clientId: string) => {
+        if (!clientId) return
+
+        try {
+            const success = await deleteClient(clientId)
+            if (success) {
+                Swal.fire({
+                    title: 'Eliminado',
+                    text: 'El cliente ha sido eliminado correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                })
+                handleDelete()
+            }
+        } catch (error) {
+            console.error('Error al eliminar el cliente:', error)
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al eliminar el cliente.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+            })
+        }
+    }
+
+    const handleConfirmDelete = (clientId: string) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas eliminar este cliente?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                clientDelete(clientId)
+            }
+        })
+    }
+
     return (
         <Card key={client._id} className="card-shadow mb-2 bg-gray">
             <div>
@@ -65,6 +110,10 @@ const ClientCardItem: React.FC<Props> = ({
                         <ClientDetailsDropdown client={client} />
                         <AddPresupuestoButton isOpen={togglePresupuestoModal} />
                         <AddPagoButton isOpen={togglePagoModal} />
+                        <DeleteButton
+                            size="medium"
+                            onDelete={() => handleConfirmDelete(client._id)}
+                        />
                     </div>
 
                     <div className="flex items-center">
@@ -94,7 +143,9 @@ const ClientCardItem: React.FC<Props> = ({
                 </div>
 
                 <div
-                    className={`content-wrapper ${expanded ? 'expanded' : 'collapsed'}`}
+                    className={`content-wrapper ${
+                        expanded ? 'expanded' : 'collapsed'
+                    }`}
                 >
                     <div className="mt-3">
                         <PresupuestosCardList

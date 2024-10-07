@@ -1,18 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useClients } from '@/utils/hooks/useClients'
-import { calculateTotalDebt } from '@/utils/hooks/calculateDebt'
+import { calculateTotalDebt } from '@/utils/hooks/calculateClientDebt'
 import ClientCardItem from './ClientCardItem'
+import { Skeleton } from '@/components/ui'
 
 type ClientCardProps = {
     sortDirection: 'asc' | 'desc' | undefined
+    onClientSubmit: () => void
 }
 
-const ClientCard: React.FC<ClientCardProps> = ({ sortDirection }) => {
+const ClientCard: React.FC<ClientCardProps> = ({
+    sortDirection,
+    onClientSubmit,
+}) => {
     const { clients, loading, expanded, toggleExpand, fetchClients } =
         useClients()
 
+    useEffect(() => {
+        fetchClients()
+    }, [onClientSubmit, fetchClients])
+
     if (loading) {
-        return <div>Loading...</div>
+        return (
+            <div>
+                {Array.from(new Array(5)).map((_, index) => (
+                    <Skeleton
+                        key={index}
+                        width="100%"
+                        height={100}
+                        style={{ marginBottom: '10px' }}
+                    />
+                ))}
+            </div>
+        )
     }
 
     const sortedClients = clients

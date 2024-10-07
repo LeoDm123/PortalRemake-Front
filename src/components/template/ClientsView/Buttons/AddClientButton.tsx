@@ -1,11 +1,18 @@
 import { IconButton } from '@mui/material'
+import React from 'react'
 import { HiOutlineUserAdd } from 'react-icons/hi'
 
-const AddClientButton = () => {
+type AddClientButtonProps = {
+    isOpen: () => void
+}
+
+const AddClientButton: React.FC<AddClientButtonProps> = ({ isOpen }) => {
     return (
-        <IconButton>
-            <HiOutlineUserAdd style={{ color: '#01662b' }} />
-        </IconButton>
+        <div>
+            <IconButton onClick={isOpen}>
+                <HiOutlineUserAdd style={{ color: '#01662b' }} />
+            </IconButton>
+        </div>
     )
 }
 

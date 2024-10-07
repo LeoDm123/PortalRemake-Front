@@ -26,13 +26,13 @@ const PresupuestosCardList: React.FC<PresupuestosCardListProps> = ({
                 {presupuestos.length > 0 ? (
                     <Table className="table-auto w-full">
                         <THead>
-                            <Th>Codigo</Th>
-                            <Th>Total a Pagar</Th>
-                            <Th>Actualiz.</Th>
-                            <Th>Extras</Th>
-                            <Th>Total Pagado</Th>
-                            <Th>Saldo</Th>
-                            <Th></Th>
+                            <Th className="pt-1">Codigo</Th>
+                            <Th className="pt-1">Total a Pagar</Th>
+                            <Th className="pt-1">Actualiz.</Th>
+                            <Th className="pt-1">Extras</Th>
+                            <Th className="pt-1">Total Pagado</Th>
+                            <Th className="pt-1">Saldo</Th>
+                            <Th className="pt-1"></Th>
                         </THead>
                         <TBody>
                             {presupuestos.map((presupuesto) => (

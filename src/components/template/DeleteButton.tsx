@@ -4,12 +4,12 @@ import React from 'react'
 
 type DeleteButtonProps = {
     onDelete: () => void
-    icon?: React.ReactNode
+    size: 'small' | 'medium' | 'large'
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, icon }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, size }) => {
     return (
-        <IconButton size="small" onClick={onDelete}>
+        <IconButton size={size} onClick={onDelete}>
             <HiOutlineTrash />
         </IconButton>
     )
