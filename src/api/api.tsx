@@ -186,6 +186,33 @@ export const deleteClient = async (clientId: string): Promise<boolean> => {
     }
 }
 
+export const editClient = async (
+    clientId: string,
+    updatedClientData: any,
+): Promise<any> => {
+    const CLIENT_ENDPOINT: string = `/clients/editCliente/${clientId}`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${CLIENT_ENDPOINT}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedClientData),
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al editar el cliente: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al editar el cliente:', error)
+        throw error
+    }
+}
+
 ////////////PAYMENTS////////////////////
 
 export const createPayment = async (

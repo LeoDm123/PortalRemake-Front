@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Dropdown } from '@/components/ui'
 import { HiOutlineMenuAlt2, HiOutlineUser } from 'react-icons/hi'
 import { Client } from '@/@types/clientInfo'
 import { IconButton } from '@mui/material'
+import EditButton from '../../EditButton'
+import EditClientModal from '../Modal/EditClientModal'
+import { fetchClients } from '@/api/api'
 
 type ClientDetailsDropdownProps = {
     client: Client
@@ -11,6 +14,16 @@ type ClientDetailsDropdownProps = {
 const ClientDetailsDropdown: React.FC<ClientDetailsDropdownProps> = ({
     client,
 }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const handleEdit = () => {
+        fetchClients()
+    }
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
     const ClientAvatar = (
         <IconButton className="flex items-center gap-2">
             <HiOutlineMenuAlt2 />
@@ -18,34 +31,44 @@ const ClientDetailsDropdown: React.FC<ClientDetailsDropdownProps> = ({
     )
 
     return (
-        <Dropdown
-            menuStyle={{ minWidth: 350, minHeight: 100 }}
-            renderTitle={ClientAvatar}
-            placement="bottom-start"
-        >
-            <Dropdown.Item variant="header">
-                <div className="pt-3 px-3 flex items-center">
-                    <div>
-                        <p>
-                            <strong>Información del Cliente</strong>
-                        </p>
+        <>
+            <Dropdown
+                menuStyle={{ minWidth: 350, minHeight: 100 }}
+                renderTitle={ClientAvatar}
+                placement="bottom-start"
+            >
+                <Dropdown.Item variant="header">
+                    <div className=" pl-3 flex items-end justify-between">
+                        <div>
+                            <p>
+                                <strong>Información del Cliente</strong>
+                            </p>
+                        </div>
+                        <EditButton size="small" isOpen={toggleModal} />
                     </div>
-                </div>
-            </Dropdown.Item>
-            <Dropdown.Item variant="divider" />
-            <Dropdown.Item variant="header">
-                <div className="pb-3 px-3 flex items-center gap-2">
-                    <div>
-                        <p>Cond. IVA: {client.ClientIVACond}</p>
-                        <p>CUIT/CUIL: {client.ClientCUIT}</p>
-                        <p>DNI: {client.ClientDNI}</p>
-                        <p>Correo Electrónico: {client.ClientEmail}</p>
-                        <p>Teléfono: {client.ClientTel}</p>
-                        <p>Dirección: {client.ClientAdress}</p>
+                </Dropdown.Item>
+                <Dropdown.Item variant="divider" />
+                <Dropdown.Item variant="header">
+                    <div className="pb-3 pl-3 flex items-center gap-2">
+                        <div>
+                            <p>Cond. IVA: {client.ClientIVACond}</p>
+                            <p>CUIT/CUIL: {client.ClientCUIT}</p>
+                            <p>DNI: {client.ClientDNI}</p>
+                            <p>Correo Electrónico: {client.ClientEmail}</p>
+                            <p>Teléfono: {client.ClientTel}</p>
+                            <p>Dirección: {client.ClientAdress}</p>
+                        </div>
                     </div>
-                </div>
-            </Dropdown.Item>
-        </Dropdown>
+                </Dropdown.Item>
+            </Dropdown>
+
+            <EditClientModal
+                isOpen={isModalOpen}
+                toggleModal={toggleModal}
+                clientId={client._id}
+                onEditClient={handleEdit}
+            />
+        </>
     )
 }
 
