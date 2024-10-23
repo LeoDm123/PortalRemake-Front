@@ -78,11 +78,11 @@ const PagosList: React.FC<PagosListProps> = ({
                 <div className="table-container">
                     <Table>
                         <THead>
-                            <Th>Concepto</Th>
-                            <Th>Monto</Th>
-                            <Th>Fecha</Th>
-                            <Th>Comprobante</Th>
-                            <Th>Comentarios</Th>
+                            <Th className="pt-1">Concepto</Th>
+                            <Th className="pt-1">Monto</Th>
+                            <Th className="pt-1">Fecha</Th>
+                            <Th className="pt-1">Comprobante</Th>
+                            <Th className="pt-1">Comentarios</Th>
                             <Th className="w-1/12"></Th>
                         </THead>
                     </Table>

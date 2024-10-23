@@ -413,18 +413,6 @@ const AddPagoForm: React.FC<Props> = ({
                                 </FormItem>
                             </div>
                         </FormContainer>
-
-                        {message && (
-                            <div
-                                className={
-                                    message.includes('exitosamente')
-                                        ? 'alert alert-success mt-4'
-                                        : 'alert alert-danger mt-4'
-                                }
-                            >
-                                {message}
-                            </div>
-                        )}
                     </Form>
                 )
             }}

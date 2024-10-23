@@ -244,7 +244,7 @@ const AddPresupuestoForm: React.FC<Props> = ({
                                                         null
                                                     }
                                                     options={condicionOptions}
-                                                    placeholder="Seleccionar condición de facturación"
+                                                    placeholder="Seleccionar cond. de facturación"
                                                     onChange={(
                                                         newValue: {
                                                             value: string
@@ -291,18 +291,6 @@ const AddPresupuestoForm: React.FC<Props> = ({
                                 </FormItem>
                             </div>
                         </FormContainer>
-
-                        {message && (
-                            <div
-                                className={
-                                    message.includes('exitosamente')
-                                        ? 'alert alert-success mt-4'
-                                        : 'alert alert-danger mt-4'
-                                }
-                            >
-                                {message}
-                            </div>
-                        )}
                     </Form>
                 )
             }}

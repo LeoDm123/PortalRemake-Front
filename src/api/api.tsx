@@ -361,3 +361,54 @@ export const deletePres = async (
         throw error
     }
 }
+
+//////////////////////////////PEDIDOS//////////////////////////////
+
+export const fetchPedidosPerfiles = async (): Promise<any> => {
+    const PEDIDOS_ENDPOINT: string = `/pedidoPerfiles/obtenerPedidos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pedidos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error)
+        throw error
+    }
+}
+
+export const deletePedido = async (id: string): Promise<any> => {
+    const DELETE_PEDIDO_ENDPOINT: string = `/pedidos/eliminarPedido/${id}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_PEDIDO_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al eliminar el pedido: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al eliminar el pedido:', error)
+        throw error
+    }
+}
