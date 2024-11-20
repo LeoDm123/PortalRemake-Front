@@ -81,3 +81,9 @@
 .table-body-container table {
     width: 100%;
 }
+
+.fixed-width {
+    max-width: 25%;
+    white-space: normal;
+    overflow: hidden;
+}

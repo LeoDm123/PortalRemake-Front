@@ -20,12 +20,18 @@ type PagosListProps = {
     onDelete: () => void
 }
 
+const MAX_COMMENT_LENGTH = 50 // Longitud máxima antes de truncar el comentario
+
 const PagosList: React.FC<PagosListProps> = ({
     pagos,
     clientId,
     presupuestoId,
     onDelete,
 }) => {
+    const [expandedComments, setExpandedComments] = useState<{
+        [key: string]: boolean
+    }>({})
+
     const handleDelete = async (pagoId: string) => {
         if (!pagoId) return
 
@@ -68,6 +74,13 @@ const PagosList: React.FC<PagosListProps> = ({
         })
     }
 
+    const toggleComment = (pagoId: string) => {
+        setExpandedComments((prev) => ({
+            ...prev,
+            [pagoId]: !prev[pagoId],
+        }))
+    }
+
     return (
         <>
             <h5 className="mb-1" style={{ color: '#01662b' }}>
@@ -78,12 +91,12 @@ const PagosList: React.FC<PagosListProps> = ({
                 <div className="table-container">
                     <Table>
                         <THead>
-                            <Th className="pt-1">Concepto</Th>
-                            <Th className="pt-1">Monto</Th>
-                            <Th className="pt-1">Fecha</Th>
-                            <Th className="pt-1">Comprobante</Th>
-                            <Th className="pt-1">Comentarios</Th>
-                            <Th className="w-1/12"></Th>
+                            <Th className="pt-1 w-2/12">Concepto</Th>
+                            <Th className="pt-1 w-2/12">Monto</Th>
+                            <Th className="pt-1 w-2/12">Fecha</Th>
+                            <Th className="pt-1 w-2/12">Comprobante</Th>
+                            <Th className="pt-1 w-3/12">Comentarios</Th>
+                            <Th className=""></Th>
                         </THead>
                     </Table>
 
@@ -104,8 +117,43 @@ const PagosList: React.FC<PagosListProps> = ({
                                         <Td className="text-center no-wrap w-2/12">
                                             {pago.PagoComprobante}
                                         </Td>
-                                        <Td className="text-center no-wrap w-2/12">
-                                            {pago.Comentarios}
+                                        <Td
+                                            className="text-center no-wrap w-3/12 fixed-width"
+                                            style={{
+                                                wordWrap: 'break-word',
+                                                wordBreak: 'break-word',
+                                            }}
+                                        >
+                                            {pago.Comentarios.length >
+                                            MAX_COMMENT_LENGTH ? (
+                                                <>
+                                                    {expandedComments[pago._id]
+                                                        ? pago.Comentarios
+                                                        : `${pago.Comentarios.substring(0, MAX_COMMENT_LENGTH)}...`}
+                                                    <button
+                                                        onClick={() =>
+                                                            toggleComment(
+                                                                pago._id,
+                                                            )
+                                                        }
+                                                        className="toggle-comment-btn"
+                                                        style={{
+                                                            color: '#01662b',
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                    >
+                                                        {expandedComments[
+                                                            pago._id
+                                                        ]
+                                                            ? 'Mostrar menos'
+                                                            : 'Mostrar más'}
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                pago.Comentarios
+                                            )}
                                         </Td>
                                         <Td className="text-center no-wrap">
                                             <DeleteButton
