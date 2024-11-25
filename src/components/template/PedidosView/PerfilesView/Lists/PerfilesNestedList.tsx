@@ -7,18 +7,25 @@ import Td from '@/components/ui/Table/Td'
 import { Material } from '@/@types/pedidos'
 import PedidoDetailsButton from '../Buttons/PedidoDetailsButton'
 import PedidoPerfilesInfoModal from '../Modal/PedidoPerfilesInfoModal'
+import RecibirMaterialButton from '../Buttons/RecibirMaterialButton'
+import RecibirMaterialModal from '../Modal/RecibirMaterialModal'
 
 interface PerfilesNestedListProps {
     materiales: Material[]
+    pedidoId: string
+    onReceptionComplete: () => void
 }
 
 const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
     materiales,
+    pedidoId,
+    onReceptionComplete,
 }) => {
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
     const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(
         null,
     )
+    const [isMatModalOpen, setMatModalOpen] = useState(false)
 
     const formatNumber = (number: number) => {
         const parsedNumber = Number(number)
@@ -28,6 +35,11 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
     const toggleInfoModal = (material: Material | null = null) => {
         setSelectedMaterial(material)
         setIsInfoModalOpen(!isInfoModalOpen)
+    }
+
+    const toggleMatModal = (material: Material | null = null) => {
+        setSelectedMaterial(material)
+        setMatModalOpen(!isMatModalOpen)
     }
 
     return (
@@ -96,7 +108,7 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                                     className="text-center"
                                     style={{ width: '10%' }}
                                 >
-                                    {formatNumber(material.CantPedida)}
+                                    {formatNumber(material.CantEntrega)}
                                 </Td>
                                 <Td
                                     className="text-center"
@@ -105,12 +117,25 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                                     {formatNumber(cantRecibida)}
                                 </Td>
                                 <Td
-                                    className="text-center"
                                     style={{ width: '15%' }}
+                                    className={`text-center no-wrap w-2/12 ${
+                                        {
+                                            Excedido: 'text-yellow-500',
+                                            Completo: 'text-green-500',
+                                            Incompleto: 'text-red-500',
+                                            'En tránsito': 'text-gray-500',
+                                        }[estado]
+                                    }`}
                                 >
                                     {estado}
                                 </Td>
                                 <Td style={{ width: '5%', padding: 0 }}>
+                                    <RecibirMaterialButton
+                                        size="small"
+                                        recibirMat={() =>
+                                            toggleMatModal(material)
+                                        }
+                                    />
                                     <PedidoDetailsButton
                                         size="small"
                                         pedidoInfo={() =>
@@ -125,6 +150,16 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                                     isOpen={isInfoModalOpen}
                                     toggleModal={() => toggleInfoModal(null)}
                                     material={selectedMaterial}
+                                />
+                            )}
+
+                            {selectedMaterial && (
+                                <RecibirMaterialModal
+                                    isOpen={isMatModalOpen}
+                                    toggleModal={() => toggleMatModal(null)}
+                                    material={selectedMaterial}
+                                    pedidoId={pedidoId}
+                                    onReceptionComplete={onReceptionComplete}
                                 />
                             )}
                         </React.Fragment>

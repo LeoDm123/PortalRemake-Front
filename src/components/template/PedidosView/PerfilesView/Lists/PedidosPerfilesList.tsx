@@ -38,6 +38,7 @@ const PedidosPerfilesList = () => {
                     icon: 'success',
                     confirmButtonColor: '#3085d6',
                 })
+                fetchPedidos()
             }
         } catch (error) {
             console.error('Error al eliminar el pedido:', error)
@@ -124,7 +125,6 @@ const PedidosPerfilesList = () => {
                                             >
                                                 {pedido.Estado}
                                             </Td>
-
                                             <Td className="text-center no-wrap">
                                                 <IconButton
                                                     onClick={() =>
@@ -169,6 +169,12 @@ const PedidosPerfilesList = () => {
                                                         <PerfilesNestedList
                                                             materiales={
                                                                 pedido.Materiales
+                                                            }
+                                                            pedidoId={
+                                                                pedido._id
+                                                            }
+                                                            onReceptionComplete={
+                                                                fetchPedidos
                                                             }
                                                         />
                                                     </div>

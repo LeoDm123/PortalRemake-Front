@@ -362,7 +362,7 @@ export const deletePres = async (
     }
 }
 
-//////////////////////////////PEDIDOS//////////////////////////////
+//////////////////////////////PEDIDOS PERFILES//////////////////////////////
 
 export const fetchPedidosPerfiles = async (): Promise<any> => {
     const PEDIDOS_ENDPOINT: string = `/pedidoPerfiles/obtenerPedidos`
@@ -409,6 +409,47 @@ export const deletePedido = async (id: string): Promise<any> => {
         return data
     } catch (error) {
         console.error('Error al eliminar el pedido:', error)
+        throw error
+    }
+}
+
+export const RecibirPedido = async (
+    pedidoId: string,
+    codigoMat: string,
+    payload: {
+        CantRecibida: number
+        FechaRecep: string
+        nroPedido: string
+        NroRemito: string
+        Unidad: string
+        TipoMov: string
+        RemitoLog: string
+    },
+): Promise<any> => {
+    const RECIBIR_PEDIDO_ENDPOINT = `/pedidoPerfiles/recibirPedido/${pedidoId}/${codigoMat}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${RECIBIR_PEDIDO_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al recibir el pedido: ${response.status} - ${response.statusText}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al recibir el pedido:', error)
         throw error
     }
 }
