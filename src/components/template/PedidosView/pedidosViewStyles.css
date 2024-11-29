@@ -83,3 +83,13 @@
 .table-body-container table {
     width: 100%;
 }
+
+.td-px {
+    padding-left: 1 !important;
+    padding-right: 1 !important;
+}
+
+.td-status-px {
+    padding-left: 1 !important;
+    padding-right: 0 !important;
+}

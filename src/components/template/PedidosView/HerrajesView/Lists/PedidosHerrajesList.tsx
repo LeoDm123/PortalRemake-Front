@@ -4,18 +4,18 @@ import THead from '@/components/ui/Table/THead'
 import Th from '@/components/ui/Table/Th'
 import TBody from '@/components/ui/Table/TBody'
 import Td from '@/components/ui/Table/Td'
-import { deletePedidoPerfiles } from '@/api/api'
+import { deletePedidoHerrajes } from '@/api/api'
 import Swal from 'sweetalert2'
 import '../../pedidosViewStyles.css'
 import DeleteButton from '@/components/template/DeleteButton'
-import { usePedidosPerfiles } from '@/utils/hooks/usePedidosPerfiles'
+import { usePedidosHerrajes } from '@/utils/hooks/usePedidosHerrajes'
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi'
 import { IconButton } from '@mui/material'
-import PerfilesNestedList from './PerfilesNestedList'
+import HerrajesNestedList from './HerrajesNestedList'
 import { Skeleton } from '@/components/ui'
 
-const PedidosPerfilesList = () => {
-    const { pedidos, loading, fetchPedidos } = usePedidosPerfiles()
+const PedidosHerrajesList = () => {
+    const { pedidos, loading, fetchPedidos } = usePedidosHerrajes()
     const [expandedPedidoId, setExpandedPedidoId] = useState<string | null>(
         null,
     )
@@ -30,7 +30,7 @@ const PedidosPerfilesList = () => {
         if (!pedidoId) return
 
         try {
-            const success = await deletePedidoPerfiles(pedidoId)
+            const success = await deletePedidoHerrajes(pedidoId)
             if (success) {
                 Swal.fire({
                     title: 'Eliminado',
@@ -166,7 +166,7 @@ const PedidosPerfilesList = () => {
                                                                 : 'collapsed'
                                                         }`}
                                                     >
-                                                        <PerfilesNestedList
+                                                        <HerrajesNestedList
                                                             materiales={
                                                                 pedido.Materiales
                                                             }
@@ -194,4 +194,4 @@ const PedidosPerfilesList = () => {
     )
 }
 
-export default PedidosPerfilesList
+export default PedidosHerrajesList

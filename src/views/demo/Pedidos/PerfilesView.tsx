@@ -1,5 +1,5 @@
 import DividerMain from '@/components/template/DividerMain'
-import AddPedidoButton from '@/components/template/PedidosView/PerfilesView/Buttons/AddPedidoButton'
+import AddPedidoButton from '@/components/template/PedidosView/Buttons/AddPedidoButton'
 import PedidosPerfilesList from '@/components/template/PedidosView/PerfilesView/Lists/PedidosPerfilesList'
 import React, { useState } from 'react'
 

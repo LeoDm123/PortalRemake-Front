@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { fetchClients, fetchPedidosPerfiles } from '@/api/api'
+import { fetchPedidosPerfiles } from '@/api/api'
 import { Pedido } from '@/@types/pedidos'
 
-export const usePedidos = () => {
+export const usePedidosPerfiles = () => {
     const [pedidos, setPedidos] = useState<Pedido[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({})

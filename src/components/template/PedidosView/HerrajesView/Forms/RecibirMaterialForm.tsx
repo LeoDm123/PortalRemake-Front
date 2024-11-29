@@ -2,8 +2,8 @@ import React from 'react'
 import { Formik, Field, Form } from 'formik'
 import { Input, Button } from '@/components/ui'
 import { FormItem, FormContainer } from '@/components/ui'
-import PerfilesReceptionList from '../Lists/PerfilesReceptionList'
-import { RecibirPedidoPerfiles } from '@/api/api'
+import PerfilesReceptionList from '../Lists/HerrajesReceptionList'
+import { RecibirPedidoHerrajes } from '@/api/api'
 import Swal from 'sweetalert2'
 import DividerMain from '@/components/template/DividerMain'
 
@@ -95,7 +95,7 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
                 const RemitoLog = `Remito N°: ${values.NroRemito}`
 
                 try {
-                    const response = await RecibirPedidoPerfiles(
+                    const response = await RecibirPedidoHerrajes(
                         pedidoId,
                         material.Codigo,
                         {

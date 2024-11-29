@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table } from '@/components/ui'
 import THead from '@/components/ui/Table/THead'
 import Th from '@/components/ui/Table/Th'
@@ -6,18 +6,19 @@ import TBody from '@/components/ui/Table/TBody'
 import Td from '@/components/ui/Table/Td'
 import { Material } from '@/@types/pedidos'
 import PedidoDetailsButton from '../../Buttons/PedidoDetailsButton'
-import PedidoPerfilesInfoModal from '../Modal/PedidoPerfilesInfoModal'
+import PedidoHerrajesInfoModal from '../Modal/PedidoHerrajesInfoModal'
 import RecibirMaterialButton from '../../Buttons/RecibirMaterialButton'
 import RecibirMaterialModal from '../Modal/RecibirMaterialModal'
-import { updateEstadoPerfiles } from '@/api/api'
+import { updateEstadoHerrajes } from '@/api/api'
+import '../../pedidosViewStyles.css'
 
-interface PerfilesNestedListProps {
+interface HerrajesNestedListProps {
     materiales: Material[]
     pedidoId: string
     onReceptionComplete: () => void
 }
 
-const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
+const HerrajesNestedList: React.FC<HerrajesNestedListProps> = ({
     materiales,
     pedidoId,
     onReceptionComplete,
@@ -56,7 +57,7 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
         })
 
         if (allComplete) {
-            updateEstadoPerfiles(pedidoId, 'Cerrado')
+            updateEstadoHerrajes(pedidoId, 'Cerrado')
                 .then(() => {
                     console.log(`Pedido ${pedidoId} actualizado a Cerrado`)
                     onReceptionComplete()
@@ -70,10 +71,10 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
     return (
         <Table style={{ tableLayout: 'fixed', width: '100%' }}>
             <THead>
-                <Th className="text-center" style={{ width: '12%' }}>
+                <Th className="text-center" style={{ width: '15%' }}>
                     Código
                 </Th>
-                <Th className="text-center" style={{ width: '50%' }}>
+                <Th className="text-center" style={{ width: '45%' }}>
                     Descripción
                 </Th>
                 <Th className="text-center" style={{ width: '10%' }}>
@@ -114,13 +115,13 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                             <tr>
                                 <Td
                                     className="text-center"
-                                    style={{ width: '12%' }}
+                                    style={{ width: '15%' }}
                                 >
                                     {material.Codigo}
                                 </Td>
                                 <Td
                                     style={{
-                                        width: '50%',
+                                        width: '45%',
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
@@ -171,7 +172,7 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                             </tr>
 
                             {selectedMaterial && (
-                                <PedidoPerfilesInfoModal
+                                <PedidoHerrajesInfoModal
                                     isOpen={isInfoModalOpen}
                                     toggleModal={() => toggleInfoModal(null)}
                                     material={selectedMaterial}
@@ -195,4 +196,4 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
     )
 }
 
-export default PerfilesNestedList
+export default HerrajesNestedList

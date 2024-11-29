@@ -387,7 +387,7 @@ export const fetchPedidosPerfiles = async (): Promise<any> => {
     }
 }
 
-export const deletePedido = async (id: string): Promise<any> => {
+export const deletePedidoPerfiles = async (id: string): Promise<any> => {
     const DELETE_PEDIDO_ENDPOINT: string = `/pedidos/eliminarPedido/${id}`
 
     try {
@@ -413,7 +413,7 @@ export const deletePedido = async (id: string): Promise<any> => {
     }
 }
 
-export const RecibirPedido = async (
+export const RecibirPedidoPerfiles = async (
     pedidoId: string,
     codigoMat: string,
     payload: {
@@ -441,15 +441,189 @@ export const RecibirPedido = async (
         )
 
         if (!response.ok) {
+            const errorData = await response.json()
             throw new Error(
-                `Error al recibir el pedido: ${response.status} - ${response.statusText}`,
+                errorData.message ||
+                    `Error ${response.status}: ${response.statusText}`,
+            )
+        }
+
+        const data = await response.json()
+
+        return data
+    } catch (error: unknown) {
+        console.error('Error al recibir el pedido:', error)
+
+        let errorMessage = 'Error desconocido'
+        if (error instanceof Error) {
+            errorMessage = error.message
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const updateEstadoPerfiles = async (
+    pedidoId: string,
+    estado: string,
+): Promise<any> => {
+    const UPDATE_ESTADO_ENDPOINT: string = `/pedidoPerfiles/editEstado/${pedidoId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${UPDATE_ESTADO_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estado }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al actualizar el estado del pedido: ${response.status}`,
             )
         }
 
         const data = await response.json()
         return data
     } catch (error) {
+        console.error('Error al actualizar el estado del pedido:', error)
+        throw error
+    }
+}
+
+//////////////////////////////PEDIDOS HERRAJES//////////////////////////////
+
+export const fetchPedidosHerrajes = async (): Promise<any> => {
+    const PEDIDOS_ENDPOINT: string = `/pedidoHerrajes/obtenerPedidos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pedidos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error)
+        throw error
+    }
+}
+
+export const deletePedidoHerrajes = async (id: string): Promise<any> => {
+    const DELETE_PEDIDO_ENDPOINT: string = `/pedidos/eliminarPedido/${id}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_PEDIDO_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al eliminar el pedido: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al eliminar el pedido:', error)
+        throw error
+    }
+}
+
+export const RecibirPedidoHerrajes = async (
+    pedidoId: string,
+    codigoMat: string,
+    payload: {
+        CantRecibida: number
+        FechaRecep: string
+        nroPedido: string
+        NroRemito: string
+        Unidad: string
+        TipoMov: string
+        RemitoLog: string
+    },
+): Promise<any> => {
+    const RECIBIR_PEDIDO_ENDPOINT = `/pedidoHerrajes/recibirPedido/${pedidoId}/${codigoMat}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${RECIBIR_PEDIDO_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            },
+        )
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(
+                errorData.message ||
+                    `Error ${response.status}: ${response.statusText}`,
+            )
+        }
+
+        const data = await response.json()
+
+        return data
+    } catch (error: unknown) {
         console.error('Error al recibir el pedido:', error)
+
+        let errorMessage = 'Error desconocido'
+        if (error instanceof Error) {
+            errorMessage = error.message
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const updateEstadoHerrajes = async (
+    pedidoId: string,
+    estado: string,
+): Promise<any> => {
+    const UPDATE_ESTADO_ENDPOINT: string = `/pedidoHerrajes/editEstado/${pedidoId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${UPDATE_ESTADO_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estado }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al actualizar el estado del pedido: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al actualizar el estado del pedido:', error)
         throw error
     }
 }
