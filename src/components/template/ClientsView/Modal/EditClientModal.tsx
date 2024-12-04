@@ -4,10 +4,10 @@ import React, { useRef, useState, useEffect } from 'react'
 import DividerMain from '../../DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
 import EditClientForm from '../Forms/EditClientForm'
 import { fetchClientById } from '@/api/api'
+import { showConfirmation, showError, showSuccess } from '@/utils/hooks/alerts'
 
 type EditClientModalProps = {
     isOpen: boolean
@@ -35,10 +35,9 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
                     setClientData(data)
                 } catch (error) {
                     console.error('Error al obtener el cliente:', error)
-                    Swal.fire(
+                    showError(
                         'Error',
                         'No se pudo cargar la información del cliente.',
-                        'error',
                     )
                 } finally {
                     setLoading(false)
@@ -50,16 +49,10 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
     }, [clientId, isOpen])
 
     const handleConfirmSubmit = () => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas editar la información del cliente?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, editar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
+        showConfirmation(
+            '¿Estás seguro?',
+            '¿Deseas editar la información del cliente?',
+        ).then((result) => {
             if (result.isConfirmed) {
                 submitRef.current()
             }
@@ -67,12 +60,10 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
     }
 
     const handleFormSubmit = () => {
-        Swal.fire({
-            title: 'Cliente editado',
-            text: 'La información del cliente ha sido editada correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-        }).then(() => {
+        showSuccess(
+            'Cliente editado',
+            'La información del cliente ha sido editada correctamente.',
+        ).then(() => {
             toggleModal()
             onEditClient()
         })

@@ -129,7 +129,7 @@ const AddPagoForm: React.FC<Props> = ({
                 setSubmitting(false)
             }}
         >
-            {({ submitForm, errors, touched, setFieldValue, values }) => {
+            {({ submitForm, errors, touched }) => {
                 submitRef.current = submitForm
 
                 return (

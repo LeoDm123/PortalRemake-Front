@@ -6,24 +6,11 @@ import PerfilesReceptionList from '../Lists/PerfilesReceptionList'
 import { RecibirPedidoPerfiles } from '@/api/api'
 import Swal from 'sweetalert2'
 import DividerMain from '@/components/template/DividerMain'
+import { showConfirmation, showSuccess, showError } from '@/utils/hooks/alerts'
+import { Material } from '@/@types/pedidos'
 
 type RecibirMaterialFormProps = {
-    material: {
-        Codigo: string
-        CantPedida: number
-        CantEntrega: number
-        Descripcion: string
-        Unidad: string
-        Recepciones: {
-            CantRecibida: number
-            FechaRecep: string
-            nroPedido: string
-            NroRemito: string
-            Unidad: string
-            TipoMov: string
-            RemitoLog: string
-        }[]
-    }
+    material: Material
     pedidoId: string
     onSubmit: (values: any) => void
     closeModal: () => void
@@ -36,16 +23,10 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
     closeModal,
 }) => {
     const handleConfirmSubmit = (submit: () => void) => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas registrar esta recepción?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, registrar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
+        showConfirmation(
+            '¿Estás seguro?',
+            '¿Deseas registrar esta recepción?',
+        ).then((result) => {
             if (result.isConfirmed) {
                 submit()
             }
@@ -53,13 +34,10 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
     }
 
     const handleSuccess = () => {
-        Swal.fire({
-            title: 'Recepción registrada',
-            text: 'La recepción se ha registrado correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-            timer: 1000,
-        }).then(() => {
+        showSuccess(
+            'Recepción registrada',
+            'La recepción se ha registrado correctamente.',
+        ).then(() => {
             closeModal()
         })
     }
@@ -83,12 +61,7 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
                     !values.FechaRecep ||
                     !values.NroRemito
                 ) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Todos los campos son obligatorios.',
-                        icon: 'error',
-                        confirmButtonColor: '#d33',
-                    })
+                    showError('Error', 'Todos los campos son obligatorios.')
                     return
                 }
 
@@ -117,12 +90,7 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
                         errorMessage = error.message
                     }
 
-                    Swal.fire({
-                        title: 'Error',
-                        text: errorMessage,
-                        icon: 'error',
-                        confirmButtonColor: '#d33',
-                    })
+                    showError('Error', errorMessage)
                 }
             }}
         >

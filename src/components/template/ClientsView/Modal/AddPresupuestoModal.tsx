@@ -5,8 +5,8 @@ import AddPresupuestoForm from '../Forms/AddPresupuestoForm'
 import DividerMain from '../../DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
+import { showConfirmation, showSuccess } from '@/utils/hooks/alerts'
 
 type AddPresupuestoModalProps = {
     isOpen: boolean
@@ -24,16 +24,10 @@ const AddPresupuestoModal: React.FC<AddPresupuestoModalProps> = ({
     const submitRef = useRef<() => void>(() => {})
 
     const handleConfirmSubmit = () => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas asociar este presupuesto a este cliente?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, asociar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
+        showConfirmation(
+            '¿Estás seguro?',
+            '¿Deseas asociar este presupuesto a este cliente?',
+        ).then((result) => {
             if (result.isConfirmed) {
                 submitRef.current()
             }
@@ -41,12 +35,10 @@ const AddPresupuestoModal: React.FC<AddPresupuestoModalProps> = ({
     }
 
     const handleFormSubmit = () => {
-        Swal.fire({
-            title: 'Presupuesto asociado',
-            text: 'El presupuesto ha sido asociado al cliente correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-        }).then(() => {
+        showSuccess(
+            'Presupuesto asociado',
+            'El presupuesto ha sido asociado al cliente correctamente.',
+        ).then(() => {
             toggleModal()
             onSubmitPay()
         })

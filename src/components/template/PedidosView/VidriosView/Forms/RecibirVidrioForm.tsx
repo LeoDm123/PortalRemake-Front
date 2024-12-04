@@ -4,10 +4,9 @@ import { Input, Button } from '@/components/ui'
 import { FormItem, FormContainer } from '@/components/ui'
 import VidriosReceptionList from '../Lists/VidriosReceptionList'
 import { RecibirPedidoVidrios } from '@/api/api'
-import Swal from 'sweetalert2'
 import DividerMain from '@/components/template/DividerMain'
 import { Vidrio } from '@/@types/pedidos'
-import { usePedidosVidrios } from '@/utils/hooks/usePedidosVidrios'
+import { showConfirmation, showError, showSuccess } from '@/utils/hooks/alerts'
 
 type RecibirVidrioFormProps = {
     vidrio: Vidrio
@@ -24,18 +23,11 @@ const RecibirVidrioForm: React.FC<RecibirVidrioFormProps> = ({
     onSubmit,
     closeModal,
 }) => {
-    const { pedidos } = usePedidosVidrios()
     const handleConfirmSubmit = (submit: () => void) => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas registrar esta recepción?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, registrar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
+        showConfirmation(
+            '¿Estás seguro?',
+            '¿Deseas registrar esta recepción?',
+        ).then((result) => {
             if (result.isConfirmed) {
                 submit()
             }
@@ -43,13 +35,10 @@ const RecibirVidrioForm: React.FC<RecibirVidrioFormProps> = ({
     }
 
     const handleSuccess = () => {
-        Swal.fire({
-            title: 'Recepción registrada',
-            text: 'La recepción se ha registrado correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-            timer: 1000,
-        }).then(() => {
+        showSuccess(
+            'Recepción registrada',
+            'La recepción se ha registrado correctamente.',
+        ).then(() => {
             closeModal()
         })
     }
@@ -74,12 +63,7 @@ const RecibirVidrioForm: React.FC<RecibirVidrioFormProps> = ({
                     !values.FechaRecep ||
                     !values.NroRemito
                 ) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Todos los campos son obligatorios.',
-                        icon: 'error',
-                        confirmButtonColor: '#d33',
-                    })
+                    showError('Error', 'Todos los campos son obligatorios.')
                     return
                 }
 
@@ -107,12 +91,7 @@ const RecibirVidrioForm: React.FC<RecibirVidrioFormProps> = ({
                         errorMessage = error.message
                     }
 
-                    Swal.fire({
-                        title: 'Error',
-                        text: errorMessage,
-                        icon: 'error',
-                        confirmButtonColor: '#d33',
-                    })
+                    showError('Error', errorMessage)
                 }
             }}
         >

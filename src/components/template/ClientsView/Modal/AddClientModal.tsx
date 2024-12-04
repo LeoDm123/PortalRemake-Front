@@ -4,9 +4,9 @@ import React, { useRef } from 'react'
 import DividerMain from '../../DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
 import AddClientForm from '../Forms/AddClientForm'
+import { showConfirmation, showSuccess } from '@/utils/hooks/alerts'
 
 type AddClientModalProps = {
     isOpen: boolean
@@ -22,16 +22,10 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
     const submitRef = useRef<() => void>(() => {})
 
     const handleConfirmSubmit = () => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas agregar este cliente?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, agregar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
+        showConfirmation(
+            '¿Estás seguro?',
+            '¿Deseas agregar este cliente?',
+        ).then((result) => {
             if (result.isConfirmed) {
                 submitRef.current()
             }
@@ -39,12 +33,10 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
     }
 
     const handleFormSubmit = () => {
-        Swal.fire({
-            title: 'Cliente agregado',
-            text: 'El cliente ha sido agregado correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-        }).then(() => {
+        showSuccess(
+            'Cliente agregado',
+            'El cliente ha sido agregado correctamente.',
+        ).then(() => {
             toggleModal()
             onSubmitClient()
         })

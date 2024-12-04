@@ -5,8 +5,8 @@ import AddPagoForm from '../Forms/AddPagoForm'
 import DividerMain from '../../DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
+import { showConfirmation, showSuccess } from '@/utils/hooks/alerts'
 
 type AddPagoModalProps = {
     isOpen: boolean
@@ -24,29 +24,20 @@ const AddPagoModal: React.FC<AddPagoModalProps> = ({
     const submitRef = useRef<() => void>(() => {})
 
     const handleConfirmSubmit = () => {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas agregar este pago?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, agregar',
-            cancelButtonText: 'Cancelar',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                submitRef.current()
-            }
-        })
+        showConfirmation('¿Estás seguro?', '¿Deseas agregar este pago?').then(
+            (result) => {
+                if (result.isConfirmed) {
+                    submitRef.current()
+                }
+            },
+        )
     }
 
     const handleFormSubmit = () => {
-        Swal.fire({
-            title: 'Pago agregado',
-            text: 'El pago ha sido agregado correctamente.',
-            icon: 'success',
-            confirmButtonColor: '#01662b',
-        }).then(() => {
+        showSuccess(
+            'Pago agregado',
+            'El pago ha sido agregado correctamente.',
+        ).then(() => {
             toggleModal()
             onSubmitPay()
         })
