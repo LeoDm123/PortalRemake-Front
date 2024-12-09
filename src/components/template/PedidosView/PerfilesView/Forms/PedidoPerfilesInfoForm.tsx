@@ -1,26 +1,11 @@
 import React from 'react'
-import { Formik, Field, Form } from 'formik'
-import { Input } from '@/components/ui'
-import { FormItem, FormContainer } from '@/components/ui'
+import { Formik, Form } from 'formik'
+import { FormItem, FormContainer, Input } from '@/components/ui'
 import PerfilesReceptionList from '../Lists/PerfilesReceptionList'
+import { Material } from '@/@types/pedidos'
 
 type PedidoPerfilesInfoFormProps = {
-    material: {
-        Codigo: string
-        CantPedida: number
-        CantEntrega: number
-        Descripcion: string
-        Unidad: string
-        Recepciones: {
-            CantRecibida: number
-            FechaRecep: string
-            nroPedido: string
-            NroRemito: string
-            Unidad: string
-            TipoMov: string
-            RemitoLog: string
-        }[]
-    }
+    material: Material
 }
 
 const PedidoPerfilesInfoForm: React.FC<PedidoPerfilesInfoFormProps> = ({

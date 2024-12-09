@@ -7,6 +7,8 @@ import {
     calculateTotalExtra,
     calculateDebt,
     calculateTotalPaybacks,
+    calculateTotalDiscounts,
+    calculateTotalTaxes,
 } from '@/utils/hooks/calculateDebt'
 import PresupuestoModal from '../Modal/PresupuestoModal'
 import '../clientViewStyles.css'
@@ -88,7 +90,9 @@ const PresupuestoRow: React.FC<PresupuestoRowProps> = ({
                 <Td className="text-center no-wrap ">
                     {formatCurrency(
                         calculateTotalPayments(presupuesto) +
-                            calculateTotalPaybacks(presupuesto),
+                            calculateTotalPaybacks(presupuesto) +
+                            calculateTotalDiscounts(presupuesto) +
+                            calculateTotalTaxes(presupuesto),
                     )}
                 </Td>
                 <Td className="text-center no-wrap ">

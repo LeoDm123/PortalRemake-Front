@@ -12,7 +12,12 @@ const AddPedidoButton: React.FC<AddPedidoButtonProps> = ({
     size,
 }) => {
     return (
-        <IconButton size={size} onClick={onAddPedido}>
+        <IconButton
+            size={size}
+            onClick={() => {
+                onAddPedido()
+            }}
+        >
             <HiOutlineDocumentAdd />
         </IconButton>
     )

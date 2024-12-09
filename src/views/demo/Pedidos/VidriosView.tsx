@@ -13,7 +13,7 @@ const VidriosView: React.FC = () => {
     return (
         <>
             <div>
-                <div className="mb-2 flex justify-between items-center">
+                <div className="mb-1 flex justify-between items-center">
                     <h4 style={{ color: '#01662b' }}>Pedidos de Vidrios</h4>
                     <div className="flex">
                         <AddPedidoButton
