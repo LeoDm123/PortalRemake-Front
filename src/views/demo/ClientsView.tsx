@@ -6,12 +6,14 @@ import { useState } from 'react'
 import Sorter from '@/components/ui/Table/Sorter'
 import AddClientModal from '@/components/template/ClientsView/Modal/AddClientModal'
 import { fetchClients } from '@/api/api'
+import ShowClientSwitcher from '@/components/template/ClientsView/Buttons/ShowClientSwitcher'
 
 const ClientsView = () => {
     const [sortDirection, setSortDirection] = useState<
         'asc' | 'desc' | undefined
     >('asc')
     const [isAddClientModalOpen, setIsAddClientModalOpen] = useState(false)
+    const [allClients, setAllClients] = useState(false)
 
     const toggleSort = () => {
         if (sortDirection === 'asc') {
@@ -36,7 +38,14 @@ const ClientsView = () => {
                 <div className="mb-2 flex justify-between items-center">
                     <h4 style={{ color: '#01662b' }}>Clientes Activos</h4>
 
-                    <div className="flex">
+                    <div className="flex items-center">
+                        <div className="flex mr-5 items-center">
+                            <p className="mr-2">Mostrar todos </p>
+                            <ShowClientSwitcher
+                                allClients={allClients}
+                                setAllClients={setAllClients}
+                            />
+                        </div>
                         <button onClick={toggleSort} className="mr-4">
                             Ordenar A-Z
                             <Sorter sort={sortDirection} />
@@ -49,6 +58,7 @@ const ClientsView = () => {
                 <ClientsCardList
                     onClientSubmit={handleSubmitClient}
                     sortDirection={sortDirection}
+                    allClients={allClients}
                 />
             </div>
 

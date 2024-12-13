@@ -57,6 +57,7 @@ const ClientDetailsDropdown: React.FC<ClientDetailsDropdownProps> = ({
                             <p>Correo Electrónico: {client.ClientEmail}</p>
                             <p>Teléfono: {client.ClientTel}</p>
                             <p>Dirección: {client.ClientAdress}</p>
+                            <p>Estado: {client.ClientStatus}</p>
                         </div>
                     </div>
                 </Dropdown.Item>

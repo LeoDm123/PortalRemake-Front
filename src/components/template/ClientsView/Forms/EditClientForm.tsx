@@ -348,6 +348,70 @@ const EditClientForm: React.FC<Props> = ({
                                     />
                                 </FormItem>
                             </div>
+                            <div>
+                                <FormItem
+                                    className="w-3/12"
+                                    label="Estado"
+                                    invalid={
+                                        !!(
+                                            errors.ClientIVACond &&
+                                            touched.ClientIVACond
+                                        )
+                                    }
+                                    errorMessage={
+                                        typeof errors.ClientIVACond === 'string'
+                                            ? errors.ClientIVACond
+                                            : undefined
+                                    }
+                                >
+                                    <Field name="ClientStatus">
+                                        {({ field }: FieldProps) => {
+                                            const condicionOptions: Option[] = [
+                                                {
+                                                    value: 'Activo',
+                                                    label: 'Activo',
+                                                },
+                                                {
+                                                    value: 'Deudor',
+                                                    label: 'Deudor',
+                                                },
+                                                {
+                                                    value: 'Cerrado',
+                                                    label: 'Cerrado',
+                                                },
+                                            ]
+
+                                            const selectedCondicion =
+                                                condicionOptions.find(
+                                                    (option) =>
+                                                        option.value ===
+                                                        field.value,
+                                                )
+
+                                            return (
+                                                <Select
+                                                    {...field}
+                                                    value={
+                                                        selectedCondicion ||
+                                                        null
+                                                    }
+                                                    options={condicionOptions}
+                                                    placeholder="Seleccionar status de cliente"
+                                                    onChange={(newValue) => {
+                                                        setFieldValue(
+                                                            'ClientStatus',
+                                                            newValue
+                                                                ? newValue.value
+                                                                : '',
+                                                        )
+                                                    }}
+                                                    isClearable
+                                                />
+                                            )
+                                        }}
+                                    </Field>
+                                </FormItem>
+                            </div>
                         </FormContainer>
                     </Form>
                 )

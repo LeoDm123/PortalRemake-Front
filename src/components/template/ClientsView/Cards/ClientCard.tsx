@@ -7,11 +7,13 @@ import { Skeleton } from '@/components/ui'
 type ClientCardProps = {
     sortDirection: 'asc' | 'desc' | undefined
     onClientSubmit: () => void
+    allClients: boolean
 }
 
 const ClientCard: React.FC<ClientCardProps> = ({
     sortDirection,
     onClientSubmit,
+    allClients,
 }) => {
     const { clients, loading, expanded, toggleExpand, fetchClients } =
         useClients()
@@ -35,50 +37,52 @@ const ClientCard: React.FC<ClientCardProps> = ({
         )
     }
 
-    const sortedClients = clients
-        .filter((client) => client.ClientStatus === 'Activo')
-        .sort((a, b) => {
-            const lastNameA = a.ClientApellido?.toLowerCase() || ''
-            const lastNameB = b.ClientApellido?.toLowerCase() || ''
-            const firstNameA = a.ClientName.toLowerCase()
-            const firstNameB = b.ClientName.toLowerCase()
+    const filteredClients = allClients
+        ? clients
+        : clients.filter((client) => client.ClientStatus === 'Activo')
 
-            if (lastNameA && lastNameB) {
-                if (sortDirection === 'asc') {
-                    return lastNameA.localeCompare(lastNameB)
-                }
-                if (sortDirection === 'desc') {
-                    return lastNameB.localeCompare(lastNameA)
-                }
-            }
+    const sortedClients = filteredClients.sort((a, b) => {
+        const lastNameA = a.ClientApellido?.toLowerCase() || ''
+        const lastNameB = b.ClientApellido?.toLowerCase() || ''
+        const firstNameA = a.ClientName.toLowerCase()
+        const firstNameB = b.ClientName.toLowerCase()
 
-            if (!lastNameA && lastNameB) {
-                if (sortDirection === 'asc') {
-                    return firstNameA.localeCompare(lastNameB)
-                }
-                if (sortDirection === 'desc') {
-                    return lastNameB.localeCompare(firstNameA)
-                }
-            }
-
-            if (lastNameA && !lastNameB) {
-                if (sortDirection === 'asc') {
-                    return lastNameA.localeCompare(firstNameB)
-                }
-                if (sortDirection === 'desc') {
-                    return firstNameB.localeCompare(lastNameA)
-                }
-            }
-
+        if (lastNameA && lastNameB) {
             if (sortDirection === 'asc') {
-                return firstNameA.localeCompare(firstNameB)
+                return lastNameA.localeCompare(lastNameB)
             }
             if (sortDirection === 'desc') {
-                return firstNameB.localeCompare(firstNameA)
+                return lastNameB.localeCompare(lastNameA)
             }
+        }
 
-            return 0
-        })
+        if (!lastNameA && lastNameB) {
+            if (sortDirection === 'asc') {
+                return firstNameA.localeCompare(lastNameB)
+            }
+            if (sortDirection === 'desc') {
+                return lastNameB.localeCompare(firstNameA)
+            }
+        }
+
+        if (lastNameA && !lastNameB) {
+            if (sortDirection === 'asc') {
+                return lastNameA.localeCompare(firstNameB)
+            }
+            if (sortDirection === 'desc') {
+                return firstNameB.localeCompare(lastNameA)
+            }
+        }
+
+        if (sortDirection === 'asc') {
+            return firstNameA.localeCompare(firstNameB)
+        }
+        if (sortDirection === 'desc') {
+            return firstNameB.localeCompare(firstNameA)
+        }
+
+        return 0
+    })
 
     return (
         <div>

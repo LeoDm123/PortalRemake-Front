@@ -122,7 +122,6 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
                         variant="solid"
                         style={{
                             backgroundColor: '#01662b',
-                            marginTop: '20px',
                         }}
                     >
                         Editar Cliente
