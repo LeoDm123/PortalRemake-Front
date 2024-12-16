@@ -39,7 +39,11 @@ const ClientCard: React.FC<ClientCardProps> = ({
 
     const filteredClients = allClients
         ? clients
-        : clients.filter((client) => client.ClientStatus === 'Activo')
+        : clients.filter(
+              (client) =>
+                  client.ClientStatus === 'Activo' ||
+                  client.ClientStatus === 'Deudor',
+          )
 
     const sortedClients = filteredClients.sort((a, b) => {
         const lastNameA = a.ClientApellido?.toLowerCase() || ''

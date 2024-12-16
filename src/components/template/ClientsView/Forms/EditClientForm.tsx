@@ -42,7 +42,7 @@ const EditClientForm: React.FC<Props> = ({
         ClientName: Yup.string().required(
             'Nombre o razón social del cliente requerido',
         ),
-        ClientApellido: Yup.string().required('Apellido del cliente requerido'),
+
         ClientDNI: Yup.number()
             .required('DNI es requerido')
             .min(1000000, 'El número debe tener al menos 7 cifras'),
@@ -51,9 +51,7 @@ const EditClientForm: React.FC<Props> = ({
             .min(13, 'El CUIT debe tener 13 caracteres incluyendo guiones'),
         ClientIVACond: Yup.string().required('Condición de IVA es requerida'),
         ClientAdress: Yup.string().required('Dirección es requerida'),
-        ClientTel: Yup.number()
-            .required('Teléfono de contacto es requerido')
-            .min(1000000, 'El número debe tener al menos 7 cifras'),
+
         ClientEmail: Yup.string()
             .email('Correo electrónico inválido')
             .required('Correo electrónico es requerido'),

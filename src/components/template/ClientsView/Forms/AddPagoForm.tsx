@@ -6,6 +6,7 @@ import { FormItem, FormContainer } from '@/components/ui'
 import { createPayment, fetchClientById } from '@/api/api'
 import getCurrentDate from '@/utils/hooks/getCurrentDate'
 import { Client, Presupuesto, Pago } from '@/@types/clientInfo'
+import useCurrencyInput from '@/utils/hooks/useCurrencyInput'
 
 type Props = {
     selectedClientIndex: string
@@ -27,6 +28,8 @@ const AddPagoForm: React.FC<Props> = ({
     const [message, setMessage] = useState('')
     const [conceptOptions, setConceptOptions] = useState<Option[]>([])
 
+    const pagoMontoInput = useCurrencyInput(0)
+
     useEffect(() => {
         const loadClient = async () => {
             try {
@@ -42,7 +45,7 @@ const AddPagoForm: React.FC<Props> = ({
 
     const initialValues: Pago = {
         PresupuestoCodigo: '',
-        PagoMonto: 0,
+        PagoMonto: pagoMontoInput.value,
         PagoCondicion: '',
         PagoConcepto: '',
         FechaPago: getCurrentDate(),
@@ -129,8 +132,12 @@ const AddPagoForm: React.FC<Props> = ({
                 setSubmitting(false)
             }}
         >
-            {({ submitForm, errors, touched }) => {
+            {({ values, setFieldValue, submitForm, errors, touched }) => {
                 submitRef.current = submitForm
+
+                useEffect(() => {
+                    setFieldValue('PagoMonto', pagoMontoInput.value)
+                }, [pagoMontoInput.value, setFieldValue])
 
                 return (
                     <Form>
@@ -250,10 +257,14 @@ const AddPagoForm: React.FC<Props> = ({
                                     }
                                     errorMessage={errors.PagoMonto}
                                 >
-                                    <Field
-                                        type="number"
-                                        name="PagoMonto"
-                                        component={Input}
+                                    <Input
+                                        type="text"
+                                        value={pagoMontoInput.formattedValue}
+                                        onChange={(e) =>
+                                            pagoMontoInput.handleChange(
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Monto del Pago"
                                     />
                                 </FormItem>

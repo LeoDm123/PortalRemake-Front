@@ -6,6 +6,7 @@ import { FormItem, FormContainer } from '@/components/ui'
 import { createPresupuesto, fetchClientById } from '@/api/api'
 import { Client, Presupuesto } from '@/@types/clientInfo'
 import formatCurrency from '@/utils/hooks/formatCurrency'
+import useCurrencyInput from '@/utils/hooks/useCurrencyInput'
 
 type Props = {
     selectedClientIndex: string
@@ -20,6 +21,8 @@ const AddPresupuestoForm: React.FC<Props> = ({
 }) => {
     const [clientByID, setClientByID] = useState<Client | null>(null)
     const [message, setMessage] = useState('')
+
+    const precioInput = useCurrencyInput(0)
 
     useEffect(() => {
         const loadClient = async () => {
@@ -118,19 +121,29 @@ const AddPresupuestoForm: React.FC<Props> = ({
             {({ values, setFieldValue, errors, touched, submitForm }) => {
                 submitRef.current = submitForm
 
+                const precioInput = useCurrencyInput(values.Precio)
+
+                useEffect(() => {
+                    setFieldValue('Precio', precioInput.value)
+                }, [precioInput.value, setFieldValue])
+
                 useEffect(() => {
                     const ivaCalculado = calcularIVA(
-                        values.Precio,
+                        precioInput.value,
                         values.CondicionFacturacion,
                     )
                     const totalCalculado = calcularTotal(
-                        values.Precio,
+                        precioInput.value,
                         ivaCalculado,
                     )
 
                     setFieldValue('IVA', ivaCalculado)
                     setFieldValue('Total', totalCalculado)
-                }, [values.Precio, values.CondicionFacturacion, setFieldValue])
+                }, [
+                    precioInput.value,
+                    values.CondicionFacturacion,
+                    setFieldValue,
+                ])
 
                 return (
                     <Form>
@@ -189,10 +202,14 @@ const AddPresupuestoForm: React.FC<Props> = ({
                                     }
                                     errorMessage={errors.Precio}
                                 >
-                                    <Field
-                                        type="number"
-                                        name="Precio"
-                                        component={Input}
+                                    <Input
+                                        type="text"
+                                        value={precioInput.formattedValue}
+                                        onChange={(e) =>
+                                            precioInput.handleChange(
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Precio c/Descuento"
                                     />
                                 </FormItem>

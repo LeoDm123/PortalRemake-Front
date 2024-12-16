@@ -101,7 +101,13 @@ const ClientCardItem: React.FC<Props> = ({
             <div>
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
-                        <h5 className="mr-3">
+                        <h5
+                            className={`mr-3 ${
+                                client.ClientStatus === 'Deudor'
+                                    ? 'text-red-500'
+                                    : ''
+                            }`}
+                        >
                             {client.ClientApellido !== ''
                                 ? `${client.ClientApellido}, ${client.ClientName}`
                                 : client.ClientName}
