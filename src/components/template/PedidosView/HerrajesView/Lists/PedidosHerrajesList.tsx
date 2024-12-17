@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from '@/components/ui'
 import THead from '@/components/ui/Table/THead'
 import Th from '@/components/ui/Table/Th'
@@ -14,11 +14,15 @@ import { IconButton } from '@mui/material'
 import HerrajesNestedList from './HerrajesNestedList'
 import { Skeleton } from '@/components/ui'
 
-const PedidosHerrajesList = () => {
+const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
     const { pedidos, loading, fetchPedidos } = usePedidosHerrajes()
     const [expandedPedidoId, setExpandedPedidoId] = useState<string | null>(
         null,
     )
+
+    useEffect(() => {
+        fetchPedidos()
+    }, [onSubmit])
 
     const toggleExpand = (pedidoId: string) => {
         setExpandedPedidoId((prev) => (prev === pedidoId ? null : pedidoId))
