@@ -1,13 +1,19 @@
 import DividerMain from '@/components/template/DividerMain'
 import AddPedidoButton from '@/components/template/PedidosView/Buttons/AddPedidoButton'
 import PedidosVidriosList from '@/components/template/PedidosView/VidriosView/Lists/PedidosVidriosList'
+import AddPedidoModal from '@/components/template/PedidosView/VidriosView/Modal/AddPedidoModal'
 import React, { useState } from 'react'
 
 const VidriosView: React.FC = () => {
     const [isAddPedidoModalOpen, setIsAddPedidoModalOpen] = useState(false)
+    const [onPedidoSubmit, setOnPedidoSubmit] = useState(false)
 
     const toggleAddPedidoModal = () => {
         setIsAddPedidoModalOpen(!isAddPedidoModalOpen)
+    }
+
+    const handleOnSubmit = () => {
+        setOnPedidoSubmit(!onPedidoSubmit)
     }
 
     return (
@@ -23,8 +29,14 @@ const VidriosView: React.FC = () => {
                     </div>
                 </div>
                 <DividerMain />
-                <PedidosVidriosList />
+                <PedidosVidriosList onSubmit={handleOnSubmit} />
             </div>
+
+            <AddPedidoModal
+                isOpen={isAddPedidoModalOpen}
+                toggleModal={toggleAddPedidoModal}
+                onSubmit={handleOnSubmit}
+            />
         </>
     )
 }

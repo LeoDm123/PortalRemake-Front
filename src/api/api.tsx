@@ -713,6 +713,51 @@ export const updateEstadoHerrajes = async (
 
 //////////////////////////////PEDIDOS VIDRIOS//////////////////////////////
 
+export const createPedidoVidrios = async (
+    cliente: string,
+    obra: string,
+    fecha: string,
+    nroPedido: string,
+    estado: string,
+    vidrios: any[],
+): Promise<any> => {
+    const PEDIDO_ENDPOINT: string = '/pedidoVidrios/crearPedido'
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDO_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Cliente: cliente,
+                Obra: obra,
+                Fecha: fecha,
+                NroPedido: nroPedido,
+                Estado: estado,
+                Vidrios: vidrios,
+            }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(
+                data.msg || `Error al registrar pedido: ${response.status}`,
+            )
+        }
+
+        if (data.msg === 'Pedido ya se encuentra registrado') {
+            console.warn(data.msg)
+        }
+
+        return data
+    } catch (error) {
+        console.error('Error al registrar pedido:', error)
+        throw error
+    }
+}
+
 export const fetchPedidosVidrios = async (): Promise<any> => {
     const PEDIDOS_ENDPOINT: string = `/pedidoVidrios/obtenerPedidos`
 
@@ -737,7 +782,7 @@ export const fetchPedidosVidrios = async (): Promise<any> => {
 }
 
 export const deletePedidoVidrios = async (id: string): Promise<any> => {
-    const DELETE_PEDIDO_ENDPOINT: string = `/pedidos/eliminarPedido/${id}`
+    const DELETE_PEDIDO_ENDPOINT: string = `/pedidoVidrios/deletePedido/${id}`
 
     try {
         const response = await fetch(
