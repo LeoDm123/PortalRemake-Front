@@ -12,7 +12,6 @@ import { createPedidoVidrios } from '@/api/api'
 import getCurrentDate from '@/utils/hooks/getCurrentDate'
 import { showConfirmation, showSuccess, showError } from '@/utils/hooks/alerts'
 import '../../pedidosViewStyles.css'
-import formatNumber from '@/utils/hooks/formatNumber'
 
 type UploadedMaterial = {
     Codigo: string

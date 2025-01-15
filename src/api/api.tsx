@@ -818,7 +818,7 @@ export const RecibirPedidoVidrios = async (
         RemitoLog: string
     },
 ): Promise<any> => {
-    const RECIBIR_PEDIDO_ENDPOINT = `/pedidoVidrios/recibirPedido/${pedidoId}/${codigoMat}`
+    const RECIBIR_PEDIDO_ENDPOINT = `/pedidoVidrios/recibirPedido/${pedidoId}/${encodeURIComponent(codigoMat)}`
 
     try {
         const response = await fetch(

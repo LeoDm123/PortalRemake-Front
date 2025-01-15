@@ -14,7 +14,15 @@ import { IconButton } from '@mui/material'
 import HerrajesNestedList from './HerrajesNestedList'
 import { Skeleton } from '@/components/ui'
 
-const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
+type PedidosHerrajesListProps = {
+    onSubmit: () => void
+    allPedidos: boolean
+}
+
+const PedidosHerrajesList: React.FC<PedidosHerrajesListProps> = ({
+    onSubmit,
+    allPedidos,
+}) => {
     const { pedidos, loading, fetchPedidos } = usePedidosHerrajes()
     const [expandedPedidoId, setExpandedPedidoId] = useState<string | null>(
         null,
@@ -23,6 +31,14 @@ const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
     useEffect(() => {
         fetchPedidos()
     }, [onSubmit])
+
+    const formatDate = (dateString: string): string => {
+        const [year, month, day] = dateString.split('-')
+        if (year && month && day) {
+            return `${day}-${month}-${year}`
+        }
+        return 'Fecha inválida'
+    }
 
     const toggleExpand = (pedidoId: string) => {
         setExpandedPedidoId((prev) => (prev === pedidoId ? null : pedidoId))
@@ -72,6 +88,10 @@ const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
         })
     }
 
+    const filteredPedidos = allPedidos
+        ? pedidos
+        : pedidos.filter((pedido) => pedido.Estado === 'Abierto')
+
     if (loading) {
         return (
             <div>
@@ -89,7 +109,7 @@ const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
 
     return (
         <>
-            {pedidos.length > 0 ? (
+            {filteredPedidos.length > 0 ? (
                 <div className="table-container">
                     <Table>
                         <THead>
@@ -105,14 +125,14 @@ const PedidosHerrajesList = ({ onSubmit }: { onSubmit: () => void }) => {
                     <div className="table-body-container">
                         <Table>
                             <TBody>
-                                {pedidos.map((pedido, index) => (
+                                {filteredPedidos.map((pedido, index) => (
                                     <React.Fragment key={index}>
                                         <tr>
                                             <Td className="no-wrap w-3/12 td-px">
                                                 {pedido.Obra}
                                             </Td>
                                             <Td className="text-center no-wrap w-2/12 td-px">
-                                                {pedido.Fecha}
+                                                {formatDate(pedido.Fecha)}
                                             </Td>
                                             <Td className="text-center no-wrap w-2/12 td-px">
                                                 {pedido.NroPedido}

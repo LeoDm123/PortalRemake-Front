@@ -76,7 +76,7 @@
     "sweetalert2": "^11.6.13",
     "twin.macro": "^3.4.0",
     "xlsx": "^0.18.5",
-    "yup": "^1.1.1"
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

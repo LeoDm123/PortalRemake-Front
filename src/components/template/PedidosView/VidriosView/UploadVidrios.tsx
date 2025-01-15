@@ -44,7 +44,7 @@ const UploadVidrios: React.FC<UploadVidriosProps> = ({
 
                 const jsonData = XLSX.utils.sheet_to_json(sheet, {
                     header: 1,
-                    range: 16,
+                    range: 15,
                 }) as any[][]
 
                 const filteredData = jsonData.map((row) => {
