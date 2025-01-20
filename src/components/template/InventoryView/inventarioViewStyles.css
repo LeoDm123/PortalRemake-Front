@@ -1,0 +1,40 @@
+.inv-container {
+    width: 100%;
+    height: 75vh;
+}
+
+.inv-body-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
+
+.inv-body-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inv-body-container::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 5px;
+}
+
+.table-body-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.td-px {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+
+.pedidos-container {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    margin-left: 1px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
