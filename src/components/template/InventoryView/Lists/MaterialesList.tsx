@@ -11,35 +11,23 @@ import formatNumber from '@/utils/hooks/formatNumber'
 import DeleteButton from '../../DeleteButton'
 import { deleteMaterial } from '@/api/api'
 import Swal from 'sweetalert2'
-import EditButton from '../../EditButton'
 import { Material } from '@/@types/mats'
 import MatInfoButton from '../Buttons/MatInfoButton'
-import MatInfoModal from '../Modal/MatInfoModal'
+import EditMatButton from '../Buttons/EditMatButton'
 
 const MaterialesList: React.FC = () => {
     const { materiales, loading, fetchMateriales } = useMateriales()
     const [selectedCategory, setSelectedCategory] =
         useState<string>('Mostrar Todos')
     const [searchTerm, setSearchTerm] = useState<string>('')
-    const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(
-        null,
-    )
-    const [isEditModalOpen, setEditModalOpen] = useState(false)
-    const [isInfoModalOpen, setInfoModalOpen] = useState(false)
+
+    const onEditSuccess = () => {
+        fetchMateriales()
+    }
 
     useEffect(() => {
         fetchMateriales()
     }, [])
-
-    const toggleEditModal = (material: Material | null = null) => {
-        setSelectedMaterial(material)
-        setEditModalOpen(!isEditModalOpen)
-    }
-
-    const toggleInfoModal = (material: Material | null = null) => {
-        setSelectedMaterial(material)
-        setInfoModalOpen(!isInfoModalOpen)
-    }
 
     const handleConfirmDelete = (MatID: string) => {
         Swal.fire({
@@ -183,9 +171,7 @@ const MaterialesList: React.FC = () => {
                                                 style={{ width: '12%' }}
                                             >
                                                 {material.Stock !== 0
-                                                    ? `${formatNumber(material.Stock)} ${
-                                                          material.Unidad
-                                                      }`
+                                                    ? `${formatNumber(material.Stock)} ${material.Unidad}`
                                                     : material.Stock}
                                             </Td>
                                             <Td className="m-0 text-center no-wrap td-px">
@@ -197,17 +183,16 @@ const MaterialesList: React.FC = () => {
                                                         )
                                                     }
                                                 />
-                                                <EditButton
+                                                <EditMatButton
                                                     size="small"
-                                                    isOpen={toggleEditModal}
+                                                    material={material}
+                                                    onEditSuccess={
+                                                        onEditSuccess
+                                                    }
                                                 />
                                                 <MatInfoButton
                                                     size="small"
-                                                    MatInfo={() =>
-                                                        toggleInfoModal(
-                                                            material,
-                                                        )
-                                                    }
+                                                    material={material}
                                                 />
                                             </Td>
                                         </tr>
@@ -215,14 +200,6 @@ const MaterialesList: React.FC = () => {
                                 ))}
                             </TBody>
                         </Table>
-
-                        {isInfoModalOpen && selectedMaterial && (
-                            <MatInfoModal
-                                material={selectedMaterial}
-                                toggleModal={toggleInfoModal}
-                                isOpen={isInfoModalOpen}
-                            />
-                        )}
                     </div>
                 </div>
             ) : (

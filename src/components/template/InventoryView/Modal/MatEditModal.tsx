@@ -4,19 +4,21 @@ import React, { useRef } from 'react'
 import DividerMain from '@/components/template/DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import MaterialInfoForm from '../Forms/MaterialInfoForm'
 import { Material } from '@/@types/mats'
+import MatEditForm from '../Forms/MatEditForm'
 
-type MatInfoModalProps = {
+type MatEditModalProps = {
     isOpen: boolean
     toggleModal: () => void
     material: Material
+    onEditSuccess: () => void
 }
 
-const MatInfoModal: React.FC<MatInfoModalProps> = ({
+const MatEditModal: React.FC<MatEditModalProps> = ({
     isOpen,
     toggleModal,
     material,
+    onEditSuccess,
 }) => {
     const submitRef = useRef<() => void>(() => {})
 
@@ -53,10 +55,13 @@ const MatInfoModal: React.FC<MatInfoModalProps> = ({
                         <HiOutlineXCircle />
                     </IconButton>
                 </div>
-                <MaterialInfoForm material={material} />
+                <MatEditForm
+                    material={material}
+                    onEditSuccess={onEditSuccess}
+                />
             </Card>
         </Modal>
     )
 }
 
-export default MatInfoModal
+export default MatEditModal

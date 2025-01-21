@@ -38,7 +38,7 @@ const ReceptionsList: React.FC<ReceptionsListProps> = ({ receptions }) => {
     return (
         <>
             {receptions.length > 0 ? (
-                <div className="inv-container">
+                <div className="reception-list-container">
                     <Table>
                         <THead>
                             <Th
@@ -86,7 +86,7 @@ const ReceptionsList: React.FC<ReceptionsListProps> = ({ receptions }) => {
                         </THead>
                     </Table>
 
-                    <div className="inv-body-container">
+                    <div className="reception-list">
                         <Table>
                             <TBody>
                                 {receptions.map((reception, index) => {

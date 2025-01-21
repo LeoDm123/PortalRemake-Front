@@ -1,35 +1,46 @@
 import { IconButton } from '@mui/material'
-import { HiOutlineClipboardList } from 'react-icons/hi'
 import React, { useState } from 'react'
-import MatInfoModal from '../Modal/MatInfoModal'
+import { HiOutlinePencilAlt } from 'react-icons/hi'
+import MatEditModal from '../Modal/MatEditModal'
 import { Material } from '@/@types/mats'
 
-type MatInfoButtonProps = {
+type EditMatButtonProps = {
     material: Material
     size: 'small' | 'medium' | 'large'
+    onEditSuccess: () => void
 }
 
-const MatInfoButton: React.FC<MatInfoButtonProps> = ({ material, size }) => {
+const EditMatButton: React.FC<EditMatButtonProps> = ({
+    material,
+    size,
+    onEditSuccess,
+}) => {
     const [isModalOpen, setModalOpen] = useState(false)
 
     const toggleModal = () => {
         setModalOpen(!isModalOpen)
     }
 
+    const handleEditSuccess = () => {
+        onEditSuccess()
+        setModalOpen(false)
+    }
+
     return (
         <>
             <IconButton size={size} onClick={toggleModal}>
-                <HiOutlineClipboardList />
+                <HiOutlinePencilAlt />
             </IconButton>
             {isModalOpen && (
-                <MatInfoModal
+                <MatEditModal
                     material={material}
                     toggleModal={toggleModal}
                     isOpen={isModalOpen}
+                    onEditSuccess={handleEditSuccess}
                 />
             )}
         </>
     )
 }
 
-export default MatInfoButton
+export default EditMatButton

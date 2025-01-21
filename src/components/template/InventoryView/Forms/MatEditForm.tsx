@@ -1,16 +1,59 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Formik, Form } from 'formik'
-import { Input } from '@/components/ui'
+import { Input, Button } from '@/components/ui'
 import { FormItem, FormContainer } from '@/components/ui'
 import DividerMain from '@/components/template/DividerMain'
 import { Material } from '@/@types/mats'
-import ReceptionsList from '../Lists/ReceptionsList'
+import { editMaterial, fetchMateriales } from '@/api/api'
+import Swal from 'sweetalert2'
 
-type MaterialInfoFormProps = {
+type MatEditFormProps = {
     material: Material
+    onEditSuccess: () => void
 }
 
-const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
+const MatEditForm: React.FC<MatEditFormProps> = ({
+    material,
+    onEditSuccess,
+}) => {
+    const handleConfirmEdit = (values: any) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas guardar los cambios en este material?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleEdit(values)
+            }
+        })
+    }
+
+    const handleEdit = async (values: any) => {
+        try {
+            await editMaterial(material._id, values)
+            Swal.fire({
+                title: 'Guardado',
+                text: 'El material ha sido actualizado correctamente.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+            })
+            if (onEditSuccess) onEditSuccess()
+        } catch (error) {
+            console.error('Error al actualizar el material:', error)
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el material.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+            })
+        }
+    }
+
     return (
         <Formik
             initialValues={{
@@ -27,15 +70,16 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
                 Proveedor: material.Proveedor,
                 Recepciones: material.InvLog,
             }}
-            onSubmit={() => {}}
+            onSubmit={(values) => handleConfirmEdit(values)}
         >
-            {({ values }) => (
+            {({ values, handleChange }) => (
                 <Form>
                     <FormContainer>
                         <div className="flex justify-between items-center">
                             <FormItem label="Código" className="w-2/12 mr-1">
                                 <Input
                                     type="text"
+                                    name="Codigo"
                                     value={values.Codigo}
                                     disabled
                                 />
@@ -47,8 +91,9 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
                             >
                                 <Input
                                     type="text"
+                                    name="Descripcion"
                                     value={values.Descripcion}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
                         </div>
@@ -57,24 +102,27 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
                             <FormItem label="Categoría" className="col-span-2">
                                 <Input
                                     type="text"
+                                    name="Categoria"
                                     value={values.Categoria}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
                             <FormItem label="Proveedor" className="col-span-2">
                                 <Input
                                     type="text"
+                                    name="Proveedor"
                                     value={values.Proveedor}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
                             <FormItem label="Unidad" className="col-span-1">
                                 <Input
                                     type="text"
+                                    name="Unidad"
                                     value={values.Unidad}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
@@ -84,8 +132,9 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
                             >
                                 <Input
                                     type="number"
+                                    name="StockSeguridad"
                                     value={values.StockSeguridad}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
                         </div>
@@ -94,54 +143,45 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
                             <FormItem label="Alto">
                                 <Input
                                     type="number"
+                                    name="Alto"
                                     value={values.Alto}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
                             <FormItem label="Ancho">
                                 <Input
                                     type="number"
+                                    name="Ancho"
                                     value={values.Ancho}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
                             <FormItem label="Largo">
                                 <Input
                                     type="number"
+                                    name="Largo"
                                     value={values.Largo}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
                             <FormItem label="Espesor">
                                 <Input
                                     type="number"
+                                    name="Espesor"
                                     value={values.Espesor}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
                         </div>
 
-                        <>
-                            <div>
-                                <div className="flex justify-between items-center mb-4">
-                                    <div>
-                                        <h4
-                                            id="modal-title"
-                                            style={{ color: '#01662b' }}
-                                        >
-                                            Recepciones
-                                        </h4>
-                                        <DividerMain />
-                                    </div>
-                                </div>
-                                <ReceptionsList
-                                    receptions={values.Recepciones}
-                                />
-                            </div>
-                        </>
+                        <div className="flex justify-end mt-4">
+                            <Button type="submit" variant="solid">
+                                Guardar cambios
+                            </Button>
+                        </div>
                     </FormContainer>
                 </Form>
             )}
@@ -149,4 +189,4 @@ const MaterialInfoForm: React.FC<MaterialInfoFormProps> = ({ material }) => {
     )
 }
 
-export default MaterialInfoForm
+export default MatEditForm

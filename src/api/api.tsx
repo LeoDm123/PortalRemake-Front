@@ -939,3 +939,33 @@ export const deleteMaterial = async (MatID: string): Promise<any> => {
         throw error
     }
 }
+
+export const editMaterial = async (
+    MatId: string,
+    updatedMatData: any,
+): Promise<any> => {
+    const MATERIALES_EDIT_ENDPOINT: string = `/mats/editMat/${MatId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${MATERIALES_EDIT_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedMatData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al editar el material: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al editar el material:', error)
+        throw error
+    }
+}
