@@ -44,6 +44,7 @@ const PresupuestoModal: React.FC<PresupuestoModalProps> = ({
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
                         width: '80%',
+                        height: '100%',
                     }}
                 >
                     <div className="flex justify-between items-center mb-4">
