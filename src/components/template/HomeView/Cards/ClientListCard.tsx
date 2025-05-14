@@ -1,15 +1,15 @@
 import React from 'react'
-import BalanceChart from '../Charts/BalanceChart'
 import { Card } from '@/components/ui'
+import ClientsList from '../Lists/ClientsList'
 
-const BalanceChartCard = () => {
+const ClientListCard = () => {
     return (
         <div>
             <Card>
-                <BalanceChart />
+                <ClientsList />
             </Card>
         </div>
     )
 }
 
-export default BalanceChartCard
+export default ClientListCard

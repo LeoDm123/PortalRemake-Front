@@ -4,7 +4,7 @@ import THead from '@/components/ui/Table/THead'
 import Th from '@/components/ui/Table/Th'
 import TBody from '@/components/ui/Table/TBody'
 import Td from '@/components/ui/Table/Td'
-import { Material } from '@/@types/pedidos'
+import { Material, Pedido } from '@/@types/pedidos'
 import PedidoDetailsButton from '../../Buttons/PedidoDetailsButton'
 import PedidoPerfilesInfoModal from '../Modal/PedidoPerfilesInfoModal'
 import RecibirMaterialButton from '../../Buttons/RecibirMaterialButton'
@@ -13,13 +13,13 @@ import { updateEstadoPerfiles } from '@/api/api'
 
 interface PerfilesNestedListProps {
     materiales: Material[]
-    pedidoId: string
+    pedido: Pedido
     onReceptionComplete: () => void
 }
 
 const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
     materiales,
-    pedidoId,
+    pedido,
     onReceptionComplete,
 }) => {
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
@@ -27,6 +27,8 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
         null,
     )
     const [isMatModalOpen, setMatModalOpen] = useState(false)
+
+    const pedidoId = pedido._id
 
     const formatNumber = (number: number) => {
         const parsedNumber = Number(number)
@@ -183,7 +185,7 @@ const PerfilesNestedList: React.FC<PerfilesNestedListProps> = ({
                                     isOpen={isMatModalOpen}
                                     toggleModal={() => toggleMatModal(null)}
                                     material={selectedMaterial}
-                                    pedidoId={pedidoId}
+                                    pedido={pedido}
                                     onReceptionComplete={onReceptionComplete}
                                 />
                             )}

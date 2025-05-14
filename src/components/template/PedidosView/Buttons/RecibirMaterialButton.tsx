@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { HiOutlineLogin } from 'react-icons/hi'
 import React from 'react'
 
@@ -12,9 +12,11 @@ const RecibirMaterialButton: React.FC<RecibirMaterialProps> = ({
     size,
 }) => {
     return (
-        <IconButton size={size} onClick={recibirMat}>
-            <HiOutlineLogin />
-        </IconButton>
+        <Tooltip title="Registrar recepción" arrow>
+            <IconButton size={size} onClick={recibirMat}>
+                <HiOutlineLogin />
+            </IconButton>
+        </Tooltip>
     )
 }
 

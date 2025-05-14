@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { HiOutlineInformationCircle } from 'react-icons/hi'
 import React from 'react'
 
@@ -12,9 +12,11 @@ const PedidoDetailsButton: React.FC<PedidoDetailsProps> = ({
     size,
 }) => {
     return (
-        <IconButton size={size} onClick={pedidoInfo}>
-            <HiOutlineInformationCircle />
-        </IconButton>
+        <Tooltip title="Ver información" arrow>
+            <IconButton size={size} onClick={pedidoInfo}>
+                <HiOutlineInformationCircle />
+            </IconButton>
+        </Tooltip>
     )
 }
 

@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { HiOutlineTrash } from 'react-icons/hi'
 import React from 'react'
 
@@ -9,9 +9,11 @@ type DeleteButtonProps = {
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete, size }) => {
     return (
-        <IconButton size={size} onClick={onDelete}>
-            <HiOutlineTrash />
-        </IconButton>
+        <Tooltip title="Borrar  " arrow>
+            <IconButton size={size} onClick={onDelete}>
+                <HiOutlineTrash />
+            </IconButton>
+        </Tooltip>
     )
 }
 

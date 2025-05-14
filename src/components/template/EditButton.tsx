@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import React from 'react'
 
@@ -9,9 +9,11 @@ type EditButtonProps = {
 
 const EditButton: React.FC<EditButtonProps> = ({ isOpen, size }) => {
     return (
-        <IconButton size={size} onClick={isOpen}>
-            <HiOutlinePencilAlt />
-        </IconButton>
+        <Tooltip title="Editar" arrow>
+            <IconButton size={size} onClick={isOpen}>
+                <HiOutlinePencilAlt />
+            </IconButton>
+        </Tooltip>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, IconButton } from '@mui/material'
+import { Modal, IconButton, Tooltip } from '@mui/material'
 import { HiOutlineDocumentText, HiOutlineXCircle } from 'react-icons/hi'
 import { Card } from '@/components/ui'
 import PresupuestoInfo from '../Info/PresupuestoInfo'
@@ -26,9 +26,11 @@ const PresupuestoModal: React.FC<PresupuestoModalProps> = ({
 
     return (
         <>
-            <IconButton size="small" onClick={toggleModal}>
-                <HiOutlineDocumentText />
-            </IconButton>
+            <Tooltip title="Ver detalles" arrow>
+                <IconButton size="small" onClick={toggleModal}>
+                    <HiOutlineDocumentText />
+                </IconButton>
+            </Tooltip>
 
             <Modal
                 open={isOpen}

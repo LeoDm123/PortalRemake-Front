@@ -36,7 +36,12 @@ const ClientsView = () => {
         <>
             <div>
                 <div className="mb-2 flex justify-between items-center">
-                    <h4 style={{ color: '#01662b' }}>Clientes Activos</h4>
+                    <div className="flex items-center">
+                        <h4 style={{ color: '#01662b' }}>Clientes Activos</h4>
+                        <div className="ml-3">
+                            <AddClientButton isOpen={toggleAddClientModal} />
+                        </div>
+                    </div>
 
                     <div className="flex items-center">
                         <div className="flex mr-5 items-center">
@@ -50,8 +55,6 @@ const ClientsView = () => {
                             Ordenar A-Z
                             <Sorter sort={sortDirection} />
                         </button>
-                        <AddClientButton isOpen={toggleAddClientModal} />
-                        <OpenDBButton />
                     </div>
                 </div>
                 <DividerMain />

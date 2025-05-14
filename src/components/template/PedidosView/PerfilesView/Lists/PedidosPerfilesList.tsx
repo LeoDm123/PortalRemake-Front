@@ -194,9 +194,7 @@ const PedidosPerfilesList: React.FC<PedidosPerfilesListProps> = ({
                                                             materiales={
                                                                 pedido.Materiales
                                                             }
-                                                            pedidoId={
-                                                                pedido._id
-                                                            }
+                                                            pedido={pedido}
                                                             onReceptionComplete={
                                                                 fetchPedidos
                                                             }

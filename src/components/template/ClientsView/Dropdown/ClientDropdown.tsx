@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Dropdown } from '@/components/ui'
 import { HiOutlineMenuAlt2, HiOutlineUser } from 'react-icons/hi'
 import { Client } from '@/@types/clientInfo'
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import EditButton from '../../EditButton'
 import EditClientModal from '../Modal/EditClientModal'
 import { fetchClients } from '@/api/api'
@@ -25,9 +25,11 @@ const ClientDetailsDropdown: React.FC<ClientDetailsDropdownProps> = ({
     }
 
     const ClientAvatar = (
-        <IconButton className="flex items-center gap-2">
-            <HiOutlineMenuAlt2 />
-        </IconButton>
+        <Tooltip title="Ver información del cliente" arrow>
+            <IconButton className="flex items-center gap-2">
+                <HiOutlineMenuAlt2 />
+            </IconButton>
+        </Tooltip>
     )
 
     return (

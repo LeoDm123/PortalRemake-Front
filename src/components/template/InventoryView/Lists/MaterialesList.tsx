@@ -15,11 +15,18 @@ import { Material } from '@/@types/mats'
 import MatInfoButton from '../Buttons/MatInfoButton'
 import EditMatButton from '../Buttons/EditMatButton'
 
-const MaterialesList: React.FC = () => {
+interface MaterialesListProps {
+    searchTerm?: string
+    onPedidoSubmit: () => void
+}
+
+const MaterialesList: React.FC<MaterialesListProps> = ({
+    searchTerm = '',
+    onPedidoSubmit,
+}) => {
     const { materiales, loading, fetchMateriales } = useMateriales()
     const [selectedCategory, setSelectedCategory] =
         useState<string>('Mostrar Todos')
-    const [searchTerm, setSearchTerm] = useState<string>('')
 
     const onEditSuccess = () => {
         fetchMateriales()
@@ -27,7 +34,7 @@ const MaterialesList: React.FC = () => {
 
     useEffect(() => {
         fetchMateriales()
-    }, [])
+    }, [onPedidoSubmit])
 
     const handleConfirmDelete = (MatID: string) => {
         Swal.fire({
@@ -78,6 +85,15 @@ const MaterialesList: React.FC = () => {
             (!searchTerm ||
                 material.Codigo.toLowerCase().includes(
                     searchTerm.toLowerCase(),
+                ) ||
+                material.Descripcion.toLowerCase().includes(
+                    searchTerm.toLowerCase(),
+                ) ||
+                material.Categoria.toLowerCase().includes(
+                    searchTerm.toLowerCase(),
+                ) ||
+                material.Proveedor.toLowerCase().includes(
+                    searchTerm.toLowerCase(),
                 )),
     )
 
@@ -100,17 +116,17 @@ const MaterialesList: React.FC = () => {
         <>
             {filteredMateriales.length > 0 ? (
                 <div className="inv-container">
-                    <Table>
+                    <Table style={{ tableLayout: 'fixed', width: '100%' }}>
                         <THead>
                             <Th
                                 className="pt-1 text-center"
-                                style={{ width: '10%' }}
+                                style={{ width: '15%' }}
                             >
                                 Código
                             </Th>
                             <Th
                                 className="pt-1 text-center"
-                                style={{ width: '40%' }}
+                                style={{ width: '35%' }}
                             >
                                 Descripción
                             </Th>
@@ -122,59 +138,62 @@ const MaterialesList: React.FC = () => {
                             </Th>
                             <Th
                                 className="pt-1 text-center"
-                                style={{ width: '13%' }}
+                                style={{ width: '15%' }}
                             >
                                 Proveedor
                             </Th>
                             <Th
                                 className="pt-1 text-center"
-                                style={{ width: '14%' }}
+                                style={{ width: '15%' }}
                             >
                                 Stock Actual
                             </Th>
-                            <Th></Th>
+                            <Th style={{ width: '10%' }}></Th>
                         </THead>
                     </Table>
 
                     <div className="inv-body-container">
-                        <Table>
+                        <Table style={{ tableLayout: 'fixed', width: '100%' }}>
                             <TBody>
                                 {filteredMateriales.map((material, index) => (
                                     <React.Fragment key={index}>
                                         <tr>
                                             <Td
                                                 className="text-center no-wrap td-px"
-                                                style={{ width: '10%' }}
+                                                style={{ width: '15%' }}
                                             >
                                                 {material.Codigo}
                                             </Td>
                                             <Td
-                                                className=" no-wrap td-px"
-                                                style={{ width: '40%' }}
+                                                className="td-px truncate"
+                                                style={{ width: '35%' }}
                                             >
                                                 {material.Descripcion}
                                             </Td>
                                             <Td
-                                                className="text-center no-wrap  td-px"
+                                                className="text-center no-wrap td-px truncate"
                                                 style={{ width: '15%' }}
                                             >
                                                 {material.Categoria}
                                             </Td>
                                             <Td
-                                                className="text-center no-wrap td-px"
+                                                className="text-center no-wrap td-px truncate"
                                                 style={{ width: '15%' }}
                                             >
                                                 {material.Proveedor}
                                             </Td>
                                             <Td
                                                 className="text-center no-wrap td-px"
-                                                style={{ width: '12%' }}
+                                                style={{ width: '15%' }}
                                             >
                                                 {material.Stock !== 0
                                                     ? `${formatNumber(material.Stock)} ${material.Unidad}`
                                                     : material.Stock}
                                             </Td>
-                                            <Td className="m-0 text-center no-wrap td-px">
+                                            <Td
+                                                className="m-0 text-center no-wrap td-px"
+                                                style={{ width: '10%' }}
+                                            >
                                                 <DeleteButton
                                                     size="small"
                                                     onDelete={() =>

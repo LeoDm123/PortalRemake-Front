@@ -134,6 +134,29 @@ export const fetchClients = async (): Promise<any> => {
     }
 }
 
+export const fetchActiveClients = async (): Promise<any> => {
+    const INCOME_ENDPOINT: string = `/clients/obtenerClientesActivos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${INCOME_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los ingresos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los ingresos:', error)
+        throw error
+    }
+}
+
 export const fetchClientById = async (clienteId: string): Promise<any> => {
     const CLIENT_ENDPOINT: string = `/clients/obtenerClientePorId/${clienteId}`
 
@@ -915,7 +938,7 @@ export const fetchMateriales = async (): Promise<any> => {
 }
 
 export const deleteMaterial = async (MatID: string): Promise<any> => {
-    const BORRAR_MATERIAL_ENDPOINT: string = `/mats/borrarMaterial/${MatID}`
+    const BORRAR_MATERIAL_ENDPOINT: string = `/mats/deleteMat/${MatID}`
 
     try {
         const response = await fetch(
@@ -966,6 +989,156 @@ export const editMaterial = async (
         return data
     } catch (error) {
         console.error('Error al editar el material:', error)
+        throw error
+    }
+}
+
+export const createMaterial = async (newMatData: any): Promise<any> => {
+    const MATERIALES_CREATE_ENDPOINT: string = `/mats/crearMaterial`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${MATERIALES_CREATE_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMatData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al crear el material: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al crear el material:', error)
+        throw error
+    }
+}
+
+export const updateStockMaterial = async (
+    materialId: string,
+    movimientoData: {
+        Cantidad: number
+        Fecha: string
+        nroPedido: string
+        Unidad: string
+        TipoMov: string
+        RemitoLog: string
+    },
+): Promise<any> => {
+    const UPDATE_STOCK_ENDPOINT = `/mats/retirarIngresarMat/${materialId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${UPDATE_STOCK_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(movimientoData),
+            },
+        )
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(
+                errorData?.message ||
+                    `Error al actualizar el stock del material: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al actualizar el stock del material:', error)
+        throw error
+    }
+}
+
+//////////////////////////////LOGS////////////////////////////////
+export const fetchInventarioLogs = async (): Promise<any> => {
+    const LOGS_ENDPOINT: string = `/inv/obtenerLogs`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${LOGS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al obtener los logs de inventario: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los logs de inventario:', error)
+        throw error
+    }
+}
+
+export const createInventarioLog = async (logData: any): Promise<any> => {
+    const INVENTARIO_LOG_ENDPOINT = `/inv/crearLog`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${INVENTARIO_LOG_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(logData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al registrar el movimiento: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar el movimiento:', error)
+        throw error
+    }
+}
+
+export const deleteInventarioLog = async (logId: string): Promise<any> => {
+    const DELETE_INVENTARIO_LOG_ENDPOINT = `/inv/deleteLog/${logId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_INVENTARIO_LOG_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ LogID: logId }),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(`Error al borrar el movimiento: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al borrar el movimiento:', error)
         throw error
     }
 }

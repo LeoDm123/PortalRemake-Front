@@ -6,18 +6,18 @@ import PerfilesReceptionList from '../Lists/PerfilesReceptionList'
 import { RecibirPedidoPerfiles } from '@/api/api'
 import DividerMain from '@/components/template/DividerMain'
 import { showConfirmation, showSuccess, showError } from '@/utils/hooks/alerts'
-import { Material } from '@/@types/pedidos'
+import { Material, Pedido } from '@/@types/pedidos'
 
 type RecibirMaterialFormProps = {
     material: Material
-    pedidoId: string
+    pedido: Pedido
     onSubmit: (values: any) => void
     closeModal: () => void
 }
 
 const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
     material,
-    pedidoId,
+    pedido,
     onSubmit,
     closeModal,
 }) => {
@@ -64,12 +64,12 @@ const RecibirMaterialForm: React.FC<RecibirMaterialFormProps> = ({
                     return
                 }
 
-                const nroPedido = material.Recepciones[0]?.nroPedido || ''
+                const nroPedido = pedido.NroPedido || ''
                 const RemitoLog = `Remito N°: ${values.NroRemito}`
 
                 try {
                     const response = await RecibirPedidoPerfiles(
-                        pedidoId,
+                        pedido._id,
                         material.Codigo,
                         {
                             ...values,

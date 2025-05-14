@@ -1,26 +1,22 @@
 import { Modal } from '@mui/material'
-import { Card } from '@/components/ui'
+import { Card, Button } from '@/components/ui'
 import React, { useRef } from 'react'
 import DividerMain from '@/components/template/DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import { Material, Pedido } from '@/@types/pedidos'
-import RecibirMaterialForm from '../Forms/RecibirMaterialForm'
+import { Material } from '@/@types/mats'
+import MatAddForm from '../Forms/MatAddForm'
 
-type RecibirMaterialModalProps = {
+type MatAddModalProps = {
     isOpen: boolean
     toggleModal: () => void
-    material: Material
-    pedido: Pedido
-    onReceptionComplete: () => void
+    onAddSuccess: () => void
 }
 
-const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
+const MatAddModal: React.FC<MatAddModalProps> = ({
     isOpen,
     toggleModal,
-    material,
-    pedido,
-    onReceptionComplete,
+    onAddSuccess,
 }) => {
     const submitRef = useRef<() => void>(() => {})
 
@@ -38,8 +34,7 @@ const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '50%',
-                    height: '100%',
+                    width: '60%',
                 }}
             >
                 <div className="flex justify-between items-center mb-4">
@@ -58,16 +53,10 @@ const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
                         <HiOutlineXCircle />
                     </IconButton>
                 </div>
-
-                <RecibirMaterialForm
-                    material={material}
-                    pedido={pedido}
-                    onSubmit={onReceptionComplete}
-                    closeModal={toggleModal}
-                />
+                <MatAddForm onAddSuccess={onAddSuccess} />
             </Card>
         </Modal>
     )
 }
 
-export default RecibirMaterialModal
+export default MatAddModal

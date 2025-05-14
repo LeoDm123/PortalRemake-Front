@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import { HiOutlineDocumentAdd } from 'react-icons/hi'
 import React from 'react'
 
@@ -12,14 +12,16 @@ const AddPedidoButton: React.FC<AddPedidoButtonProps> = ({
     size,
 }) => {
     return (
-        <IconButton
-            size={size}
-            onClick={() => {
-                onAddPedido()
-            }}
-        >
-            <HiOutlineDocumentAdd />
-        </IconButton>
+        <Tooltip title="Agregar pedido" arrow>
+            <IconButton
+                size={size}
+                onClick={() => {
+                    onAddPedido()
+                }}
+            >
+                <HiOutlineDocumentAdd />
+            </IconButton>
+        </Tooltip>
     )
 }
 

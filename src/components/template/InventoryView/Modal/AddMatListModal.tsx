@@ -1,26 +1,21 @@
 import { Modal } from '@mui/material'
-import { Card } from '@/components/ui'
+import { Card, Button } from '@/components/ui'
 import React, { useRef } from 'react'
 import DividerMain from '@/components/template/DividerMain'
 import { IconButton } from '@mui/material'
 import { HiOutlineXCircle } from 'react-icons/hi'
-import { Material, Pedido } from '@/@types/pedidos'
-import RecibirMaterialForm from '../Forms/RecibirMaterialForm'
+import AddMatListForm from '../Forms/AddMatListForm'
 
-type RecibirMaterialModalProps = {
+type AddMatListModalProps = {
     isOpen: boolean
+    onSubmit: () => void
     toggleModal: () => void
-    material: Material
-    pedido: Pedido
-    onReceptionComplete: () => void
 }
 
-const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
+const AddMatListModal: React.FC<AddMatListModalProps> = ({
     isOpen,
     toggleModal,
-    material,
-    pedido,
-    onReceptionComplete,
+    onSubmit,
 }) => {
     const submitRef = useRef<() => void>(() => {})
 
@@ -38,14 +33,13 @@ const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '50%',
-                    height: '100%',
+                    width: '70%',
                 }}
             >
                 <div className="flex justify-between items-center mb-4">
                     <div>
                         <h4 id="modal-title" style={{ color: '#01662b' }}>
-                            Información del material
+                            Cargar listado de materiales
                         </h4>
                         <DividerMain />
                     </div>
@@ -59,15 +53,10 @@ const RecibirMaterialModal: React.FC<RecibirMaterialModalProps> = ({
                     </IconButton>
                 </div>
 
-                <RecibirMaterialForm
-                    material={material}
-                    pedido={pedido}
-                    onSubmit={onReceptionComplete}
-                    closeModal={toggleModal}
-                />
+                <AddMatListForm onClose={toggleModal} onSubmit={onSubmit} />
             </Card>
         </Modal>
     )
 }
 
-export default RecibirMaterialModal
+export default AddMatListModal

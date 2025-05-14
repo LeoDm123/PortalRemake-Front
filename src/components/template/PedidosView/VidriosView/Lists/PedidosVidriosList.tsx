@@ -128,13 +128,13 @@ const PedidosVidriosList: React.FC<PedidosVidriosListProps> = ({
                                 {filteredPedidos.map((pedido, index) => (
                                     <React.Fragment key={index}>
                                         <tr>
-                                            <Td className=" no-wrap w-2/12 td-px">
+                                            <Td className=" no-wrap w-3/12 td-px">
                                                 {pedido.Cliente}
                                             </Td>
-                                            <Td className=" no-wrap w-2/12 td-px">
+                                            <Td className="text-center no-wrap w-2/12 td-px">
                                                 {pedido.Obra}
                                             </Td>
-                                            <Td className="no-wrap w-2/12 td-px">
+                                            <Td className="text-center no-wrap w-2/12 td-px">
                                                 {formatDate(pedido.Fecha)}
                                             </Td>
                                             <Td className="text-center no-wrap w-2/12 td-px">

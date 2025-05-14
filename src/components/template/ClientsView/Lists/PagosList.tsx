@@ -12,6 +12,7 @@ import { deletePayment } from '@/api/api'
 import Swal from 'sweetalert2'
 import '../clientViewStyles.css'
 import DividerMain from '../../DividerMain'
+import { formatFecha } from '@/utils/hooks/formatFecha'
 
 type PagosListProps = {
     pagos: Pago[]
@@ -20,7 +21,7 @@ type PagosListProps = {
     onDelete: () => void
 }
 
-const MAX_COMMENT_LENGTH = 50 // Longitud máxima antes de truncar el comentario
+const MAX_COMMENT_LENGTH = 50
 
 const PagosList: React.FC<PagosListProps> = ({
     pagos,
@@ -112,7 +113,7 @@ const PagosList: React.FC<PagosListProps> = ({
                                             {formatCurrency(pago.PagoMonto)}
                                         </Td>
                                         <Td className="text-center no-wrap w-2/12">
-                                            {pago.FechaPago}
+                                            {formatFecha(pago.FechaPago)}
                                         </Td>
                                         <Td className="text-center no-wrap w-2/12">
                                             {pago.PagoComprobante}

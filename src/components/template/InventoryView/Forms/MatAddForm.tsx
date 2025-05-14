@@ -2,14 +2,11 @@ import React, { useEffect } from 'react'
 import { Formik, Form, FieldProps, Field } from 'formik'
 import { Input, Button, Select } from '@/components/ui'
 import { FormItem, FormContainer } from '@/components/ui'
-import DividerMain from '@/components/template/DividerMain'
-import { Material } from '@/@types/mats'
-import { editMaterial, fetchMateriales } from '@/api/api'
+import { createMaterial } from '@/api/api'
 import Swal from 'sweetalert2'
 
-type MatEditFormProps = {
-    material: Material
-    onEditSuccess: () => void
+type MatAddFormProps = {
+    onAddSuccess: () => void
 }
 
 type Option = {
@@ -17,11 +14,8 @@ type Option = {
     label: string
 }
 
-const MatEditForm: React.FC<MatEditFormProps> = ({
-    material,
-    onEditSuccess,
-}) => {
-    const handleConfirmEdit = (values: any) => {
+const MatAddForm: React.FC<MatAddFormProps> = ({ onAddSuccess }) => {
+    const handleConfirmAdd = (values: any) => {
         Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Deseas guardar los cambios en este material?',
@@ -33,49 +27,48 @@ const MatEditForm: React.FC<MatEditFormProps> = ({
             cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.isConfirmed) {
-                handleEdit(values)
+                handleAdd(values)
             }
         })
     }
 
-    const handleEdit = async (values: any) => {
+    const handleAdd = async (values: any) => {
         try {
-            await editMaterial(material._id, values)
+            await createMaterial(values)
             Swal.fire({
                 title: 'Guardado',
-                text: 'El material ha sido actualizado correctamente.',
+                text: 'El material ha sido registrado correctamente.',
                 icon: 'success',
                 confirmButtonColor: '#3085d6',
             })
-            if (onEditSuccess) onEditSuccess()
+            if (onAddSuccess) onAddSuccess()
         } catch (error) {
-            console.error('Error al actualizar el material:', error)
+            console.error('Error al registrar el material:', error)
             Swal.fire({
                 title: 'Error',
-                text: 'Hubo un problema al actualizar el material.',
+                text: 'Hubo un problema al registrar el material.',
                 icon: 'error',
                 confirmButtonColor: '#d33',
             })
         }
     }
-
     return (
         <Formik
             initialValues={{
-                Codigo: material.Codigo,
-                Descripcion: material.Descripcion,
-                Categoria: material.Categoria,
-                Unidad: material.Unidad,
-                Alto: material.Alto,
-                Ancho: material.Ancho,
-                Largo: material.Largo,
-                Espesor: material.Espesor,
-                StockSeguridad: material.StockSeguridad,
-                Stock: material.Stock,
-                Proveedor: material.Proveedor,
-                Recepciones: material.InvLog,
+                Codigo: '',
+                Descripcion: '',
+                Categoria: '',
+                Unidad: '',
+                Alto: '',
+                Ancho: '',
+                Largo: '',
+                Espesor: '',
+                StockSeguridad: '',
+                Stock: '',
+                Proveedor: '',
+                Recepciones: '',
             }}
-            onSubmit={(values) => handleConfirmEdit(values)}
+            onSubmit={(values) => handleConfirmAdd(values)}
         >
             {({ values, handleChange, errors, touched }) => (
                 <Form>
@@ -86,7 +79,7 @@ const MatEditForm: React.FC<MatEditFormProps> = ({
                                     type="text"
                                     name="Codigo"
                                     value={values.Codigo}
-                                    disabled
+                                    onChange={handleChange}
                                 />
                             </FormItem>
 
@@ -381,7 +374,7 @@ const MatEditForm: React.FC<MatEditFormProps> = ({
 
                         <div className="flex justify-end mt-4">
                             <Button type="submit" variant="solid">
-                                Guardar cambios
+                                Agregar material
                             </Button>
                         </div>
                     </FormContainer>
@@ -391,4 +384,4 @@ const MatEditForm: React.FC<MatEditFormProps> = ({
     )
 }
 
-export default MatEditForm
+export default MatAddForm

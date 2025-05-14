@@ -22,11 +22,18 @@
 .table-body-container table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .td-px {
     padding-left: 1px !important;
     padding-right: 1px !important;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pedidos-container {
@@ -52,4 +59,11 @@
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: dark lightgray;
+}
+
+.mat-list {
+    max-height: 300px;
+    overflow-y: 'auto';
+    border: '1px solid #ccc';
+    margin-bottom: '16px';
 }

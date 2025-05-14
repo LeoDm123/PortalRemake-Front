@@ -5,6 +5,7 @@ import Th from '@/components/ui/Table/Th'
 import TBody from '@/components/ui/Table/TBody'
 import Td from '@/components/ui/Table/Td'
 import { Recepcion } from '@/@types/pedidos'
+import { formatFecha } from '@/utils/hooks/formatFecha'
 
 type VidriosReceptionListProps = {
     recepciones: Recepcion[]
@@ -23,7 +24,9 @@ const VidriosReceptionList: React.FC<VidriosReceptionListProps> = ({
             <TBody>
                 {recepciones.map((recepcion, index) => (
                     <tr key={index}>
-                        <Td className="text-center">{recepcion.FechaRecep}</Td>
+                        <Td className="text-center">
+                            {formatFecha(recepcion.FechaRecep)}
+                        </Td>
                         <Td className="text-center">
                             {recepcion.CantRecibida.toFixed(2)}
                         </Td>
