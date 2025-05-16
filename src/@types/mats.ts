@@ -16,12 +16,16 @@ export type Material = {
 }
 
 export type InventarioLog = {
+    _id: string
+    Codigo: string
+    Descripcion: string
     CantRecibida: number
     FechaRecep: string
     nroPedido: string
     TipoMov: string
     RemitoLog: string
     Unidad: string
+    Cantidad: string
 }
 
 export type MatUpload = {

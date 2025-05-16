@@ -448,6 +448,29 @@ export const fetchPedidosPerfiles = async (): Promise<any> => {
     }
 }
 
+export const fetchPedidosPerfilesActivos = async (): Promise<any> => {
+    const PEDIDOS_ENDPOINT: string = `/pedidoPerfiles/obtenerPedidosActivos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pedidos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error)
+        throw error
+    }
+}
+
 export const deletePedidoPerfiles = async (id: string): Promise<any> => {
     const DELETE_PEDIDO_ENDPOINT: string = `/pedidoPerfiles/deletePedido/${id}`
 
@@ -626,6 +649,29 @@ export const fetchPedidosHerrajes = async (): Promise<any> => {
     }
 }
 
+export const fetchPedidosHerrajesActivos = async (): Promise<any> => {
+    const PEDIDOS_ENDPOINT: string = `/pedidoHerrajes/obtenerPedidosActivos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pedidos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error)
+        throw error
+    }
+}
+
 export const deletePedidoHerrajes = async (id: string): Promise<any> => {
     const DELETE_PEDIDO_ENDPOINT: string = `/pedidoHerrajes/deletePedido/${id}`
 
@@ -783,6 +829,29 @@ export const createPedidoVidrios = async (
 
 export const fetchPedidosVidrios = async (): Promise<any> => {
     const PEDIDOS_ENDPOINT: string = `/pedidoVidrios/obtenerPedidos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error al obtener los pedidos: ${response.status}`)
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los pedidos:', error)
+        throw error
+    }
+}
+
+export const fetchPedidosVidriosActivos = async (): Promise<any> => {
+    const PEDIDOS_ENDPOINT: string = `/pedidoVidrios/obtenerPedidosActivos`
 
     try {
         const response = await fetch(`${API_BASE_URL}${PEDIDOS_ENDPOINT}`, {
@@ -1064,6 +1133,31 @@ export const updateStockMaterial = async (
 //////////////////////////////LOGS////////////////////////////////
 export const fetchInventarioLogs = async (): Promise<any> => {
     const LOGS_ENDPOINT: string = `/inv/obtenerLogs`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${LOGS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al obtener los logs de inventario: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los logs de inventario:', error)
+        throw error
+    }
+}
+
+export const fetchLastLogs = async (): Promise<any> => {
+    const LOGS_ENDPOINT: string = `/inv/obtenerUltimosMovimientos`
 
     try {
         const response = await fetch(`${API_BASE_URL}${LOGS_ENDPOINT}`, {

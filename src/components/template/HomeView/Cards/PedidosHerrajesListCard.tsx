@@ -1,16 +1,16 @@
 import React from 'react'
 import { Card } from '@/components/ui'
-import ClientsList from '../Lists/ClientsList'
 import '../HomeView.css'
+import PedidosHerrajesActivosList from '../Lists/PedidosHerrajesActivosList'
 
-const ClientListCard = () => {
+const PedidosHerrajesListCard = () => {
     return (
         <div>
             <Card className="clientCard">
-                <ClientsList />
+                <PedidosHerrajesActivosList />
             </Card>
         </div>
     )
 }
 
-export default ClientListCard
+export default PedidosHerrajesListCard

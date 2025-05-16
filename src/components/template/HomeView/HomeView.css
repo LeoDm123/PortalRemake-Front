@@ -72,3 +72,14 @@
     height: calc(100vh - 150px);
     flex-wrap: wrap;
 }
+
+.clientCard {
+    height: '20%';
+}
+
+.table-body-container {
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: dark lightgray;
+}
