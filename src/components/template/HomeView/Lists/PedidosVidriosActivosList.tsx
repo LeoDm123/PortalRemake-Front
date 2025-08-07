@@ -46,11 +46,8 @@ const PedidosVidriosActivosList: React.FC = () => {
                     <Th className="text-center" style={{ width: '50%' }}>
                         Obra
                     </Th>
-                    <Th className="text-center" style={{ width: '25%' }}>
+                    <Th className="text-center" style={{ width: '50%' }}>
                         N° de Pedido
-                    </Th>
-                    <Th className="text-center" style={{ width: '25%' }}>
-                        Fecha de Pedido
                     </Th>
                 </THead>
             </Table>
@@ -68,15 +65,9 @@ const PedidosVidriosActivosList: React.FC = () => {
                                     </Td>
                                     <Td
                                         className="text-center"
-                                        style={{ width: '25%' }}
+                                        style={{ width: '50%' }}
                                     >
                                         {pedido.NroPedido}
-                                    </Td>
-                                    <Td
-                                        className="text-center"
-                                        style={{ width: '25%' }}
-                                    >
-                                        {pedido.Fecha}
                                     </Td>
                                 </tr>
                             )

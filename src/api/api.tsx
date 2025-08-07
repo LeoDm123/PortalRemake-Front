@@ -1236,3 +1236,267 @@ export const deleteInventarioLog = async (logId: string): Promise<any> => {
         throw error
     }
 }
+
+//////////////////////////////PRESUPUESTOS PUERTAS////////////////////////////////
+export const fetchPresPuertas = async (): Promise<any> => {
+    const PRES_PUERTAS_ENDPOINT: string = `/presPuertas/obtenerPresupuestos`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${PRES_PUERTAS_ENDPOINT}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al obtener los presupuestos: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al obtener los presupuestos:', error)
+        throw error
+    }
+}
+
+export const createPresPuertas = async (presData: any): Promise<any> => {
+    const CREATE_PRES_PUERTAS_ENDPOINT = `/presPuertas/crearPresupuesto`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${CREATE_PRES_PUERTAS_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(presData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al registrar el presupuesto: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar el presupuesto:', error)
+        throw error
+    }
+}
+
+export const deletePresPuerta = async (presId: string): Promise<any> => {
+    const DELETE_PRES_PUERTAS_ENDPOINT = `/presPuertas/deletePres/${presId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_PRES_PUERTAS_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                    `Error al borrar el presupuesto: ${response.status}`,
+            )
+        }
+
+        return data
+    } catch (error) {
+        console.error('Error al borrar el presupuesto:', error)
+        throw error
+    }
+}
+
+export const editPresPuerta = async (
+    PresId: string,
+    updatedPresData: any,
+): Promise<any> => {
+    const PRES_PUERTA_EDIT_ENDPOINT: string = `/presPuertas/editPresupuesto/${PresId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${PRES_PUERTA_EDIT_ENDPOINT}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedPresData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al editar el presupuesto: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al editar el presupuesto:', error)
+        throw error
+    }
+}
+
+//////////////////////////////COSTOS////////////////////////////////
+export const fetchCostos = async (): Promise<any> => {
+    const GET_COSTOS_ENDPOINT: string = `/costos/getCostos`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${GET_COSTOS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al obtener los presupuestos: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error detallado en fetchCostos:', error)
+        throw error
+    }
+}
+
+export const createCosto = async (costoData: any): Promise<any> => {
+    const CREATE_COSTO_ENDPOINT = `/costos/crearcostos`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${CREATE_COSTO_ENDPOINT}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(costoData),
+            },
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al registrar el presupuesto: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al registrar el presupuesto:', error)
+        throw error
+    }
+}
+
+export const deleteCosto = async (presId: string): Promise<any> => {
+    const DELETE_COSTO_ENDPOINT = `/costos/eliminarCosto/${presId}`
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}${DELETE_COSTO_ENDPOINT}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        )
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                    `Error al borrar el presupuesto: ${response.status}`,
+            )
+        }
+
+        return data
+    } catch (error) {
+        console.error('Error al borrar el presupuesto:', error)
+        throw error
+    }
+}
+
+export const editCosto = async (
+    arrayName:
+        | 'Materiales'
+        | 'Parametros'
+        | 'CostosFijos'
+        | 'ManoObra'
+        | 'Margenes'
+        | 'Vidrios',
+    costoID: string,
+    updatedMatData: any,
+): Promise<any> => {
+    const COSTO_EDIT_ENDPOINT: string = `/costos/actualizarCosto/${arrayName}/${costoID}`
+
+    try {
+        const response = await fetch(`${API_BASE_URL}${COSTO_EDIT_ENDPOINT}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedMatData),
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Error al editar el presupuesto: ${response.status}`,
+            )
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Error al editar el presupuesto:', error)
+        throw error
+    }
+}
+
+export const editCostoObject = async (
+    campo: 'ManoObra' | 'Margenes',
+    updateData: any,
+): Promise<any> => {
+    const ENDPOINT = `/costos/actualizarObjetoCosto/${campo}`
+    try {
+        const response = await fetch(`${API_BASE_URL}${ENDPOINT}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateData),
+        })
+        if (!response.ok) {
+            throw new Error(`Error al actualizar ${campo}: ${response.status}`)
+        }
+        return await response.json()
+    } catch (error) {
+        console.error('Error al actualizar objeto de costo:', error)
+        throw error
+    }
+}

@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Modal from 'react-modal'
-import CloseButton from '../CloseButton'
+import { HiOutlineXCircle } from 'react-icons/hi'
+import { IconButton } from '@mui/material'
 import { motion } from 'framer-motion'
 import type ReactModal from 'react-modal'
 import type { MouseEvent, ReactNode } from 'react'
@@ -48,7 +49,15 @@ const Drawer = (props: DrawerProps) => {
         onClose?.(e)
     }
 
-    const renderCloseButton = <CloseButton onClick={onCloseClick} />
+    const renderCloseButton = (
+        <IconButton
+            onClick={onCloseClick}
+            style={{ color: '#01662b', padding: 0 }}
+            size="large"
+        >
+            <HiOutlineXCircle />
+        </IconButton>
+    )
 
     const getStyle = (): {
         dimensionClass?: string
@@ -102,7 +111,7 @@ const Drawer = (props: DrawerProps) => {
                 base: classNames(
                     'drawer-overlay',
                     overlayClassName as string,
-                    !showBackdrop && 'bg-transparent'
+                    !showBackdrop && 'bg-transparent',
                 ),
                 afterOpen: 'drawer-overlay-after-open',
                 beforeClose: 'drawer-overlay-before-close',
@@ -111,7 +120,7 @@ const Drawer = (props: DrawerProps) => {
             bodyOpenClassName={classNames(
                 'drawer-open',
                 lockScroll && 'drawer-lock-scroll',
-                bodyOpenClassName
+                bodyOpenClassName,
             )}
             ariaHideApp={false}
             isOpen={isOpen}
@@ -131,7 +140,7 @@ const Drawer = (props: DrawerProps) => {
                 {title || closable ? (
                     <div className={classNames('drawer-header', headerClass)}>
                         {typeof title === 'string' ? (
-                            <h4>{title}</h4>
+                            <h4 style={{ color: '#01662b' }}>{title}</h4>
                         ) : (
                             <span>{title}</span>
                         )}

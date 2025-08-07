@@ -1,0 +1,48 @@
+.costos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.costos-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.costo-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.costo-item strong {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.costo-item span {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.costos-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #eee;
+}
+
+.costos-total strong {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.costos-total span {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+}

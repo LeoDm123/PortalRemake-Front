@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Table } from '@/components/ui'
+import { Table } from '@/components/ui'
 import THead from '@/components/ui/Table/THead'
 import Th from '@/components/ui/Table/Th'
 import TBody from '@/components/ui/Table/TBody'
