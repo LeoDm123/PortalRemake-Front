@@ -11,6 +11,7 @@ import PresPuertaInfoButton from '../Buttons/PresPuertaInfoButton'
 import DeleteButton from '../../DeleteButton'
 import Swal from 'sweetalert2'
 import { deletePresPuerta } from '@/api/api'
+import PrintPresPuertasButton from '../Buttons/PrintPresPuertasButton'
 
 interface PresPuertasListProps {
     presupuestos: Presupuesto[]
@@ -134,17 +135,29 @@ const PresPuertasList: React.FC<PresPuertasListProps> = ({
                                 size="small"
                             />
                         </Td>
-                        <Td align="center" style={{ width: '10%' }}>
-                            <PresPuertaInfoButton
-                                presupuesto={presupuesto}
-                                size="small"
-                            />
-                            <DeleteButton
-                                size="small"
-                                onDelete={() =>
-                                    handleConfirmDelete(presupuesto._id)
-                                }
-                            />
+                        <Td align="center" style={{ width: '10%', padding: 0 }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '4px',
+                                }}
+                            >
+                                <PresPuertaInfoButton
+                                    presupuesto={presupuesto}
+                                    size="small"
+                                />
+                                <DeleteButton
+                                    size="small"
+                                    onDelete={() =>
+                                        handleConfirmDelete(presupuesto._id)
+                                    }
+                                />
+                                <PrintPresPuertasButton
+                                    size="small"
+                                    presupuesto={presupuesto}
+                                />
+                            </div>
                         </Td>
                     </Tr>
                 ))}

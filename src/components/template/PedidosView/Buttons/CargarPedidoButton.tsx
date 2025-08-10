@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { styled } from '@mui/material/styles'
 import { IconButton } from '@mui/material'
-import { HiOutlineUpload } from 'react-icons/hi'
+import { HiOutlineArrowDownTray } from 'react-icons/hi2'
 
 type CargarMaterialesButtonProps = {
     size: 'small' | 'medium' | 'large'
@@ -41,7 +41,7 @@ const CargarMaterialesButton: React.FC<CargarMaterialesButtonProps> = ({
     return (
         <>
             <IconButton size={size} onClick={handleButtonClick}>
-                <HiOutlineUpload />
+                <HiOutlineArrowDownTray />
             </IconButton>
             <VisuallyHiddenInput
                 type="file"

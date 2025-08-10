@@ -1,8 +1,8 @@
-import { IconButton } from '@mui/material'
-import { HiOutlineClipboardList } from 'react-icons/hi'
+import { IconButton, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
 import MatInfoModal from '../Modal/MatInfoModal'
 import { Material } from '@/@types/mats'
+import { HiOutlineListBullet } from 'react-icons/hi2'
 
 type MatInfoButtonProps = {
     material: Material
@@ -18,9 +18,11 @@ const MatInfoButton: React.FC<MatInfoButtonProps> = ({ material, size }) => {
 
     return (
         <>
-            <IconButton size={size} onClick={toggleModal}>
-                <HiOutlineClipboardList />
-            </IconButton>
+            <Tooltip title="Ver información del material" arrow>
+                <IconButton size={size} onClick={toggleModal}>
+                    <HiOutlineListBullet />
+                </IconButton>
+            </Tooltip>
             {isModalOpen && (
                 <MatInfoModal
                     material={material}

@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from '@mui/material'
-import { HiOutlineDocumentAdd } from 'react-icons/hi'
 import React from 'react'
+import { HiOutlineDocumentPlus } from 'react-icons/hi2'
 
 type AddPedidoButtonProps = {
     onAddPedido: () => void
@@ -19,7 +19,7 @@ const AddPedidoButton: React.FC<AddPedidoButtonProps> = ({
                     onAddPedido()
                 }}
             >
-                <HiOutlineDocumentAdd />
+                <HiOutlineDocumentPlus />
             </IconButton>
         </Tooltip>
     )

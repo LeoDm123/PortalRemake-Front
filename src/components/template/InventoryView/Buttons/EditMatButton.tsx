@@ -1,8 +1,8 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
-import { HiOutlinePencilAlt } from 'react-icons/hi'
 import MatEditModal from '../Modal/MatEditModal'
 import { Material } from '@/@types/mats'
+import { HiOutlinePencilSquare } from 'react-icons/hi2'
 
 type EditMatButtonProps = {
     material: Material
@@ -28,9 +28,11 @@ const EditMatButton: React.FC<EditMatButtonProps> = ({
 
     return (
         <>
-            <IconButton size={size} onClick={toggleModal}>
-                <HiOutlinePencilAlt />
-            </IconButton>
+            <Tooltip title="Editar material" arrow>
+                <IconButton size={size} onClick={toggleModal}>
+                    <HiOutlinePencilSquare />
+                </IconButton>
+            </Tooltip>
             {isModalOpen && (
                 <MatEditModal
                     material={material}

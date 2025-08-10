@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import { HiOutlineCash } from 'react-icons/hi'
+import { HiOutlineBanknotes } from 'react-icons/hi2'
 
 type AddPagoButtonProps = {
     isOpen: () => void
@@ -10,7 +10,7 @@ const AddPagoButton: React.FC<AddPagoButtonProps> = ({ isOpen }) => {
         <div>
             <Tooltip title="Agregar pago" arrow>
                 <IconButton onClick={isOpen}>
-                    <HiOutlineCash />
+                    <HiOutlineBanknotes />
                 </IconButton>
             </Tooltip>
         </div>

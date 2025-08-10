@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import { HiOutlineTrash } from 'react-icons/hi'
+import { HiOutlineTrash } from 'react-icons/hi2'
 import React from 'react'
 
 type DeleteButtonProps = {

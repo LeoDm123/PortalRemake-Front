@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material'
-import { HiOutlineClipboardList } from 'react-icons/hi'
+import { HiOutlineDocumentMagnifyingGlass } from 'react-icons/hi2'
 import React, { useState } from 'react'
 import PresPuertaInfoModal from '../Modal/PresPuertaInfoModal'
 import { Presupuesto } from '@/@types/presupuesto'
@@ -22,7 +22,7 @@ const PresPuertaInfoButton: React.FC<PresPuertaInfoButtonProps> = ({
     return (
         <>
             <IconButton size={size} onClick={toggleModal}>
-                <HiOutlineClipboardList />
+                <HiOutlineDocumentMagnifyingGlass />
             </IconButton>
             {isModalOpen && (
                 <PresPuertaInfoModal

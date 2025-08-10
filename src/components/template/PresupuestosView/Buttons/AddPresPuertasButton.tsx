@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from '@mui/material'
 import React from 'react'
-import { HiOutlineDocumentAdd } from 'react-icons/hi'
+import { HiOutlineDocumentPlus } from 'react-icons/hi2'
 
 type AddPresPuertasButtonProps = {
     isOpen: () => void
@@ -13,7 +13,7 @@ const AddPresPuertasButton: React.FC<AddPresPuertasButtonProps> = ({
         <div>
             <Tooltip title="Agregar presupuesto" arrow>
                 <IconButton onClick={isOpen}>
-                    <HiOutlineDocumentAdd />
+                    <HiOutlineDocumentPlus />
                 </IconButton>
             </Tooltip>
         </div>

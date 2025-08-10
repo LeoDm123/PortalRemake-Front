@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Dropdown } from '@/components/ui'
-import { HiOutlineMenuAlt2, HiOutlineUser } from 'react-icons/hi'
 import { Client } from '@/@types/clientInfo'
 import { IconButton, Tooltip } from '@mui/material'
 import EditButton from '../../EditButton'
 import EditClientModal from '../Modal/EditClientModal'
 import { fetchClients } from '@/api/api'
+import { HiOutlineListBullet } from 'react-icons/hi2'
 
 type ClientDetailsDropdownProps = {
     client: Client
@@ -27,7 +27,7 @@ const ClientDetailsDropdown: React.FC<ClientDetailsDropdownProps> = ({
     const ClientAvatar = (
         <Tooltip title="Ver información del cliente" arrow>
             <IconButton className="flex items-center gap-2">
-                <HiOutlineMenuAlt2 />
+                <HiOutlineListBullet />
             </IconButton>
         </Tooltip>
     )

@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
-import { HiOutlineInformationCircle } from 'react-icons/hi'
+import { HiOutlineInformationCircle } from 'react-icons/hi2'
 import React from 'react'
 
 type PedidoDetailsProps = {
