@@ -12,15 +12,18 @@ import DeleteButton from '../../DeleteButton'
 import Swal from 'sweetalert2'
 import { deletePresPuerta } from '@/api/api'
 import PrintPresPuertasButton from '../Buttons/PrintPresPuertasButton'
+import EditButton from '../../EditButton'
 
 interface PresPuertasListProps {
     presupuestos: Presupuesto[]
     onDelete: () => void
+    onEdit: (presupuesto: Presupuesto) => void
 }
 
 const PresPuertasList: React.FC<PresPuertasListProps> = ({
     presupuestos,
     onDelete,
+    onEdit,
 }) => {
     const getStatusColor = (status: Presupuesto['Status']) => {
         switch (status) {
@@ -87,6 +90,10 @@ const PresPuertasList: React.FC<PresPuertasListProps> = ({
         })
     }
 
+    const handleEditPresupuesto = (presupuesto: Presupuesto) => () => {
+        onEdit(presupuesto)
+    }
+
     return (
         <Table>
             <THead>
@@ -146,6 +153,10 @@ const PresPuertasList: React.FC<PresPuertasListProps> = ({
                                 <PresPuertaInfoButton
                                     presupuesto={presupuesto}
                                     size="small"
+                                />
+                                <EditButton
+                                    size="small"
+                                    isOpen={handleEditPresupuesto(presupuesto)}
                                 />
                                 <DeleteButton
                                     size="small"

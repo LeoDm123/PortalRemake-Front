@@ -7,7 +7,7 @@ import FormContainer from '@/components/ui/Form/FormContainer'
 import { Button } from '@/components/ui'
 import Swal from 'sweetalert2'
 import { Presupuesto, Puerta, Vidrio } from '@/@types/presupuesto'
-import { createPresPuertas } from '@/api/api'
+import { createPresPuertas, editPresPuerta } from '@/api/api'
 import { usePresPuertas } from '@/utils/hooks/usePresPuertas'
 import PuertaDrawer from '../Drawers/PuertasDrawer'
 import PresMainSpecs from './Components/PresMainSpecs'
@@ -54,9 +54,15 @@ const initialValues: Presupuesto = {
 
 interface Props {
     onsubmit: () => void
+    presupuestoToEdit?: Presupuesto | null
+    isEditing?: boolean
 }
 
-const AddPresPuertaForm: React.FC<Props> = ({ onsubmit }) => {
+const AddPresPuertaForm: React.FC<Props> = ({
+    onsubmit,
+    presupuestoToEdit = null,
+    isEditing = false,
+}) => {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [nextCodigo, setNextCodigo] = useState<string | undefined>(undefined)
     const { getNextCodigo } = usePresPuertas()
@@ -67,18 +73,36 @@ const AddPresPuertaForm: React.FC<Props> = ({ onsubmit }) => {
     const { doorCost } = useDoorCost(puertaEnEdicion)
     const [editIndex, setEditIndex] = useState<number | null>(null)
 
+    // Inicializar con datos del presupuesto a editar si estamos en modo edición
+    useEffect(() => {
+        if (isEditing && presupuestoToEdit) {
+            // Cargar las puertas del presupuesto a editar en localStorage
+            localStorage.setItem(
+                'puertas',
+                JSON.stringify(presupuestoToEdit.Puertas),
+            )
+            setPuertasGuardadas(presupuestoToEdit.Puertas)
+        } else {
+            // Modo creación: limpiar localStorage
+            localStorage.removeItem('puertas')
+            setPuertasGuardadas([])
+        }
+    }, [isEditing, presupuestoToEdit])
+
     useEffect(() => {
         const stored = localStorage.getItem('puertas')
         if (stored) setPuertasGuardadas(JSON.parse(stored))
     }, [puertaEnEdicion])
 
     useEffect(() => {
-        const obtenerCodigo = async () => {
-            const codigo = await getNextCodigo()
-            setNextCodigo(codigo)
+        if (!isEditing) {
+            const obtenerCodigo = async () => {
+                const codigo = await getNextCodigo()
+                setNextCodigo(codigo)
+            }
+            obtenerCodigo()
         }
-        obtenerCodigo()
-    }, [])
+    }, [isEditing, getNextCodigo])
 
     const handlePuertaChange = (field: keyof Puerta, value: any) => {
         setPuertaEnEdicion((prev) => ({ ...prev, [field]: value }))
@@ -182,34 +206,51 @@ const AddPresPuertaForm: React.FC<Props> = ({ onsubmit }) => {
                 IVA,
                 PrecioFinal,
             }
-            await createPresPuertas(valuesConPuertas)
-            Swal.fire({
-                title: '¡Éxito!',
-                text: 'El presupuesto se creó correctamente.',
-                icon: 'success',
-            })
+
+            if (isEditing && presupuestoToEdit) {
+                // Editar presupuesto existente
+                await editPresPuerta(presupuestoToEdit._id, valuesConPuertas)
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'El presupuesto se editó correctamente.',
+                    icon: 'success',
+                })
+            } else {
+                // Crear nuevo presupuesto
+                await createPresPuertas(valuesConPuertas)
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'El presupuesto se creó correctamente.',
+                    icon: 'success',
+                })
+            }
+
             localStorage.removeItem('puertas')
             resetForm()
             onsubmit()
         } catch (error) {
             Swal.fire({
                 title: 'Error',
-                text: 'Hubo un problema al crear el presupuesto.',
+                text: isEditing
+                    ? 'Hubo un problema al editar el presupuesto.'
+                    : 'Hubo un problema al crear el presupuesto.',
                 icon: 'error',
             })
         }
     }
 
-    const handleConfirmCreate = (
+    const handleConfirmSubmit = (
         values: Presupuesto,
         submitForm: () => void,
     ) => {
         Swal.fire({
             title: '¿Estás seguro?',
-            text: '¿Deseas crear este presupuesto?',
+            text: isEditing
+                ? '¿Deseas editar este presupuesto?'
+                : '¿Deseas crear este presupuesto?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Sí, crear',
+            confirmButtonText: isEditing ? 'Sí, editar' : 'Sí, crear',
             cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.isConfirmed) submitForm()
@@ -218,7 +259,11 @@ const AddPresPuertaForm: React.FC<Props> = ({ onsubmit }) => {
 
     return (
         <Formik
-            initialValues={{ ...initialValues, Codigo: nextCodigo || '' }}
+            initialValues={
+                isEditing && presupuestoToEdit
+                    ? { ...presupuestoToEdit, Codigo: presupuestoToEdit.Codigo }
+                    : { ...initialValues, Codigo: nextCodigo || '' }
+            }
             validationSchema={Yup.object({
                 Cliente: Yup.string().required('Cliente es requerido'),
                 Obra: Yup.string().required('Obra es requerida'),
@@ -264,11 +309,13 @@ const AddPresPuertaForm: React.FC<Props> = ({ onsubmit }) => {
                                 variant="solid"
                                 color="green"
                                 onClick={() =>
-                                    handleConfirmCreate(values, submitForm)
+                                    handleConfirmSubmit(values, submitForm)
                                 }
                                 className="w-full"
                             >
-                                Crear Presupuesto
+                                {isEditing
+                                    ? 'Editar Presupuesto'
+                                    : 'Crear Presupuesto'}
                             </Button>
                         </div>
                     </FormContainer>

@@ -5,6 +5,7 @@ import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { Presupuesto, Puerta } from '@/@types/presupuesto'
 import formatCurrency from '@/utils/hooks/formatCurrency'
+import { vidrios } from '@/constants/presupuestos.constant'
 
 type PrintPresPuertasButtonProps = {
     presupuesto: Presupuesto
@@ -35,8 +36,8 @@ const PrintPresPuertasButton: React.FC<PrintPresPuertasButtonProps> = ({
                         : 'lisa'
                 const tipoMarco =
                     puerta.Placa === 'Placa Enchapada en Paraiso'
-                        ? 'enchapada en Paraiso'
-                        : ''
+                        ? ' enchapada en Paraiso.'
+                        : '.'
                 const medidaMarco = puerta.Marco
                 const lustre =
                     puerta.Terminacion === 'Lustre'
@@ -45,7 +46,32 @@ const PrintPresPuertasButton: React.FC<PrintPresPuertasButtonProps> = ({
                 const colocacion =
                     puerta.SinColocacion === false ? 'Colocada en obra' : ''
 
-                return `Puerta placa de ${tipoHoja} ${madera} con marco compuesto de ${medidaMarco}" de madera multilaminada ${tipoMarco}. Lustrada con tres manos de ${lustre} con pistola neumática. ${colocacion}.`
+                const hayPanosFijos =
+                    Array.isArray(puerta.PañoFijo) && puerta.PañoFijo.length > 0
+
+                const descripcionPanosFijos = hayPanosFijos
+                    ? puerta.PañoFijo.length === 1
+                        ? ` Paño fijo ${puerta.PañoFijo.map((pf) => {
+                              const vidrioEncontrado = vidrios.find(
+                                  (v) => v.value === pf.Vidrio,
+                              )
+                              const nombreVidrio = vidrioEncontrado
+                                  ? vidrioEncontrado.label
+                                  : pf.Vidrio
+                              return `${pf.Posicion.toLowerCase()} de ${pf.Ancho} x ${pf.Alto} mm con vidrio ${nombreVidrio}.`
+                          }).join('')}`
+                        : ` Paños fijos ${puerta.PañoFijo.map((pf) => {
+                              const vidrioEncontrado = vidrios.find(
+                                  (v) => v.value === pf.Vidrio,
+                              )
+                              const nombreVidrio = vidrioEncontrado
+                                  ? vidrioEncontrado.label
+                                  : pf.Vidrio
+                              return `${pf.Posicion.toLowerCase()} de ${pf.Ancho} x ${pf.Alto} mm con vidrio ${nombreVidrio}.`
+                          }).join('; ')}`
+                    : ''
+
+                return `Puerta placa de ${tipoHoja} ${madera} con marco compuesto de ${medidaMarco}" de madera multilaminada${tipoMarco}${descripcionPanosFijos} Lustrada con tres manos de ${lustre} con pistola neumática. ${colocacion}.`
             }
 
             // Generar el contenido HTML del presupuesto

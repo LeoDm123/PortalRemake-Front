@@ -3,13 +3,18 @@ import AddPresPuertasButton from '@/components/template/PresupuestosView/Buttons
 import PresPuertasList from '@/components/template/PresupuestosView/Lists/PresPuertasList'
 import { usePresPuertas } from '@/utils/hooks/usePresPuertas'
 import AddPresPuertasModal from '@/components/template/PresupuestosView/Modal/AddPresPuertaModal'
+import EditPresPuertasModal from '@/components/template/PresupuestosView/Modal/EditPresPuertaModal'
 import '@/components/template/PresupuestosView/presupuestosViewStyles.css'
 import SettingsButton from '@/components/template/PresupuestosView/Buttons/SettingsButton'
 import CostosModal from '@/components/template/PresupuestosView/Modal/CostosModal'
+import { Presupuesto } from '@/@types/presupuesto'
 
 const PresupuestadorView = () => {
     const { presPuertas, loading, fetchMateriales } = usePresPuertas()
     const [isPresPuertasModalOpen, setIsPresPuertasModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [presupuestoToEdit, setPresupuestoToEdit] =
+        useState<Presupuesto | null>(null)
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
 
     const toggleSettingsModal = () => {
@@ -20,8 +25,19 @@ const PresupuestadorView = () => {
         setIsPresPuertasModalOpen(!isPresPuertasModalOpen)
     }
 
+    const toggleEditModal = () => {
+        setIsEditModalOpen(!isEditModalOpen)
+    }
+
+    const handleEditPresupuesto = (presupuesto: Presupuesto) => {
+        setPresupuestoToEdit(presupuesto)
+        setIsEditModalOpen(true)
+    }
+
     const handleSubmitPres = () => {
         togglePresPuertasModal()
+        toggleEditModal()
+        setPresupuestoToEdit(null)
         fetchMateriales()
     }
 
@@ -46,12 +62,20 @@ const PresupuestadorView = () => {
                 <PresPuertasList
                     presupuestos={presPuertas}
                     onDelete={onDelete}
+                    onEdit={handleEditPresupuesto}
                 />
             )}
             <AddPresPuertasModal
                 isOpen={isPresPuertasModalOpen}
                 toggleModal={togglePresPuertasModal}
                 onSubmitPres={handleSubmitPres}
+            />
+
+            <EditPresPuertasModal
+                isOpen={isEditModalOpen}
+                toggleModal={toggleEditModal}
+                onSubmitPres={handleSubmitPres}
+                presupuestoToEdit={presupuestoToEdit}
             />
 
             <CostosModal
